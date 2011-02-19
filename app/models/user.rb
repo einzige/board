@@ -2,8 +2,7 @@ class User
   include Mongoid::Document
   field :name
 
-  references_many :lots
-
+  references_many :lots, :dependent => :destroy
 
   validates_presence_of :name
   validates_uniqueness_of :name, :email, :case_sensitive => false
