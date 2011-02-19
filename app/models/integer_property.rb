@@ -1,0 +1,2 @@
+class IntegerProperty < NumericProperty
+end

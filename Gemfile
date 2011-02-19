@@ -43,3 +43,6 @@ gem "bson_ext", "1.2.2"
 
 # Bundle gem needed for Devise
 gem "devise", "1.2.rc"
+
+# Tree
+gem "mongoid_tree", "0.3.7"

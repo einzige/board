@@ -1,0 +1,2 @@
+class FloatProperty < NumericProperty
+end
