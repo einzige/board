@@ -1,2 +1,2 @@
-class BooleanField < Field
+class BooleanCharacteristic < Characteristic
 end

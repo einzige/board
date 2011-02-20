@@ -1,2 +1,2 @@
-class IntegerField < NumericField
+class IntegerCharacteristic < NumericCharacteristic
 end

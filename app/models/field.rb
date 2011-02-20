@@ -1,17 +1,17 @@
-class Field
+class Characteristic
   include Mongoid::Document
-  field :name
-  field :required, :type => Boolean, :default => false
-  field :primary,  :type => Boolean, :default => false
-  field :ord,      :type => Integer, :default => 0
+  characteristic :name
+  characteristic :required, :type => Boolean, :default => false
+  characteristic :primary,  :type => Boolean, :default => false
+  characteristic :ord,      :type => Integer, :default => 0
 
-  embedded_in :category, :inverse_of => :fields
+  embedded_in :category, :inverse_of => :characteristics
   
   validates_presence_of   :name 
   validates_uniqueness_of :name
 
-  scope :boolean, where(:_type => "BooleanField")
-  scope :integer, where(:_type => "IntegerField")
-  scope :float,   where(:_type => "FloatField")
-  scope :string,  where(:_type => "StringField")
+  scope :boolean, where(:_type => "BooleanCharacteristic")
+  scope :integer, where(:_type => "IntegerCharacteristic")
+  scope :float,   where(:_type => "FloatCharacteristic")
+  scope :string,  where(:_type => "StringCharacteristic")
 end

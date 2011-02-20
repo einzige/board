@@ -1,12 +1,12 @@
 # SelectBox-like model
-class SelectionField < Field
-  embeds_many :options,  :class_name => "SelectionFieldOption"
+class SelectionCharacteristic < Characteristic
+  embeds_many :options,  :class_name => "SelectionCharacteristicOption"
 end
 
-class SelectionFieldOption
+class SelectionCharacteristicOption
   include Mongoid::Document
-  field :name
-  field :value
+  characteristic :name
+  characteristic :value
 
   embedded_in :selection_property, :inverse_of => :options
 

@@ -1,9 +1,9 @@
 class Category
   include Mongoid::Document
-  field :name
+  characteristic :name
 
   references_many :lots, :dependent => :destroy
-  embeds_many     :fields
+  embeds_many     :characteristics
 
   validates_presence_of :name
 end

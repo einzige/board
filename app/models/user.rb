@@ -1,6 +1,6 @@
 class User
   include Mongoid::Document
-  field :name
+  characteristic :name
 
   references_many :lots, :dependent => :destroy
 

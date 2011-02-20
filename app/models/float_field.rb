@@ -1,2 +1,2 @@
-class FloatField < NumericField
+class FloatCharacteristic < NumericCharacteristic
 end

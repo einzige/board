@@ -1,7 +1,7 @@
 class Lot
   include Mongoid::Document
-  field :name
-  field :description
+  characteristic :name
+  characteristic :description
   
   referenced_in :user
   referenced_in :category
