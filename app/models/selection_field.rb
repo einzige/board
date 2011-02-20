@@ -1,9 +1,9 @@
 # SelectBox-like model
-class SelectionProperty < Property
-  embeds_many :options,  :class_name => "SelectionPropertyOption"
+class SelectionField < Field
+  embeds_many :options,  :class_name => "SelectionFieldOption"
 end
 
-class SelectionPropertyOption
+class SelectionFieldOption
   include Mongoid::Document
   field :name
   field :value

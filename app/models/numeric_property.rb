@@ -1,12 +1,15 @@
 class NumericProperty < Property
-  FIXNUM_MAX = Float(2**(0.size * 8 -2) -1)
+  validates_numericality_of :value, :less_than    =>  NumericField::FIXNUM_MAX, 
+                                    :greater_than => -NumericField::FIXNUM_MAX
 
-  field :range, :type => Boolean, :default =>  false
-  field :max,   :type => Float,   :default =>  FIXNUM_MAX
-  field :min,   :type => Float,   :default => -FIXNUM_MAX
-  field :step,  :type => Float,   :default => 1.0
+  scope :integer, where(:field.matches => {:_type => "IntegerField"})
+  scope :float,   where(:field.matches => {:_type => "FloatField"})
 
-  scope :ranged,  where(:range => true)
-  scope :integer, where(:_type => "IntegerProperty")
-  scope :float,   where(:_type => "FloatProperty")
+  def integer?
+    _type == "IntegerProperty"
+  end
+  def float?
+    _type == "FloatProperty"
+  end
+
 end

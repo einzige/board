@@ -1,14 +1,22 @@
+# This class describes lot property value
 class Property
   include Mongoid::Document
-  field :name
-  field :required, :type => Boolean, :default => false
-  field :primary,  :type => Boolean, :default => false
-  field :ord,      :type => Integer, :default => 0
 
-  embedded_in :category, :inverse_of => :properties
-  
-  validates_presence_of   :name 
-  validates_uniqueness_of :name
+  referenced_in :field # as a category_property column
+  key :field_id
+  def field
+    lot.category.fields.criteria.id(field_id).first # FIXME: many calls?
+  end
+
+  embedded_in :lot, :inverse_of => :properties
+
+  validates_presence_of :field_id
+  validates_presence_of :field
+  validates_presence_of :value, :if => :required?
+
+  def required? 
+    field.required?
+  end
 
   scope :boolean, where(:_type => "BooleanProperty")
   scope :integer, where(:_type => "IntegerProperty")
