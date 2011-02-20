@@ -1,2 +1,0 @@
-class IntegerCharacteristic < NumericCharacteristic
-end

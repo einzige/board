@@ -6,17 +6,20 @@ class Property
   key           :characteristic_id
 
   # FIXME: what if we changed category for the given lot?
+=begin
   def characteristic
-    @__characteristic ||= lot.category.characteristics.criteria.id(characteristic_id).first
+    @__characteristic ||= lot.category.characteristics.criteria.id(characteristic_id).first 
   end
+=end
 
   embedded_in :lot, :inverse_of => :properties
 
 # validates_presence_of :characteristic_id # REMOVEME
-  validates_presence_of :characteristic
+  validates_presence_of :characteristic_id
   validates_presence_of :value, :if => :required?
 
-  def required?; characteristic.required? 
+  def required?; 
+    characteristic_id.nil? || characteristic.required? 
   end
 
   scope :boolean, where(:_type => "BooleanProperty")
@@ -31,7 +34,7 @@ class Property
     def increase_characteristic_lots_count
       characteristic.update_attribute(:lots_count, characteristic.lots_count + 1)
     end
-    def increase_characteristic_lots_count
+    def decrease_characteristic_lots_count
       characteristic.update_attribute(:lots_count, characteristic.lots_count - 1)
     end
 end

@@ -1,5 +1,5 @@
 class BooleanProperty < Property
-  characteristic :value, :type => Boolean
+  field :value, :type => Boolean
 end
 
 

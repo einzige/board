@@ -5,11 +5,9 @@ class NumericProperty < Property
   scope :integer, where(:characteristic.matches => {:_type => "IntegerCharacteristic"})
   scope :float,   where(:characteristic.matches => {:_type => "FloatCharacteristic"})
 
-  def integer?
-    _type == "IntegerProperty"
+  def integer?; _type == "IntegerProperty"
   end
-  def float?
-    _type == "FloatProperty"
+  def float?;   _type == "FloatProperty"
   end
 
   after_create :update_extremums
