@@ -1,12 +1,20 @@
 class NumericProperty < Property
-  FIXNUM_MAX = Float(2**(0.size * 8 -2) -1)
+  validates_numericality_of :value, :less_than    =>  NumericCharacteristic::FIXNUM_MAX, 
+                                    :greater_than => -NumericCharacteristic::FIXNUM_MAX
 
-  field :range, :type => Boolean, :default =>  false
-  field :max,   :type => Float,   :default =>  FIXNUM_MAX
-  field :min,   :type => Float,   :default => -FIXNUM_MAX
-  field :step,  :type => Float,   :default => 1.0
+  scope :integer, where(:characteristic.matches => {:_type => "IntegerCharacteristic"})
+  scope :float,   where(:characteristic.matches => {:_type => "FloatCharacteristic"})
 
-  scope :ranged,  where(:range => true)
-  scope :integer, where(:_type => "IntegerProperty")
-  scope :float,   where(:_type => "FloatProperty")
+  def integer?; _type == "IntegerProperty"
+  end
+  def float?;   _type == "FloatProperty"
+  end
+
+  after_create :update_extremums
+
+  protected 
+    def update_extremums
+      characteristic.update_attribute(:max, self.value) if value > characteristic.max
+      characteristic.update_attribute(:min, self.value) if value < characteristic.min
+    end
 end

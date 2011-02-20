@@ -6,7 +6,7 @@ class Lot
   referenced_in :user
   referenced_in :category
 
-  embeds_many :properties, :class_name => "LotProperty"
+  embeds_many :properties
 
   validates_presence_of :name
 end
