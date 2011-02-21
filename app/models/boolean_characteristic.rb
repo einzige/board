@@ -1,0 +1,2 @@
+class BooleanCharacteristic < Characteristic
+end
