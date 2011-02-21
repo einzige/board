@@ -44,5 +44,8 @@ gem "bson_ext", "1.2.2"
 # Bundle gem needed for Devise
 gem "devise", "1.2.rc"
 
-# Tree
-gem "mongoid_tree", "0.3.7"
+# Tree # Commented due to being old
+# gem "mongoid_tree", "0.3.7"                                                         mongoid-2.0.0 
+gem 'mongoid-tree', :git => 'git://github.com/benedikt/mongoid-tree.git', :branch => 'mongoid-2.0.0', :require => 'mongoid/tree'
+
+gem 'russian'

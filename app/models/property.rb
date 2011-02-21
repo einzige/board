@@ -11,6 +11,9 @@ class Property
     @__characteristic ||= lot.category.characteristics.criteria.id(characteristic_id).first 
   end
 =end
+  def ch
+    @__characteristic ||= lot.category.characteristics.criteria.id(characteristic_id).first 
+  end
 
   embedded_in :lot, :inverse_of => :properties
 
@@ -33,8 +36,10 @@ class Property
   protected
     def increase_characteristic_lots_count
       characteristic.update_attribute(:lots_count, characteristic.lots_count + 1)
+      #characteristic.inc(:lots_count, 1)
     end
     def decrease_characteristic_lots_count
       characteristic.update_attribute(:lots_count, characteristic.lots_count - 1)
+      #characteristic.inc(:lots_count, -1)
     end
 end

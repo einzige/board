@@ -1,0 +1,2 @@
+class IntegerCharacteristic < NumericCharacteristic
+end
