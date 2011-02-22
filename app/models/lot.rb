@@ -1,9 +1,11 @@
 class Lot
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Mongoid::Slug
 
   field :name
   field :description
+  slug  :name
   
   referenced_in :user
   referenced_in :category

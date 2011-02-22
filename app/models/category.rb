@@ -3,10 +3,12 @@ class Category
   include Mongoid::Tree
   include Mongoid::Tree::Ordering
   include Mongoid::Tree::Traversal
-  
+  include Mongoid::Slug
+
   # FIELDS
   field :name
   field :lots_count, :type => Integer, :default => 0
+  slug  :name
 
   # VALIDATIONS
   validates_presence_of :name

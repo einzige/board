@@ -47,5 +47,8 @@ gem "devise", "1.2.rc"
 # Tree # Commented due to being old
 # gem "mongoid_tree", "0.3.7"                                                         mongoid-2.0.0 
 gem 'mongoid-tree', :git => 'git://github.com/benedikt/mongoid-tree.git', :branch => 'mongoid-2.0.0', :require => 'mongoid/tree'
+# generate true urls
+gem 'mongoid_slug', :require => 'mongoid/slug'
 
 gem 'russian'
+
