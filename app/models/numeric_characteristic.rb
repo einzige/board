@@ -12,6 +12,8 @@ class NumericCharacteristic < Characteristic
                                                               #--- and no inverse here
   field :l_limit, :type => Float,   :default => -FIXNUM_MAX #/
 
+  field :units
+
   scope :ranged,  where(:range => true)
   scope :integer, where(:_type => "IntegerCharacteristic")
   scope :float,   where(:_type => "FloatCharacteristic")

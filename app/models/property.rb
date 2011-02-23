@@ -35,11 +35,9 @@ class Property
 
   protected
     def increase_characteristic_lots_count
-      characteristic.update_attribute(:lots_count, characteristic.lots_count + 1)
-      #characteristic.inc(:lots_count, 1)
+      characteristic.inc_lots_count
     end
     def decrease_characteristic_lots_count
-      characteristic.update_attribute(:lots_count, characteristic.lots_count - 1)
-      #characteristic.inc(:lots_count, -1)
+      characteristic.dec_lots_count 
     end
 end
