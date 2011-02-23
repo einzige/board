@@ -17,8 +17,7 @@ class Property
 
   embedded_in :lot, :inverse_of => :properties
 
-# validates_presence_of :characteristic_id # REMOVEME
-  validates_presence_of :characteristic_id
+  validates_presence_of :characteristic
   validates_presence_of :value, :if => :required?
 
   def required?; 

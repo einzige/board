@@ -15,7 +15,8 @@ class Category
 
   # REFERENCES
   references_many :lots, :dependent => :destroy
-  embeds_many :characteristics
+  embeds_many     :characteristics
+  embeds_many     :operations
 
   # SCOPES
   scope :not_empty, where(:lots_count.gt => 0)
@@ -26,6 +27,14 @@ class Category
   # SERVICE FUNCTIONS
   def descentant_lots
     Lot.any_in(:category_id => descendants.only(:id).map(&:id))
+  end
+
+  def ancestors_operations #OPTIMIZE
+    ops = []
+    ancestors.each do |a|
+      a.operations.each {|o| ops << o}
+    end
+    ops
   end
 
 #      .----------------.

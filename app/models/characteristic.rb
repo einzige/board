@@ -6,7 +6,8 @@ class Characteristic
   field :position,   :type => Integer, :default => 0
   field :lots_count, :type => Integer, :default => 0
 
-  embedded_in :category, :inverse_of => :characteristics
+  embedded_in   :category, :inverse_of => :characteristics
+  referenced_in :operation
   
   validates_presence_of     :name 
   validates_uniqueness_of   :name
