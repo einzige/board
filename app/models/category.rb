@@ -69,12 +69,12 @@ class Category
         criteria = criteria.in({"properties.characteristic_id" => [cid], 
                                             "properties.value" => value})
       else 
-        match = cid.match(/(.*)_less_than$/)                                    # lte-+-fix
+        match = cid.match(/(.+)_less_than$/)                                    # lte-+-fix
         unless match.nil?                                                       #     |
           criteria = criteria.where({"properties.characteristic_id" => match[1],#     V
                                          :properties.lte => {:value => value.to_f + 10**-10}}) if match.length > 1
         else
-          match = cid.match(/(.*)_greater_than$/)
+          match = cid.match(/(.+)_greater_than$/)
           unless match.nil?
             criteria = criteria.where({"properties.characteristic_id" => match[1], 
                                            :properties.gte => {:value => value}}) if match.length > 1
