@@ -7,3 +7,273 @@ ul.hmenu {
 ul.hmenu li {
   display: inline;  
 }
+
+span { padding: 0; margin: 0 }
+a { 
+  color: #0099cc; 
+  text-decoration: underline; 
+  cursor: pointer; 
+}
+a:hover { text-decoration: none; }
+
+a img { padding: 0; margin: 0; color: white; }
+
+.clear { clear: both; width: 100%; }
+.h25 { height: 25px; }
+.left { float: left; }
+.right { float: right; }
+.b { font-weight: bold; }
+.l { color: gray; }
+.i { font-style: italic; }
+.center { margin: 0 auto; text-align: center; }
+
+.w100p { width: 100%; clear: both; }
+.w25   { width: 25px; }
+.w210  { width: 210px; }
+.w240  { width: 240px; }
+.w480  { width: 480px; } /* FIXME: remove me */
+
+.ml15 { margin-left: 15px; }
+
+body {
+  font-family: Arial;
+  font-size: 11pt;
+  color: black;
+  padding: 0;
+  margin: 10px 20px 20px 20px;
+}
+
+h2 {
+  color: #444;
+  font-size: 13pt;
+  margin: 0; padding: 0;
+}
+
+ul { margin: 0; padding: 0 }
+hr { border: none; border-bottom: 1px solid green;}
+
+.banner {
+  background: orange;
+
+  margin: 4px;
+  text-align: center;
+
+  height: 100px;
+
+  overflow: hidden;
+  display: table;
+}
+
+.banner .content {
+  font-size: 25pt;
+  color: white;
+
+  display: table-cell;
+  vertical-align: middle;
+}
+
+/*--------------- HEADER ---------------*/
+
+#header {
+  width: 100%;
+}
+
+#weather {
+  font-size: 9pt;
+  float:right;
+}
+#weather .city { color: red; }
+#weather .temp { color: #458cfe; }
+
+#logo { float: left; }
+
+#logo a.dashed {
+  font-size: 10pt;
+  color: black;
+  text-decoration: none;
+  border-bottom: 1px dashed;
+}
+
+#logo .home {
+  width: auto;
+  padding-left: 24px;
+}
+
+#logo .letter {
+  width: auto;
+  padding-left: 24px;
+  margin-left: 10px;
+}
+
+#slogan {
+  width: 240px;
+  float: left;
+  display: table;
+  height: 100px;
+}
+
+#slogan .content {
+  color: gray;
+  font-weight: bold;
+
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+/*--------------- SUBHEADER ---------------*/
+
+#subheader { width: 100%; }
+
+.orange-button {
+  text-align: center;
+  color: white;
+  background: orange;
+  font-weight: bold;
+
+  padding: 4px;
+
+  width: 210px;
+  height: 20px;
+
+}
+
+ul#main-menu {
+  height: 25px;
+  list-style-type: none;
+  padding: 0;
+  margin: 5px 0 0 0;
+  margin-left: 40px;
+  border-bottom: 1px solid black;
+}
+
+#main-menu li {
+  float: left;
+  margin: 0 0 0 30px;
+  list-style-image: none;
+}
+
+#main-menu li:first-child {
+  margin: 0;
+}
+
+#main-menu li a {
+  color: black;
+  text-decoration: none;
+  font-size: 11pt;
+  font-family: Arial;
+}
+
+#main-menu li.active a { color: #458cfe; }
+
+#subheader #login {
+  width: 240px;
+}
+
+#subheader span {
+  font-size: 10pt;
+}
+
+#login {
+  font-size: 8pt;
+  width: 240px;
+}
+
+#login span {
+  color: red;
+}
+
+#login label {
+  font-size: 8pt;
+}
+
+#login input[type=email], #login input[type=password] {
+  border: 1px solid #458cfe;
+  width: 80px;
+  font-size: 8pt;
+}
+
+#login input[type=submit] {
+  background: #458cfe;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 0; margin: 0;
+}
+
+#login input[type=submit]:hover {
+  background: #246bed;
+}
+
+#login a {
+  font-size: 8pt;
+  color: orange;
+}
+
+#login a:hover { color: green; }
+
+/* --------------- FOOTER ----------------- */
+
+#footer { width: 100%; }
+#footer ul.links {
+  list-style-type: none;
+  padding: 0;
+  margin: 5px 0 0 0;
+  
+}
+
+#footer ul.links li {
+  float: left;
+  margin: 0 0 0 30px;
+  list-style-image: none;
+}
+
+#footer ul.links li a { color: blue; font-size: 10pt;}
+
+#footer .text, #counters, #rules, #copyrights {
+  color: gray;
+  font-size: 8pt;
+  margin: 10px;
+}
+
+/*------------------- CATEGORIES -----------------*/
+
+ul#categories-list {
+  list-style-type: none;
+  margin: 10px 0 0 0; 
+  padding: 0;
+
+  background: #EAEAEA;
+}
+ul#categories-list li {
+  list-style-image: none;
+  padding: 5px 0 5px 0;
+
+  border-bottom: 1px solid #CCC;
+}
+
+ul#categories-list a {
+  text-decoration: none;
+}
+ul#categories-list a:hover {
+  text-decoration: underline;
+}
+
+.main {
+  float: left;
+  margin-left: 25px;
+}
+
+ul.popular-list {
+  list-style-type: none;
+  margin: 10px 0 0 0; 
+  padding: 0;
+
+  background: #EAEAEA;
+}
+ul.popular-list li {
+  font-size: 9pt;
+  color: gray;
+  list-style-image: none;
+  padding: 10px;
+}

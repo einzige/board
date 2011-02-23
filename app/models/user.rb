@@ -1,8 +1,10 @@
 class User
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Mongoid::Slug
 
   field :name
+  slug  :name
   field :roles_mask, :type => Fixnum, :default => 0
 
   references_many :lots, :dependent => :delete

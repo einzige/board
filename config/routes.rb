@@ -1,10 +1,11 @@
 Inform::Application.routes.draw do
   #get \"users\/show\"
 
-  root :to => "home#index"
+  root :to => "categories#index"
 
   devise_for :users
   resources :users, :only => :show
+  resources :categories
 
 
   # The priority is based upon order of creation:

@@ -1,0 +1,7 @@
+.b Последние объявления
+%hr
+%ul.recent-lots-list
+  - @lots[:recent].each do |l|
+    l.operation.name
+
+
