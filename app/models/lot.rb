@@ -9,11 +9,12 @@ class Lot
   
   referenced_in :user
   referenced_in :category
-
-  embeds_many :properties
+  referenced_in :operation
+  embeds_many   :properties
 
   validates_presence_of :name
   validates_presence_of :category
+  validates_presence_of :operation
   validates_length_of   :name, :minimum => 2, :maximum => 512
   validates_length_of   :description, :maximum => 6000
 
