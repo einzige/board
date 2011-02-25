@@ -1,5 +1,6 @@
 # SelectBox-like model
 class SelectionCharacteristic < Characteristic
+  field :include_blank, :type => Boolean, :default => false
   embeds_many :options,  :class_name => "SelectionCharacteristicOption"
 end
 

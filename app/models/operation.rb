@@ -1,15 +1,19 @@
 class Operation
   include Mongoid::Document
-  field :name
+  include Mongoid::Slug
 
-  embedded_in :category, :inverse_of => :operations
-  
-=begin
-  def properties
-    category.properties.where(:operation_id => id)
-  end
-=end
+  field :name
+  slug  :name
+
+  referenced_in :category
+  references_and_referenced_in_many :lots
+  references_many :characteristics
 
   validates_presence_of :name
-  validates_presence_of :category #FIXME: use validation to the parent collection
+  validates_presence_of :category
+
+  def self.for category
+    Operation.any_in(:category_id => category.ancestors.only(:id).map(&:id) \
+                                  << category.id)
+  end
 end

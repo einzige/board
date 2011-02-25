@@ -1,0 +1,9 @@
+.breadcrumbs
+  = link_to 'Главная', root_path
+  - @category.ancestors.reverse.each do |c|
+    &dash;
+    = link_to c.name, c
+  &dash;
+  = @category.name
+  &dash;
+  = @operation.name

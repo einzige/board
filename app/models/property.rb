@@ -5,16 +5,6 @@ class Property
   referenced_in :characteristic
   key           :characteristic_id
 
-  # FIXME: what if we changed category for the given lot?
-=begin
-  def characteristic
-    @__characteristic ||= lot.category.characteristics.criteria.id(characteristic_id).first 
-  end
-=end
-  def ch
-    @__characteristic ||= lot.category.characteristics.criteria.id(characteristic_id).first 
-  end
-
   embedded_in :lot, :inverse_of => :properties
 
   validates_presence_of :characteristic
@@ -37,6 +27,6 @@ class Property
       characteristic.inc_lots_count
     end
     def decrease_characteristic_lots_count
-      characteristic.dec_lots_count 
+      characteristic.dec_lots_count unless characteristic.nil?
     end
 end

@@ -1,17 +1,18 @@
 class Characteristic
   include Mongoid::Document
+  include Mongoid::Slug
   field :name
+  slug  :name
   field :required,   :type => Boolean, :default => false
   field :primary,    :type => Boolean, :default => false
   field :position,   :type => Integer, :default => 0
   field :lots_count, :type => Integer, :default => 0
 
-  embedded_in   :category, :inverse_of => :characteristics
+  referenced_in :category
   referenced_in :operation
   
   validates_presence_of     :name 
-  validates_uniqueness_of   :name
-  validates_associated      :category
+  validates_presence_of     :category
   validates_numericality_of :position
   validates_numericality_of :lots_count
 
@@ -20,10 +21,13 @@ class Characteristic
   scope :float,   where(:_type => "FloatCharacteristic")
   scope :string,  where(:_type => "StringCharacteristic")
 
+  scope :shared,  where(:operation_id => nil)
+  scope :for_operation, lambda {|operation| where(:operation_id => operation.id)}
+
   def inc_lots_count
-    update_attribute(:lots_count, characteristic.lots_count + 1)
+    inc(:lots_count, 1)
   end
   def dec_lots_count
-    update_attribute(:lots_count, characteristic.lots_count - 1)
+    inc(:lots_count, -1)
   end
 end

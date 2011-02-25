@@ -17,4 +17,6 @@ class NumericCharacteristic < Characteristic
   scope :ranged,  where(:range => true)
   scope :integer, where(:_type => "IntegerCharacteristic")
   scope :float,   where(:_type => "FloatCharacteristic")
+
+  def ranged?; range end
 end

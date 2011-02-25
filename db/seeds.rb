@@ -11,3 +11,15 @@ puts 'SETTING UP DEFAULT USER LOGIN'
 user = User.create! :name => 'Zinin Serge', :email => 'szinin@gmail.com', :password => 'gfhjkmqe', 
                                                              :password_confirmation => 'gfhjkmqe'
 puts 'New user created: ' << user.name
+
+puts 'SEED CATEGORIES'
+c1  = Category.create   :name => 'Недвижимость'
+c   = Category.create   :name => 'Автомобили'
+cc  = c.children.build  :name => 'Иномарки'
+cc.save
+cc2 = c.children.build  :name => 'Отечественные'
+cc2.save
+ccc = cc.children.build :name => 'Toyota'
+ccc.save
+
+ccc.lots.build

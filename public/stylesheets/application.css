@@ -14,18 +14,20 @@ a {
   text-decoration: underline; 
   cursor: pointer; 
 }
-a:hover { text-decoration: none; }
+a:hover { text-decoration: none; color: orange; }
 
 a img { padding: 0; margin: 0; color: white; }
 
 .clear { clear: both; width: 100%; }
 .h25 { height: 25px; }
+.h15 { height: 15px; }
 .left { float: left; }
 .right { float: right; }
 .b { font-weight: bold; }
 .l { color: gray; }
 .i { font-style: italic; }
 .center { margin: 0 auto; text-align: center; }
+.black { color: black }
 
 .w100p { width: 100%; clear: both; }
 .w25   { width: 25px; }
@@ -91,7 +93,11 @@ hr { border: none; border-bottom: 1px solid green;}
   font-size: 10pt;
   color: black;
   text-decoration: none;
-  border-bottom: 1px dashed;
+  border-bottom: 1px dashed gray;
+}
+
+#logo a.dashed:hover {
+  border-color: black;
 }
 
 #logo .home {
@@ -276,4 +282,40 @@ ul.popular-list li {
   color: gray;
   list-style-image: none;
   padding: 10px;
+}
+
+ul#recent-lots-list {
+  list-style-type: none;
+  font-size: 10pt;
+  margin-bottom: 20px;
+}
+
+ul#recent-lots-list li {
+  list-style-image: none;
+}
+
+.breadcrumbs { font-size: 9pt; }
+.breadcrumbs a { color: black; }
+
+.filter { width: 715px; background: #CCCDFF; }
+
+.filter h1 {
+  margin: 2px 2px 2px 15px;
+  color: orange;
+  font-size: 16pt;
+  font-weight: normal;
+}
+
+.filter .tab {
+  float: left;
+  text-align: center;
+  padding: 2px 10px 2px 10px;
+  background: white;
+}
+
+.filter .tab a {
+  text-decoration: none;
+  border-bottom: 1px dashed red;
+  cursor: pointer;
+  color: black;
 }

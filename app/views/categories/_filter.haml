@@ -1,0 +1,26 @@
+.filter.left
+  %h1.left= @category.name
+
+  .right
+    - Operation.for(@category).each do |o|
+      - unless o == @operation
+        .tab= link_to o.name, "?operation=#{o.slug}"
+      - else
+        .tab.active= o.name
+  .clear.w15
+
+  - form_tag '/' do 
+    .fields
+      = hidden_field_tag 'q[operation]', @operation.slug
+
+      - @category.characteristics_for(@operation).each do |c|
+        - case c.class
+          - when IntegerCharacteristic
+            -if c.ranged?
+              = text_field_tag "q[#{c.id}_greater_than]", @q[c.id.to_s + '_greater_than'] || c.l_limit
+              &mdash;
+              = text_field_tag "q[#{c.id}_less_than]",    @q[c.id.to_s + '_less_than']    || c.r_limit
+            -else
+              = text_field_tag "q[#{c.id}]", @q[c.id.to_s] || c.default.to_s
+      
+.clear
