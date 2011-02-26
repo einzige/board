@@ -21,8 +21,7 @@
     .banner.w240
       .content 240x208
   .w240.left.ml15
-    .banner.w240{:style => 'background: #DDD'}
-      .content urgent
+    = image_tag "temp/urgent.png"
 
 .right.w240.center
   .banner.w240
@@ -31,7 +30,7 @@
     .content 240x123
   .w240= image_tag 'temp/direct.png'
 
-.left.w480
+.w480
   = render :partial => 'lots/recent'
   
 .clear

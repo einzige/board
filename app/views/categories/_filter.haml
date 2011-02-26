@@ -14,13 +14,30 @@
       = hidden_field_tag 'q[operation]', @operation.slug
 
       - @category.characteristics_for(@operation).each do |c|
+        - scid = c.id.to_s
+        = c.name 
+        &nbsp;
         - case c.class
           - when IntegerCharacteristic
             -if c.ranged?
-              = text_field_tag "q[#{c.id}_greater_than]", @q[c.id.to_s + '_greater_than'] || c.l_limit
+              = text_field_tag "q[#{c.id}_greater_than]", @q[scid + '_greater_than'] || c.l_limit.to_i
               &mdash;
-              = text_field_tag "q[#{c.id}_less_than]",    @q[c.id.to_s + '_less_than']    || c.r_limit
+              = text_field_tag "q[#{c.id}_less_than]",    @q[scid + '_less_than']    || c.r_limit.to_i
             -else
-              = text_field_tag "q[#{c.id}]", @q[c.id.to_s] || c.default.to_s
+              = text_field_tag "q[#{c.id}]", @q[scid] || c.default.to_s
+          - when FloatCharacteristic
+            -if c.ranged?
+              = text_field_tag "q[#{c.id}_greater_than]", @q[scid + '_greater_than'] || c.l_limit
+              &mdash;
+              = text_field_tag "q[#{c.id}_less_than]",    @q[scid + '_less_than']    || c.r_limit
+            -else
+              = text_field_tag "q[#{c.id}]", @q[scid] || c.default.to_s
+          - when BooleanCharacteristic
+            -# none - no selection was, 0 - was YES, 1 - was NO
+            = check_box_tag "q[#{c.id}]", 1, @q[scid].nil? ? c.default : @q[scid].zero?
+        = c.measure
+        = "(#{c.description})" unless c.description.nil? || c.description.empty?
+        %br/
+
+      = submit_tag 'Искать'
       
-.clear

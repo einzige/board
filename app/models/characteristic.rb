@@ -3,10 +3,13 @@ class Characteristic
   include Mongoid::Slug
   field :name
   slug  :name
-  field :required,   :type => Boolean, :default => false
-  field :primary,    :type => Boolean, :default => false
-  field :position,   :type => Integer, :default => 0
-  field :lots_count, :type => Integer, :default => 0
+  field :measure
+  field :description
+  field :required,    :type => Boolean, :default => false
+  field :primary,     :type => Boolean, :default => false
+  field :position,    :type => Integer, :default => 0
+  field :lots_count,  :type => Integer, :default => 0
+  field :collapsible, :type => Boolean, :default => false
 
   referenced_in :category
   referenced_in :operation

@@ -39,7 +39,7 @@ a img { padding: 0; margin: 0; color: white; }
 
 body {
   font-family: Arial;
-  font-size: 11pt;
+  font-size: 10pt;
   color: black;
   padding: 0;
   margin: 10px 20px 20px 20px;
@@ -134,14 +134,16 @@ hr { border: none; border-bottom: 1px solid green;}
 .orange-button {
   text-align: center;
   color: white;
-  background: orange;
+  background: url(/images/adbut.png);
   font-weight: bold;
 
-  padding: 4px;
+  width: 216px;
+  height: 48px;
+}
 
-  width: 210px;
-  height: 20px;
-
+.orange-button:hover {
+  background: url(/images/adbut_hover.png);
+  cursor: pointer;
 }
 
 ul#main-menu {
@@ -297,10 +299,9 @@ ul#recent-lots-list li {
 .breadcrumbs { font-size: 9pt; }
 .breadcrumbs a { color: black; }
 
-.filter { width: 715px; background: #CCCDFF; }
+.filter { width: 715px; background: #ddeffd; padding: 0 15px 20px 15px; }
 
 .filter h1 {
-  margin: 2px 2px 2px 15px;
   color: orange;
   font-size: 16pt;
   font-weight: normal;
@@ -318,4 +319,18 @@ ul#recent-lots-list li {
   border-bottom: 1px dashed red;
   cursor: pointer;
   color: black;
+}
+
+.filter input[type=text] {
+  border: 1px solid #458cfe;
+  width: 80px;
+  font-size: 9pt;
+}
+
+.filter input[type=submit] {
+  background: none;
+  border: none;
+  text-decoration: underline;
+  font-size: 12pt;
+  color: red;
 }
