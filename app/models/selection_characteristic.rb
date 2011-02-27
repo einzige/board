@@ -1,29 +1,18 @@
 # SelectBox-like model
 class SelectionCharacteristic < Characteristic
   field :includes_blank,       :type => Boolean, :default => false
-  field :representations_mask, :type => Integer, :default => 0
+  field :representation
 
-  embeds_many :options, :class_name => "SelectionCharacteristicOption"
+  embeds_many :selection_options, :class_name => "SelectionCharacteristicOption"
 
-  REPRESENTATIONS = [:selectbox, :checkboxes, :radiogroup]
-
-  def representation=(r)
-    representations_mask = REPRESENTATIONS.index(r)
-  end
-  def representation
-    REPRESENTATIONS[representations_mask].to_sym
-  end
   def represents? something
-    something.to_sym == representation
+    if something.kind_of? Symbol
+      something == representation.to_sym
+    else
+      something == representation
+    end
   end
-end
 
-class SelectionCharacteristicOption
-  include Mongoid::Document
-  field :name
-  field :value
-
-  embedded_in :selection_field, :inverse_of => :options
-
-  validates_presence_of :name, :value
+  REPRESENTATIONS = ["selectbox", "checkboxes", "radiogroup"]
+  validates_inclusion_of :representation, :in => REPRESENTATIONS, :allow_blank => false
 end

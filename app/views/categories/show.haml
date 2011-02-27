@@ -1,10 +1,17 @@
-= render :partial => 'breadcrumbs'
+.w680.left
+  = render :partial => 'shared/breadcrumbs', :object => breads_for(@category, @operation)
 
-.clear.h15
-%small= @category.description
-.clear.h15
+  .clear.h15
+  .w680
+    %small
+      = @category.description
+      %a.b{ :href => '#' } Подать&nbsp;объявления&nbsp;в&nbsp;этот&nbsp;раздел
+  .clear.h15
 
-= render :partial => 'filter'
+  .w480.left
+    = render :partial => 'filter'
+    .content= render :partial => 'shared/lot_breadcrumbs', :object => breads_for(@lots.first.category, @lots.first.operations.first)
+
 
 .right.w240.center
   .banner.w240{:style => 'height: 400px'}
@@ -12,3 +19,4 @@
   .w240= image_tag 'temp/direct.png'
 
 .clear
+

@@ -28,14 +28,18 @@ a img { padding: 0; margin: 0; color: white; }
 .i { font-style: italic; }
 .center { margin: 0 auto; text-align: center; }
 .black { color: black }
+.relative { position: relative; }
 
 .w100p { width: 100%; clear: both; }
 .w25   { width: 25px; }
 .w210  { width: 210px; }
 .w240  { width: 240px; }
 .w480  { width: 480px; } /* FIXME: remove me */
+.w680  { width: 680px; } /* FIXME: remove me */
 
 .ml15 { margin-left: 15px; }
+
+.red { color: red; }
 
 body {
   font-family: Arial;
@@ -299,7 +303,7 @@ ul#recent-lots-list li {
 .breadcrumbs { font-size: 9pt; }
 .breadcrumbs a { color: black; }
 
-.filter { width: 715px; background: #ddeffd; padding: 0 15px 20px 15px; }
+.filter { width: 680px; background: #ddeffd; padding: 0 15px 20px 15px; }
 
 .filter h1 {
   color: orange;
@@ -333,4 +337,94 @@ ul#recent-lots-list li {
   text-decoration: underline;
   font-size: 12pt;
   color: red;
+}
+
+.filter input[type=checkbox] {
+  background: red;
+}
+
+/* --------- CHECKBOX ---------- */
+
+div.yes {
+  margin: 4px 5px 0 0;
+  height: 9px;
+  width: 9px;
+  float: left;
+  background: url(/images/checked-grey.gif) no-repeat;
+}
+div.no {
+  margin: 4px 5px 0 0;
+  height: 9px;
+  width: 9px;
+  float: left;
+  background: url(/images/checkedcross-grey.gif);
+}
+div.does_not_matters {
+  margin: 4px 5px 0 0;
+  height: 9px;
+  width: 9px;
+  float: left;
+  background: url(/images/check-grey.gif);
+}
+
+label {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+label:hover {
+  color: gray;
+  cursor: pointer;
+}
+
+#searchform .fields { position : relative; background: #ddeffd; min-height: 100px; }
+#searchform .characteristic { position : absolute; width: auto; }
+#searchform .value { position: relative; }
+
+#searchform .time-range label { font-weight: bold; }
+#searchform .time-range { position: absolute; width: auto; }
+#searchform .time-range input#time_range_1 { margin-left: 0; }
+
+form table tr{
+  vertical-align: top;
+}
+
+form table tr td:first {
+  text-align: right;
+  background: red;
+}
+
+form table label {
+  font-size: 16pt;
+}
+
+form table input {
+  border: 1px solid black; 
+  background: #EEE;
+}
+
+form table textarea {
+  background: #EEE;
+}
+form table textarea:hover {
+  background: white;
+}
+
+form table input:hover {
+  background: white;
+}
+
+.save {
+  width: 214px;
+  height: 34px;
+  border: none;
+  background: url(/images/save.png);
+}
+
+.save:hover {
+  background-position: 0 100%;
+  cursor: pointer;
 }

@@ -19,6 +19,13 @@ class Category
   references_many :characteristics, :dependent => :destroy
   references_many :operations, :dependent => :destroy
 
+  embeds_one :layout, :class_name => 'CategoryLayout'
+  before_create do
+    unless self.layout
+      self.layout = CategoryLayout.new
+    end
+  end
+
   # SCOPES
   scope :not_empty, where(:lots_count.gt => 0)
 
@@ -68,7 +75,7 @@ class Category
     # __________________________________________________________________________________________
 
     criteria = descendant_lots
-    criteria = criteria.where(:operation_id => operation.id) unless operation.nil?
+    criteria = criteria.where(:operation_ids => operation.id) unless operation.nil?
 
     return criteria if params.nil?
 

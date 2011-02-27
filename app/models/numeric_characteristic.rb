@@ -1,5 +1,6 @@
 class NumericCharacteristic < Characteristic
   FIXNUM_MAX = Float(2**(0.size * 8 -2) -1)
+  GROSS = 9999
 
   field :range,   :type => Boolean, :default =>  false
   # Cache fields

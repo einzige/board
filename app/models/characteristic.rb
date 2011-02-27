@@ -7,17 +7,25 @@ class Characteristic
   field :description
   field :required,    :type => Boolean, :default => false
   field :primary,     :type => Boolean, :default => false
-  field :position,    :type => Integer, :default => 0
   field :lots_count,  :type => Integer, :default => 0
-  field :collapsible, :type => Boolean, :default => false
+  #field :collapsible, :type => Boolean, :default => false
+  #field :position,    :type => Integer, :default => 0
+  
+  before_create do
+    unless self.layout
+      self.layout= CharacteristicLayout.new
+    end
+  end
 
   referenced_in :category
   referenced_in :operation
-  
+  embeds_one    :layout, :class_name => 'CharacteristicLayout'
+
   validates_presence_of     :name 
   validates_presence_of     :category
-  validates_numericality_of :position
   validates_numericality_of :lots_count
+  #validates_presence_of     :layout
+  #validates_numericality_of :position
 
   scope :boolean, where(:_type => "BooleanCharacteristic")
   scope :integer, where(:_type => "IntegerCharacteristic")
@@ -27,10 +35,6 @@ class Characteristic
   scope :shared,  where(:operation_id => nil)
   scope :for_operation, lambda {|operation| where(:operation_id => operation.id)}
 
-  def inc_lots_count
-    inc(:lots_count, 1)
-  end
-  def dec_lots_count
-    inc(:lots_count, -1)
-  end
+  def inc_lots_count; inc(:lots_count, 1) end
+  def dec_lots_count; inc(:lots_count,-1) end
 end

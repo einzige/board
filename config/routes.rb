@@ -5,7 +5,12 @@ Inform::Application.routes.draw do
 
   devise_for :users
   resources :users, :only => :show
+
   resources :categories do 
+    member do
+      post :set_layout
+    end
+    resources :operation
     resources :lots
   end
 
