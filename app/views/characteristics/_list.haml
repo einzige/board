@@ -1,0 +1,15 @@
+- if list.any?
+  %table.admin 
+    %th Название
+    %th Описание
+    %th
+    - list.each do |c|
+      %tr
+        %td.b.l= link_to c.name, [c.category, c]
+        %td.i.l= c.description
+        %td= link_to 'Удалить', [c.category, c], 
+                      :confirm => 'Вы действительно этого хотите?',
+                      :method  => :delete,
+                      :class   => :red
+- else
+  .red.i.b Нет таких характеристик для этой категории

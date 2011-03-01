@@ -47,6 +47,10 @@
         = render :partial => 'devise/sessions/login_form'
         -#= render 'devise/menu/registration_items'
         -#= render 'devise/menu/login_items'
+
+    - if flash[:error]
+      .clear= render(:partial => 'shared/error', :object => flash[:error])
+
     .clear.h25
     #content= yield
 

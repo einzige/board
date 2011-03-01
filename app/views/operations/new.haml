@@ -1,0 +1,14 @@
+%h2 
+  Создание новой операции для
+  [
+  = link_to @category.name, @category, :class => 'red'
+  (
+  = render :partial => 'shared/breadcrumbs', :object => breads_for(@category)
+  )
+  ]
+
+= render :partial => 'form'
+= link_to 'Вернуться к списку операций', [@category, Operation]
+
+.clear.h25
+.clear.h25

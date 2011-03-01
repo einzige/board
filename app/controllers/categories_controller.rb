@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 class CategoriesController < ApplicationController
 
+  load_and_authorize_resource :except => [:show, :index], :find_by => :slug
+
   def index
     @categories = {}
     @categories[:roots] = Category.roots.only(:slug, :name)
@@ -44,12 +46,32 @@ class CategoriesController < ApplicationController
     end
   end
 
+  def create
+    @category = Category.new(params[:category])
+  
+    if @category.save
+      flash[:notice] = 'Category was successfully created.'
+      redirect_to [:edit, @category]
+    else
+      render :action => "new"
+    end
+  end
+
+  def destroy
+    @category = Category.find_by_slug(params[:id])
+    @category.destroy
+  
+    redirect_to :back
+  end
+
   def set_layout
     category = Category.find_by_slug(params[:id])
     category.update_attribute(:layout, params[:layout])
     
-    params[:characteristics].each do |cid, location|
-      Characteristic.criteria.id(cid).first.update_attribute(:layout, location[:layout])
+    if params[:characteristics]
+      params[:characteristics].each do |cid, location|
+        Characteristic.criteria.id(cid).first.update_attribute(:layout, location[:layout])
+      end
     end
     flash[:notice] = 'Раскладка успешно сохранена.'
     redirect_to :back

@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.4'
+gem 'rails', '3.0.5'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -51,4 +51,5 @@ gem 'mongoid-tree', :git => 'git://github.com/benedikt/mongoid-tree.git', :branc
 gem 'mongoid_slug', :require => 'mongoid/slug'
 
 gem 'russian'
+gem "cancan"
 

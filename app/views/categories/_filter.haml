@@ -38,7 +38,7 @@
 
   - form_tag '', :method => :get, :id => 'searchform' do 
     .fields{:style => "height: #{@category.layout.height}px"}
-      = hidden_field_tag 'q[operation]', @operation.slug
+      = hidden_field_tag 'operation', @operation.slug
 
       %span.time-range{:style => "left: #{@category.layout.time_range_x}px; top: #{@category.layout.time_range_y}px"}
         = label_tag :time_range, 'Объявления за:'

@@ -40,7 +40,11 @@ class Category
     Characteristic.any_in(:category_id => parent_ids << id) # <----------------+
   end
   def characteristics_for operation
-    descendant_characteristics.any_in(:operation_id => [operation.id, nil])
+    if operation
+      descendant_characteristics.any_in(:operation_id => [operation.id, nil])
+    else
+      []
+    end
   end
 
   def ancestors_operations #OPTIMIZE
@@ -82,7 +86,7 @@ class Category
     params.each do |cid, value|
       if value.is_a? Array
         criteria = criteria.in({"properties.characteristic_id" => [cid], 
-                                            "properties.value" => value})
+                                            "properties.slug"  => value.to_s.parameterize})
       else 
         match = cid.match(/(.+)_less_than$/)                                    # lte-+-fix
         unless match.nil?                                                       #     |
@@ -92,11 +96,11 @@ class Category
           match = cid.match(/(.+)_greater_than$/)
           unless match.nil?
             criteria = criteria.where({"properties.characteristic_id" => match[1], 
-                                           :properties.gte => {:value => value}}) if match.length > 1
+                                           :properties.gte => {:value => value.to_f}}) if match.length > 1
           else
             # do simple where
             criteria = criteria.where({"properties.characteristic_id" => cid, 
-                                                   "properties.value" => value})
+                                                   "properties.slug"  => value.to_s.parameterize})
           end # end greater_than
         end # end less_than
       end # endif
@@ -112,5 +116,9 @@ class Category
   end
   def self.recount_lots
     Category.all.each {|c| c.recount_lots}
+  end
+
+  class << self
+    alias find_by_slug! find_by_slug 
   end
 end

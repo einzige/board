@@ -6,11 +6,18 @@
     %small
       = @category.description
       %a.b{ :href => '#' } Подать&nbsp;объявления&nbsp;в&nbsp;этот&nbsp;раздел
+    - if can? :manage, @category
+      %br/
+      = link_to 'РЕДАКТИРОВАТЬ КАТЕГОРИЮ',  [:edit, @category], :class => 'red b fs13 i'
   .clear.h15
 
   .w480.left
-    = render :partial => 'filter'
-    .content= render :partial => 'shared/lot_breadcrumbs', :object => breads_for(@lots.first.category, @lots.first.operations.first)
+    - if @operation
+      = render :partial => 'filter'
+    - else
+      .i.l.b Для этой категории нет операций, соответсвенно нет и фильтра
+    - if @lots.any?
+      .content= render :partial => 'shared/lot_breadcrumbs', :object => breads_for(@lots.first.category, @lots.first.operations.first)
 
 
 .right.w240.center

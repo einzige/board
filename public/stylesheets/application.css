@@ -40,6 +40,7 @@ a img { padding: 0; margin: 0; color: white; }
 .ml15 { margin-left: 15px; }
 
 .red { color: red; }
+.fs13 { font-size: 13pt; }
 
 body {
   font-family: Arial;
@@ -138,15 +139,15 @@ hr { border: none; border-bottom: 1px solid green;}
 .orange-button {
   text-align: center;
   color: white;
-  background: url(/images/adbut.png);
+  background: url(/images/ad.png);
   font-weight: bold;
 
-  width: 216px;
-  height: 48px;
+  width: 203px;
+  height: 34px;
 }
 
 .orange-button:hover {
-  background: url(/images/adbut_hover.png);
+  background-position: 0 100%;
   cursor: pointer;
 }
 
@@ -380,7 +381,7 @@ label:hover {
   cursor: pointer;
 }
 
-#searchform .fields { position : relative; background: #ddeffd; min-height: 100px; }
+#searchform .fields { position : relative; background: #ddeffd; min-height: 50px; }
 #searchform .characteristic { position : absolute; width: auto; }
 #searchform .value { position: relative; }
 
@@ -392,13 +393,8 @@ form table tr{
   vertical-align: top;
 }
 
-form table tr td:first {
-  text-align: right;
-  background: red;
-}
-
 form table label {
-  font-size: 16pt;
+  font-size: 10pt;
 }
 
 form table input {
@@ -425,6 +421,36 @@ form table input:hover {
 }
 
 .save:hover {
+  background: url(/images/save.png);
   background-position: 0 100%;
   cursor: pointer;
+}
+
+table.admin {
+  font-size:10pt;
+  margin:10px;
+}
+
+table.admin tr {
+  border: 1px solid #AACCFF;
+}
+
+table.admin th {
+  text-align:center;
+  border-bottom: 3px solid #4690DC;
+  border-right: 1px solid #4690DC;
+  padding: 5px;
+  background: #46ABFC;
+  color:white;
+}
+
+table.admin td {
+  border-left: 1px solid #AACCFF;
+  border-right: 1px solid #AACCFF;
+  border-bottom: 1px dashed #AACCFF;
+  padding:10px;
+}
+
+table.admin tr:hover{
+  background: #F0FCFF;
 }

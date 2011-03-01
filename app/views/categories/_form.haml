@@ -1,7 +1,11 @@
-- form_for @category do |f|
+- category  ||= @category
+- parent    ||= @category.parent
+- form_for category do |f|
   = render(:partial => 'shared/notice', :object => flash[:notice]) if flash[:notice]
-  - if @category.errors.full_messages.any?
-    = render(:partial => 'shared/error', :collection => @category.errors.full_messages)
+  - if category.errors.full_messages.any?
+    = render(:partial => 'shared/error', :collection => category.errors.full_messages)
+  - if parent
+    = hidden_field_tag "category[parent]", parent.id
   %table
     %tr
       %td= f.label :name, 'Имя'

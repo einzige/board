@@ -12,6 +12,7 @@ user = User.create! :name => 'Zinin Serge', :email => 'szinin@gmail.com', :passw
                                                              :password_confirmation => 'gfhjkmqe'
 puts 'New user created: ' << user.name
 
+=begin
 puts 'SEED CATEGORIES'
 c1  = Category.create   :name => 'Недвижимость'
 c   = Category.create   :name => 'Автомобили'
@@ -23,3 +24,4 @@ ccc = cc.children.build :name => 'Toyota'
 ccc.save
 
 ccc.lots.build
+=end

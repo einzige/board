@@ -15,17 +15,18 @@ module ApplicationHelper
   #
 
   def breads_for category, operation = nil
-    category.ancestors_and_self.map do |c| 
+    res = category.ancestors_and_self.map do |c| 
       {
         :name => c.name, 
         :link => c 
       }
-    end << ({
+    end    
+    res << {
              :name  => operation.name, 
              :link  => category_path(category) + "?operation=#{operation.slug}", 
              :class => 'red'
-           } if operation)
+           } if operation
+    res
   end
 
-#  def operation_path o; "?operation=#{o.slug}" end
 end

@@ -1,9 +1,10 @@
+# -*- coding: utf-8 -*-
 class Characteristic
   include Mongoid::Document
   include Mongoid::Slug
   field :name
   slug  :name
-  field :measure
+  #field :measure
   field :description
   field :required,    :type => Boolean, :default => false
   field :primary,     :type => Boolean, :default => false
@@ -13,7 +14,7 @@ class Characteristic
   
   before_create do
     unless self.layout
-      self.layout= CharacteristicLayout.new
+      self.layout = CharacteristicLayout.new
     end
   end
 
@@ -27,14 +28,19 @@ class Characteristic
   #validates_presence_of     :layout
   #validates_numericality_of :position
 
-  scope :boolean, where(:_type => "BooleanCharacteristic")
-  scope :integer, where(:_type => "IntegerCharacteristic")
-  scope :float,   where(:_type => "FloatCharacteristic")
-  scope :string,  where(:_type => "StringCharacteristic")
+  scope :boolean,   where(:_type => "BooleanCharacteristic")
+  scope :integer,   where(:_type => "IntegerCharacteristic")
+  scope :float,     where(:_type => "FloatCharacteristic")
+  scope :string,    where(:_type => "StringCharacteristic")
+  scope :selection, where(:_type => "SelectionCharacteristic")
 
   scope :shared,  where(:operation_id => nil)
   scope :for_operation, lambda {|operation| where(:operation_id => operation.id)}
 
   def inc_lots_count; inc(:lots_count, 1) end
   def dec_lots_count; inc(:lots_count,-1) end
+
+  class << self
+    alias find_by_slug! find_by_slug 
+  end
 end

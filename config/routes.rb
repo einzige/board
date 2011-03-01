@@ -10,7 +10,13 @@ Inform::Application.routes.draw do
     member do
       post :set_layout
     end
-    resources :operation
+    resources :operations
+    resources :characteristics, :only => :index
+    resources :integer_characteristics
+    resources :float_characteristics
+    resources :boolean_characteristics
+    resources :string_characteristics
+    resources :selection_characteristics
     resources :lots
   end
 

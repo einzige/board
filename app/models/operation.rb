@@ -4,6 +4,7 @@ class Operation
 
   field :name
   slug  :name
+  field :description
 
   referenced_in :category
   references_and_referenced_in_many :lots
@@ -15,5 +16,9 @@ class Operation
   def self.for category
     Operation.any_in(:category_id => category.ancestors.only(:id).map(&:id) \
                                   << category.id)
+  end
+
+  class << self
+    alias find_by_slug! find_by_slug 
   end
 end
