@@ -1,0 +1,10 @@
+- form_for [@category, @characteristic, @selection_option], :as => :selection_option do |f|
+
+  = render(:partial => 'shared/notice', :object => flash[:notice]) if flash[:notice]
+
+  - if @selection_option.errors.full_messages.any?
+    = render(:partial => 'shared/error', :collection => @selection_option.errors.full_messages)
+  %p
+    = f.label :value, 'Значение'
+    = f.text_field :value
+    = submit_tag 'Сохранить'

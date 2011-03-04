@@ -1,0 +1,15 @@
+- if list.any?
+  %table.admin 
+    %th Значение
+    %th
+    - list.each do |o|
+      %tr
+        %td= link_to o.value, [:edit, o.selection_characteristic.category, o.selection_characteristic, o]
+        %td= link_to 'Удалить', [o.selection_characteristic.category, o.selection_characteristic, o], 
+                      :confirm => 'Вы действительно этого хотите?',
+                      :method  => :delete,
+                      :class   => :red
+- else
+  .red.i.b Нет опций для этой характиристики
+
+= link_to 'Создать новую опцию', [:new, @category, @characteristic, :selection_characteristic_option]

@@ -7,16 +7,24 @@ class Category
 
   # FIELDS
   field :name
-  field :lots_count, :type => Integer, :default => 0
   slug  :name
+  field :description, :default => ''
+  field :lots_count, :type => Integer, :default => 0
 
   # VALIDATIONS
   validates_presence_of :name
 
   # REFERENCES
   references_many :lots, :dependent => :destroy
-  embeds_many     :characteristics
-  embeds_many     :operations
+  references_many :characteristics, :dependent => :destroy
+  references_many :operations, :dependent => :destroy
+
+  embeds_one :layout, :class_name => 'CategoryLayout'
+  before_create do
+    unless self.layout
+      self.layout = CategoryLayout.new
+    end
+  end
 
   # SCOPES
   scope :not_empty, where(:lots_count.gt => 0)
@@ -25,16 +33,24 @@ class Category
   before_destroy :destroy_children
 
   # SERVICE FUNCTIONS
-  def descentant_lots
-    Lot.any_in(:category_id => descendants.only(:id).map(&:id))
+  def descendant_lots
+    Lot.any_in(:category_id => descendants.only(:id).map(&:id) << id) # FIXME:-+
+  end                                                                 #        |
+  def descendant_characteristics                                      #        |
+    Characteristic.any_in(:category_id => parent_ids << id) # <----------------+
+  end
+  def characteristics_for operation
+    if operation
+      descendant_characteristics.any_in(:operation_id => [operation.id, nil])
+    else
+      []
+    end
   end
 
   def ancestors_operations #OPTIMIZE
-    ops = []
-    ancestors.each do |a|
-      a.operations.each {|o| ops << o}
-    end
-    ops
+    res = []
+    ancestors.each {|a| res |= a.operations } 
+    res | operations
   end
 
 #      .----------------.
@@ -48,9 +64,9 @@ class Category
 #  \___\================/_________________/              |
 #       `--------------`                                 |
 #    aul.ru                                              |
-#                       /\                               |
-#                      #  \                              |
-  def search_lots params  #\_____________________________/
+#                         /\                             |
+#                        #  \                            |
+  def search_lots params={}, operation=nil #\____________/
     # There are NO LOGIC>-------------------------------------+ 
     #                                                         |    
     # params shold be in the given storage:    _              |
@@ -62,12 +78,15 @@ class Category
     # any_other => {characteristic_id_(less_than|greater_than)}-------------> uses {gt|lt}.where
     # __________________________________________________________________________________________
 
-    criteria = descentant_lots
+    criteria = descendant_lots
+    criteria = criteria.where(:operation_ids => operation.id) unless operation.nil?
+
+    return criteria if params.nil?
 
     params.each do |cid, value|
       if value.is_a? Array
         criteria = criteria.in({"properties.characteristic_id" => [cid], 
-                                            "properties.value" => value})
+                                            "properties.slug"  => value.to_s.parameterize})
       else 
         match = cid.match(/(.+)_less_than$/)                                    # lte-+-fix
         unless match.nil?                                                       #     |
@@ -77,11 +96,11 @@ class Category
           match = cid.match(/(.+)_greater_than$/)
           unless match.nil?
             criteria = criteria.where({"properties.characteristic_id" => match[1], 
-                                           :properties.gte => {:value => value}}) if match.length > 1
+                                           :properties.gte => {:value => value.to_f}}) if match.length > 1
           else
             # do simple where
             criteria = criteria.where({"properties.characteristic_id" => cid, 
-                                                   "properties.value" => value})
+                                                   "properties.slug"  => value.to_s.parameterize})
           end # end greater_than
         end # end less_than
       end # endif
@@ -97,5 +116,9 @@ class Category
   end
   def self.recount_lots
     Category.all.each {|c| c.recount_lots}
+  end
+
+  class << self
+    alias find_by_slug! find_by_slug 
   end
 end

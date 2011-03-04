@@ -1,0 +1,40 @@
+.w680.left
+  - if @category.valid?
+    = render :partial => 'shared/breadcrumbs', :object => breads_for(@category, @operation)
+
+  .clear.h15
+  .w680
+    %small
+      = @category.description
+      %a.b{ :href => '#' } Подать&nbsp;объявления&nbsp;в&nbsp;этот&nbsp;раздел
+
+    %h1 Редактирование категории
+    = render :partial => 'form'
+
+    %h1 Редактирование характеристик категории
+    = link_to 'Редактировать список характеристик', [@category, Characteristic]
+
+    %h1 Редактирование операций категории
+    = link_to 'Редактировать список операций', [@category, Operation]
+
+  - if @category.valid?
+    .w480.left
+      - if @operation
+        %h1 Редактирование раскладки фильтра категории
+        = render :partial => 'layout'
+
+      .clear.h25
+
+      %h1 Редактирование списка дочерних категорий
+      = render :partial => 'list', :object => @category.children
+      %h2 Создание новой категории
+      = render :partial => 'form', :locals => {:category => Category.new, :parent => @category}
+
+  .clear.h25
+
+.right.w240.center
+  .banner.w240{:style => 'height: 400px'}
+    .content 240x400
+  .w240= image_tag 'temp/direct.png'
+
+.clear

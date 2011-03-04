@@ -1,0 +1,29 @@
+.w680.left
+  = render :partial => 'shared/breadcrumbs', :object => breads_for(@category, @operation)
+
+  .clear.h15
+  .w680
+    %small
+      = @category.description
+      %a.b{ :href => '#' } Подать&nbsp;объявления&nbsp;в&nbsp;этот&nbsp;раздел
+    - if can? :manage, @category
+      %br/
+      = link_to 'РЕДАКТИРОВАТЬ КАТЕГОРИЮ',  [:edit, @category], :class => 'red b fs13 i'
+  .clear.h15
+
+  .w480.left
+    - if @operation
+      = render :partial => 'filter'
+    - else
+      .i.l.b Для этой категории нет операций, соответсвенно нет и фильтра
+    - if @lots.any?
+      .content= render :partial => 'shared/lot_breadcrumbs', :object => breads_for(@lots.first.category, @lots.first.operations.first)
+
+
+.right.w240.center
+  .banner.w240{:style => 'height: 400px'}
+    .content 240x400
+  .w240= image_tag 'temp/direct.png'
+
+.clear
+

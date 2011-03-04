@@ -1,0 +1,8 @@
+%span.breadcrumbs#breadcrumbs
+  = link_to 'Главная', root_path
+  - breadcrumbs.each do |b|
+    &mdash;
+    - if b[:link]
+      = link_to b[:name], b[:link], :class => b[:class]
+    - else
+      %span{:class => "#{b[:class]}"}= b[:name]

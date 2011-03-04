@@ -1,0 +1,11 @@
+%h1 
+  Редактирование характеристики 
+  [
+  %span.red= @characteristic.name
+  ]
+  для
+  [
+  = render :partial => 'shared/breadcrumbs', :object => breads_for(@category)
+  ]
+
+= render 'numeric_characteristics/form'

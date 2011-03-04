@@ -1,14 +1,21 @@
-# SelectBox-like model
+# -*- coding: utf-8 -*-
 class SelectionCharacteristic < Characteristic
-  embeds_many :options,  :class_name => "SelectionCharacteristicOption"
-end
+  field :includes_blank, :type => Boolean, :default => false
+  field :representation
 
-class SelectionCharacteristicOption
-  include Mongoid::Document
-  field :name
-  field :value
+  references_and_referenced_in_many :selection_collections
 
-  embedded_in :selection_field, :inverse_of => :options
+  def represents? something
+    if something.kind_of? Symbol
+      something == representation.to_sym
+    else
+      something == representation
+    end
+  end
 
-  validates_presence_of :name, :value
+  REPRESENTATIONS = {'выпадающий список' => "selectbox", 
+                     'чекбоксы'          => "checkboxes", 
+                     'радиогруппа'       => "radiogroup"}
+
+  validates_inclusion_of :representation, :in => REPRESENTATIONS.values, :allow_blank => false
 end

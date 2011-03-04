@@ -1,0 +1,10 @@
+%h2 Популярные разделы
+- if @categories[:popular].any?
+  %ul.popular-list
+    - @categories[:popular].each do |c|
+      %li
+        %span.b= c.parent.name 
+        &#47;
+        = link_to(c.name, c)
+-else 
+  .i.l Нет разделов

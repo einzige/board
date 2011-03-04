@@ -1,10 +1,32 @@
 Inform::Application.routes.draw do
   #get \"users\/show\"
 
-  root :to => "home#index"
+  root :to => "categories#index"
 
   devise_for :users
   resources :users, :only => :show
+
+  resources :categories do 
+    member do
+      post :set_layout
+    end
+    resources :lots
+    resources :operations
+    resources :characteristics, :only => :index
+    resources :integer_characteristics
+    resources :float_characteristics
+    resources :boolean_characteristics
+    resources :string_characteristics
+    resources :selection_characteristics do
+      member do
+        put :set_collections
+      end
+    end
+  end
+
+  resources :selection_collections do
+    resources :collection_items
+  end
 
 
   # The priority is based upon order of creation:

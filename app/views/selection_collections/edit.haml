@@ -1,0 +1,10 @@
+%h1 
+  Редактирование [опции характеристики с выбором] для
+  [
+  = render :partial => 'shared/breadcrumbs', :object => breads_for(@category)
+  (
+  = link_to @characteristic.name, [@category, @characteristic]
+  )
+  ]
+
+= render :partial => 'form'

@@ -1,0 +1,19 @@
+- collection ||= @collection || SelectionCollection.new
+- form_for collection do |f|
+  = render(:partial => 'shared/notice', :object => flash[:notice]) if flash[:notice]
+
+  - if collection.errors.full_messages.any?
+    = render(:partial => 'shared/error', :collection => collection.errors.full_messages)
+
+  %table
+    %tr
+      %td= f.label :name, 'Имя'
+      %td= f.text_field :name
+    %tr
+      %td= label_tag :items, 'Список выборки'
+      %td= text_area_tag :items, collection.collection_items.map(&:value).join("\n"), :style => 'width: 200px; height: 200px;'
+    %tr
+      %td
+      %td= submit_tag 'Добавить'
+
+

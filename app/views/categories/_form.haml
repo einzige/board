@@ -1,0 +1,18 @@
+- category  ||= @category
+- parent    ||= @category.parent
+- form_for category do |f|
+  = render(:partial => 'shared/notice', :object => flash[:notice]) if flash[:notice]
+  - if category.errors.full_messages.any?
+    = render(:partial => 'shared/error', :collection => category.errors.full_messages)
+  - if parent
+    = hidden_field_tag "category[parent]", parent.id
+  %table
+    %tr
+      %td= f.label :name, 'Имя'
+      %td= f.text_field :name
+    %tr
+      %td= f.label :description, 'Описание'
+      %td= f.text_area :description
+    %tr
+      %td
+      %td= submit_tag '', :class => 'save'

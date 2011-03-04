@@ -1,0 +1,16 @@
+.b Последние объявления
+%hr
+- if @lots[:recent].any? 
+  %ul#recent-lots-list
+    - @lots[:recent].each do |l|
+      %li
+        %span.l &mdash; 
+        &nbsp;
+        %span.i= l.operations.first.name
+        = link_to l.name, category_lot_path(l.category, l)
+        &nbsp;-&nbsp;
+        = link_to l.category.name, l.category, :class => 'black'
+- else
+  .i.l Нет объявлений
+
+

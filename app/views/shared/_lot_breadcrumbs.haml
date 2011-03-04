@@ -1,0 +1,8 @@
+.lot-breadcrumbs
+  - lot_breadcrumbs.each_with_index do |b, i|
+    - if b[:link]
+      = link_to b[:name], b[:link], :class => b[:class]
+    - else
+      %span{:class => "#{b[:class]}"}= b[:name]
+    - unless i.eql? lot_breadcrumbs.count-1
+      &#47;

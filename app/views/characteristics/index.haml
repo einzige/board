@@ -1,0 +1,33 @@
+%h2 
+  Редактирование характеристик категории
+  [
+  = link_to @category.name, @category, :class => 'red'
+  (
+  = render :partial => 'shared/breadcrumbs', :object => breads_for(@category)
+  )
+  ]
+.l.i
+  Если вы не находите здесь нужной харатеристики, то это значит, что она находится в родительской категории
+
+%h3 Список целочисленных характеристик
+= render :partial => 'characteristics/list', :object => @characteristics.integer
+= link_to 'Добавить характеристику', [:new, @category, :integer_characteristic]
+
+%h3 Список нецелочисленных характеристик
+= render :partial => 'characteristics/list', :object => @characteristics.float
+= link_to 'Добавить характеристику', [:new, @category, :float_characteristic]
+
+%h3 Список булевых характеристик
+= render :partial => 'characteristics/list', :object => @characteristics.boolean
+= link_to 'Добавить характеристику', [:new, @category, :boolean_characteristic]
+
+%h3 Список строковых характеристик
+= render :partial => 'characteristics/list', :object => @characteristics.string
+= link_to 'Добавить характеристику', [:new, @category, :string_characteristic]
+
+%h3 Список характеристик с выбором
+= render :partial => 'characteristics/list', :object => @characteristics.selection
+= link_to 'Добавить характеристику', [:new, @category, :selection_characteristic]
+
+.clear.h25
+.clear.h25

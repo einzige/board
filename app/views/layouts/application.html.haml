@@ -1,14 +1,74 @@
 !!!
 %html
   %head
-    %title Testapp
+    %title Inform24.ru // Internet-Board
     = stylesheet_link_tag :all
-    = javascript_include_tag :defaults
+    = javascript_include_tag 'jquery.min', 'rails.js', 'application.js'
     = csrf_meta_tag
+    = yield :js
+    = yield :css
   %body
-    %ul.hmenu
-      = render 'devise/menu/registration_items'
-      = render 'devise/menu/login_items'
-    %p{:style => "color: green"}= notice
-    %p{:style => "color: red"}= alert
-    = yield
+    -#%ul.hmenu
+    -#%p{:style => "color: green"}= notice
+    -#%p{:style => "color: red"}= alert
+    #header
+      #weather
+        %span.city Красноярск.
+        %span.b 21 февраля, воскресенье, 22:48.
+        %span Погода: ночью
+        %span.b.temp -26
+        %span , днем
+        %span.b.temp -14
+
+      .clear
+      #logo
+        = link_to image_tag('logo.png'), root_path
+        .clear
+        .w100p
+          .center
+            %span.home 
+              = link_to 'Главная', root_path, :class => 'dashed'
+            %span.letter 
+              = link_to 'Написать нам', '/Написать нам', :class => 'dashed'
+      #slogan
+        .content Бесплатные объявления Красноярск
+      .banner.right{:style => 'width: 450px'}
+        .content 450x100
+
+    .clear.h25
+    #subheader
+      %span.orange-button.left
+      %ul#main-menu.left
+        %li.active= link_to 'Объявления', '#'
+        %li= link_to 'каталог товаров', '#'
+        %li= link_to 'каталог предприятий', '#'
+
+      #login.right
+        = render :partial => 'devise/sessions/login_form'
+        -#= render 'devise/menu/registration_items'
+        -#= render 'devise/menu/login_items'
+
+    - if flash[:error]
+      .clear= render(:partial => 'shared/error', :object => flash[:error])
+
+    .clear.h25
+    #content= yield
+
+    #footer
+      %ul.links
+        %li= link_to 'каталог товаров', '#'
+        %li= link_to 'каталог предприятий', '#'
+        %li= link_to 'каталог товаров', '#'
+        %li= link_to 'каталог товаров', '#'
+        %li= link_to 'каталог товаров', '#'
+        %li= link_to 'каталог предприятий', '#'
+        %li= link_to 'каталог предприятий', '#'
+      .clear
+      .text
+      #counters.left
+        Counters here
+      #rules.left
+        Rules here
+      #copyrights.right
+        Copyright goes here
+

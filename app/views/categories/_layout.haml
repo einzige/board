@@ -1,0 +1,161 @@
+- content_for :js do
+  = javascript_include_tag "ui/jquery.tristate"
+  = javascript_include_tag "ui/jquery.jstepper.min"
+  = javascript_include_tag "jquery-ui.min"
+
+  :javascript
+    $(document).ready(function() 
+    {
+      // whole category filter height
+      //
+
+      var h    = parseInt($('.fields'    ).height());
+      var trpx = parseInt($('.time-range').css('left'));
+      var trpy = parseInt($('.time-range').css('top'));
+      $('<input type="hidden" name="layout[height]"      value="'  +h+ '" />').appendTo($('#layout_form'));
+      $('<input type="hidden" name="layout[time_range_x" value="'+trpx+'" />').appendTo($('#layout_form'));
+      $('<input type="hidden" name="layout[time_range_y" value="'+trpy+'" />').appendTo($('#layout_form'));
+
+      $('.time-range').draggable({
+        containment: "parent",
+        grid: [2,2],
+        stop: function(event, ui) {
+          $('input[name="layout[time_range_x"]').val(parseInt($(this).css('left')));
+          $('input[name="layout[time_range_y"]').val(parseInt($(this).css('top')));
+        }
+      });
+
+      // given characteristics for that filter
+      $('.characteristic').each(function(){
+        var w = parseInt($(this).width());
+        var h = parseInt($(this).height());
+        var x = parseInt($(this).css('left'));
+        var y = parseInt($(this).css('top'));
+        var p = parseInt($(this).children('.value').css('left'));
+        var id= $(this).attr('id');
+
+        $('<input type="hidden" name="characteristics['+id+'][layout][x]"       for="'+id+'_x" value="'+x+'" />').appendTo($('#layout_form'));
+        $('<input type="hidden" name="characteristics['+id+'][layout][y]"       for="'+id+'_y" value="'+y+'" />').appendTo($('#layout_form'));
+        $('<input type="hidden" name="characteristics['+id+'][layout][width]"   for="'+id+'_w" value="'+w+'" />').appendTo($('#layout_form'));
+        $('<input type="hidden" name="characteristics['+id+'][layout][height]"  for="'+id+'_h" value="'+h+'" />').appendTo($('#layout_form'));
+        $('<input type="hidden" name="characteristics['+id+'][layout][padding]" for="'+id+'_p" value="'+p+'" />').appendTo($('#layout_form'));
+      });
+
+      $('#searchform .value').draggable({ 
+        axis: "x", 
+        containment: "parent",
+        stop: function(event, ui) {
+          $('input[for="'+$(this).parent().attr('id')+'_p"]').val(parseInt($(this).css('left')));
+        }
+      });
+
+      $('#searchform .fields').resizable({
+        maxWidth: 680, 
+        minWidth: 680,
+        stop: function(event, ui) {
+          $('input[name="layout[height]"]').val(parseInt($(this).height()));
+        }
+      });
+      $('.characteristic').draggable({
+        grid: [2,2], 
+        containment: 'parent',
+        stop: function(event, ui) {
+          $('input[for="'+$(this).attr('id')+'_x"]').val(parseInt($(this).css('left')));
+          $('input[for="'+$(this).attr('id')+'_y"]').val(parseInt($(this).css('top')));
+        }
+      }).resizable({
+        maxWidth: 680, 
+        maxHeight: 20,
+        minHeight: 20,
+        stop: function(event, ui) {
+          $('input[for="'+$(this).attr('id')+'_w"]').val(parseInt($(this).width()));
+          $('input[for="'+$(this).attr('id')+'_h"]').val(parseInt($(this).height()));
+        }
+      });
+    });
+
+
+.filter.left#cut
+  %h1.left= @category.name
+
+  .right
+    - Operation.for(@category).each do |o|
+      - unless o == @operation
+        .tab= link_to o.name, "?operation=#{o.slug}#breadcrumbs"
+      - else
+        .tab.active= o.name
+  .clear.w15
+
+  - form_tag '', :method => :get, :id => 'searchform', :onSubmit => 'return false;' do 
+    .fields{:style => "height: #{@category.layout.height}px; background: #CCC; border: 1px solid gray"}
+      = hidden_field_tag 'q[operation]', @operation.slug
+
+      %span.time-range{:style => "left: #{@category.layout.time_range_x}px; top: #{@category.layout.time_range_y}px"}
+        = label_tag :time_range, 'Объявления за:'
+        %br/ 
+        = radio_button_tag "time_range", 1
+        %span Последние сутки
+        = radio_button_tag "time_range", 7
+        %span Неделю
+        = radio_button_tag "time_range", 1
+        %span Две недели
+        = radio_button_tag "time_range", 1, true
+        %span Все
+
+      - @category.characteristics_for(@operation).each do |c|
+        :erb
+          <% style = " left:  #{c.layout.x}px;"      + 
+                     " top:   #{c.layout.y}px;"      +
+                     " width: #{c.layout.width}px;"  + 
+                     " height:#{c.layout.height}px;" + 
+                     " background: white; padding: 2px; border: 1px dashed orange" %>
+
+        %span.characteristic{:id => c.id, :style => style }
+          - scid = c.id.to_s
+          = label_tag "q[#{c.id}]", c.name 
+          %span.value{:style => "left: #{c.layout.padding}px; padding-left: 4px; background: #458cfe;"}
+            - case c.class
+              - when BooleanCharacteristic
+                = check_box_tag "q[#{c.id}]", '', true
+
+
+              - when IntegerCharacteristic
+                -if c.ranged?
+                  = text_field_tag "q[#{c.id}_greater_than]", c.l_limit.to_i
+                  &mdash;
+                  = text_field_tag "q[#{c.id}_less_than]",    c.r_limit.to_i
+                -else
+                  = text_field_tag "q[#{c.id}]",              c.default.to_s
+                = c.measure
+                %span.description= "(#{c.description})" unless c.description.nil? || c.description.empty?
+
+
+              - when FloatCharacteristic
+                -if c.ranged?
+                  = text_field_tag "q[#{c.id}_greater_than]", c.l_limit
+                  &mdash;
+                  = text_field_tag "q[#{c.id}_less_than]",    c.r_limit
+                -else
+                  = text_field_tag "q[#{c.id}]",              c.default.to_s
+                = c.measure
+                %span.description= "(#{c.description})" unless c.description.nil? || c.description.empty?
+
+
+              - when SelectionCharacteristic
+                - case c.representation
+                  - when 'radiogroup'
+                    - c.selection_options.each do |o|
+                      = radio_button_tag "q[#{c.id}]", o.value
+                      = o.value
+
+                  - when 'selectbox'
+                    = select_tag "q[#{c.id}]", options_from_collection_for_select(c.selection_options, "value", "value"), 
+                                              :include_blank => c.includes_blank?
+
+  = submit_tag 'Искать', :style => 'float: right;'
+
+.left
+  - form_tag set_layout_category_path(@category), :id => 'layout_form', do
+    = submit_tag '', :class => 'save'
+    %span.l.i (Сохраняем ТОЛЬКО РАСКЛАДКУ)
+      

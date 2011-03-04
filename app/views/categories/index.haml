@@ -1,0 +1,38 @@
+.w210.left.center
+  %h2 Рубрики объявлений
+  - if can? :manage, Category
+    = link_to 'СОЗДАТЬ КАТЕГОРИЮ', new_category_path, :class => 'red b fs13 i'
+  - if @categories[:roots].any?
+    %ul#categories-list
+      - @categories[:roots].each do |c|
+        %li= link_to c.name, c
+  -else
+    %span.i.l Нет рубрик
+
+.main
+  %small
+    %b Доска бесплатных объявлений
+    И пошел дальше этот текст...
+  .clear.h25
+  .w240.left
+    = render :partial => 'categories/popular'
+  .w240.left.ml15
+    = image_tag "temp/stroka.png"
+  .clear.h25
+  .w240.left
+    .banner.w240
+      .content 240x208
+  .w240.left.ml15
+    = image_tag "temp/urgent.png"
+
+.right.w240.center
+  .banner.w240
+    .content 240x123
+  .banner.w240
+    .content 240x123
+  .w240= image_tag 'temp/direct.png'
+
+.w480
+  = render :partial => 'lots/recent'
+  
+.clear

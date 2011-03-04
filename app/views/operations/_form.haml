@@ -1,0 +1,20 @@
+- @operation ||= @category.operations.build
+
+- form_for [@category, @operation] do |f|
+  = render(:partial => 'shared/notice', :object => flash[:notice]) if flash[:notice]
+
+  - if @operation.errors.full_messages.any?
+    = render(:partial => 'shared/error', :collection => @operation.errors.full_messages)
+
+  %table
+    %tr
+      %td= f.label :name, 'Имя'
+      %td= f.text_field :name
+    %tr
+      %td= f.label :description, 'Описание'
+      %td= f.text_area :description
+    %tr
+      %td
+      %td= submit_tag '', :class => 'save'
+.h25
+
