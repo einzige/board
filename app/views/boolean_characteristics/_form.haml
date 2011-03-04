@@ -1,0 +1,57 @@
+- content_for :js do
+  = javascript_include_tag "ui/jquery.tristate"
+
+  :javascript
+    $(document).ready(function() {
+      $(':checkbox.tristate').tristate();
+    });
+
+- form_for [@category, @characteristic], :as => :characteristic do |f|
+
+  = render(:partial => 'shared/notice', :object => flash[:notice]) if flash[:notice]
+
+  - if @characteristic.errors.full_messages.any?
+    = render(:partial => 'shared/error', :collection => @characteristic.errors.full_messages)
+
+  %table
+    -# ----------------------------------------------------------
+    %th{:colspan => 2}
+      %h2.l 
+        Основная информация
+        %hr
+    %tr
+      %td= f.label :operation, 'Операция'
+      %td= f.select :operation, options_from_collection_for_select(@category.ancestors_operations, :id, :name, @characteristic.operation_id), 
+                    :include_blank => true
+    %tr
+      %td= f.label :name, 'Имя'
+      %td= f.text_field :name
+    %tr
+      -# FIXME:
+      %td= label_tag "characteristic[default]", 'Значение по-умолчанию'
+      - default = @characteristic.default.nil? ? '' : @characteristic.default.to_s
+      %td= check_box_tag "characteristic[default]", default, true, {:class => "tristate"}
+    %tr
+      %td= f.label :description, 'Описание'
+      %td= f.text_area :description
+    %tr
+      %td.right= f.check_box :required
+      %td= f.label :required, 'Обязательное поле'
+
+    -# ----------------------------------------------------------
+    %th{:colspan => 2}
+      %h2.l 
+        Параметры представления
+        %hr
+    %tr
+      %td.right= f.check_box :primary
+      %td= f.label :primary, 'Основное'
+
+    %th{:colspan => 2}
+      .h15
+      
+    %tr
+      %td
+      %td= submit_tag '', :class => 'save'
+.h25
+

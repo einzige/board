@@ -29,6 +29,12 @@ class CharacteristicsController < ApplicationController
     @characteristic = Characteristic.find_by_slug(params[:id])
   end
 
+  before_filter :only => :update do
+    operation = params[:characteristic][:operation]
+    if operation.nil? || operation.empty?
+      params[:characteristic][:operation_id] = nil
+    end
+  end
 
   def index
     @characteristics = @category.characteristics

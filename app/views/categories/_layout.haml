@@ -126,6 +126,8 @@
                   = text_field_tag "q[#{c.id}_less_than]",    c.r_limit.to_i
                 -else
                   = text_field_tag "q[#{c.id}]",              c.default.to_s
+                = c.measure
+                %span.description= "(#{c.description})" unless c.description.nil? || c.description.empty?
 
 
               - when FloatCharacteristic
@@ -135,6 +137,8 @@
                   = text_field_tag "q[#{c.id}_less_than]",    c.r_limit
                 -else
                   = text_field_tag "q[#{c.id}]",              c.default.to_s
+                = c.measure
+                %span.description= "(#{c.description})" unless c.description.nil? || c.description.empty?
 
 
               - when SelectionCharacteristic
@@ -142,15 +146,11 @@
                   - when 'radiogroup'
                     - c.selection_options.each do |o|
                       = radio_button_tag "q[#{c.id}]", o.value
-                      = o.name
+                      = o.value
 
                   - when 'selectbox'
-                    = select_tag "q[#{c.id}]", options_from_collection_for_select(c.selection_options, "value", "name"), 
+                    = select_tag "q[#{c.id}]", options_from_collection_for_select(c.selection_options, "value", "value"), 
                                               :include_blank => c.includes_blank?
-
-          
-            = c.measure
-            = "(#{c.description})" unless c.description.nil? || c.description.empty?
 
   = submit_tag 'Искать', :style => 'float: right;'
 

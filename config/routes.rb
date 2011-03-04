@@ -10,14 +10,22 @@ Inform::Application.routes.draw do
     member do
       post :set_layout
     end
+    resources :lots
     resources :operations
     resources :characteristics, :only => :index
     resources :integer_characteristics
     resources :float_characteristics
     resources :boolean_characteristics
     resources :string_characteristics
-    resources :selection_characteristics
-    resources :lots
+    resources :selection_characteristics do
+      member do
+        put :set_collections
+      end
+    end
+  end
+
+  resources :selection_collections do
+    resources :collection_items
   end
 
 

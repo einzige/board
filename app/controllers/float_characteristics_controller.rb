@@ -1,3 +1,3 @@
-class IntegerCharacteristicsController < CharacteristicsController
-  @@characteristic_class = IntegerCharacteristic
+class FloatCharacteristicsController < CharacteristicsController
+  @@characteristic_class = FloatCharacteristic
 end

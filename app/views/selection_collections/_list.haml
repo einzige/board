@@ -1,0 +1,23 @@
+- if list.any?
+  - form_for [:set_collections, @category, @characteristic] do |f|
+    - list.each do |c|
+      .left
+        - checked = @characteristic.selection_collection_ids.include?(c.id)
+        = check_box_tag "collections[]", c.id, checked
+        = link_to c.name, [:edit, c], :class => 'b green fs13'
+        %ul.admin.center
+          - c.collection_items.each do |i|
+            %li.l.center= i.value
+            -#%li.r= link_to 'Удалить', [c, i], 
+            -#              :confirm => 'Вы действительно этого хотите?',
+            -#              :method  => :delete,
+            -#              :class   => :red
+      .w25.left.h15
+    .clear
+    = submit_tag 'Сохранить'
+- else
+  .red.i.b Нет коллекций для этой характиристики
+
+%h4 Добавить новую коллекцию опций
+= render :partial => 'selection_collections/form'
+

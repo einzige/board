@@ -66,7 +66,7 @@
           %span.value{:style => "margin-left: #{c.layout.padding}px"}
             - case c.class
               - when BooleanCharacteristic
-                - value  = @q[scid].nil? ? 'nil' : @q[scid]
+                - value  = @q[scid].nil? ? '' : @q[scid]
                 = check_box_tag "q[#{c.id}]", value, true
 
 
@@ -80,6 +80,8 @@
                 -else
                   = text_field_tag "q[#{c.id}]",              @q[scid]                   || c.default.to_s,
                                                               {:min => c.l_limit.to_i, :max => c.r_limit.to_i, :step => c.step.to_i}
+                = c.measure
+                %span.description= "(#{c.description})" unless c.description.nil? || c.description.empty?
 
 
               - when FloatCharacteristic
@@ -92,6 +94,8 @@
                 -else
                   = text_field_tag "q[#{c.id}]",              @q[scid]                   || c.default.to_s,
                                                               {:min => c.l_limit, :max => c.r_limit, :step => c.step}
+                = c.measure
+                %span.description= "(#{c.description})" unless c.description.nil? || c.description.empty?
 
 
               - when SelectionCharacteristic
@@ -99,14 +103,12 @@
                   - when 'radiogroup'
                     - c.selection_options.each do |o|
                       = radio_button_tag "q[#{c.id}]", o.value, @q[scid] == o.value
-                      = o.name
+                      = o.value
 
                   - when 'selectbox'
-                    = select_tag "q[#{c.id}]", options_from_collection_for_select(c.selection_options, "value", "name", @q[scid]), 
+                    = select_tag "q[#{c.id}]", options_from_collection_for_select(c.selection_options, "value", "value", @q[scid]), 
                                               :include_blank => c.includes_blank?
 
-            = c.measure
-            %span.description= "(#{c.description})" unless c.description.nil? || c.description.empty?
 
     = submit_tag 'Искать', :style => 'float: right;'
       

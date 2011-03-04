@@ -1,5 +1,5 @@
 class BooleanCharacteristic < Characteristic
-  field :default, :type => Boolean, :default => false
+  field :default, :type => Boolean 
 end
 
 class Fixnum

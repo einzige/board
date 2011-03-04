@@ -40,6 +40,7 @@ a img { padding: 0; margin: 0; color: white; }
 .ml15 { margin-left: 15px; }
 
 .red { color: red; }
+.green { color: green; }
 .fs13 { font-size: 13pt; }
 
 body {
@@ -403,6 +404,7 @@ form table input {
 }
 
 form table textarea {
+  border: 1px solid black; 
   background: #EEE;
 }
 form table textarea:hover {

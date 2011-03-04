@@ -1,9 +1,9 @@
-# SelectBox-like model
+# -*- coding: utf-8 -*-
 class SelectionCharacteristic < Characteristic
-  field :includes_blank,       :type => Boolean, :default => false
+  field :includes_blank, :type => Boolean, :default => false
   field :representation
 
-  embeds_many :selection_options, :class_name => "SelectionCharacteristicOption"
+  references_and_referenced_in_many :selection_collections
 
   def represents? something
     if something.kind_of? Symbol
@@ -13,6 +13,9 @@ class SelectionCharacteristic < Characteristic
     end
   end
 
-  REPRESENTATIONS = ["selectbox", "checkboxes", "radiogroup"]
-  validates_inclusion_of :representation, :in => REPRESENTATIONS, :allow_blank => false
+  REPRESENTATIONS = {'выпадающий список' => "selectbox", 
+                     'чекбоксы'          => "checkboxes", 
+                     'радиогруппа'       => "radiogroup"}
+
+  validates_inclusion_of :representation, :in => REPRESENTATIONS.values, :allow_blank => false
 end

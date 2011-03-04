@@ -1,0 +1,11 @@
+%h2 
+  Редактирование опций для характеристики с выбором
+  [
+  = link_to @characteristic.name, [@category, @characteristic], :class => 'red'
+  (
+  = render :partial => 'shared/breadcrumbs', :object => breads_for(@category)
+  )
+  ]
+
+= render :partial => 'list', :object => @selection_options
+

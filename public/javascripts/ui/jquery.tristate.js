@@ -1,7 +1,7 @@
 (function($) {
     $.fn.tristate = function() {
-        var states = { intermediate : { value : 'nil',   css : 'does_not_matters' },
-                            checked : { value : 'true',  css : 'yes' },
+        var states = { intermediate : { value : '',  css : 'does_not_matters' },
+                            checked : { value : 'true', css : 'yes' },
                           unchecked : { value : 'false', css : 'no' }}
 
         var getNextState = function(state) {
@@ -44,6 +44,10 @@
 
             // Allows labels for this checkbox to update state
             box.parents('form').find('label[for='+cid+']').first().click( function() { toNextState(box); });
+
+            // ang this should not be passed into rails auto-generated hidden field
+            // var name = box.attr('name');
+            // $('input[type="hidden"][name="'+name+'"]').remove();
         });
         
         $.fn.setState = function(newState) {
