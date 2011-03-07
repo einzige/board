@@ -23,10 +23,11 @@ class LayoutsController < ApplicationController
   end
 
   def update
-    @category = Category.find_by_slug(params[:category_id])
+    @category  = Category.find_by_slug(params[:category_id])
+    @operation = Operation.find_by_slug(params[:operation])
 
     layout_name = self.class.layout_type + '_layout'
-    @category.update_attribute(layout_name, params[layout_name])
+    (@operation || @category).update_attribute(layout_name, params[layout_name])
     
     if params[:characteristics]
       params[:characteristics].each do |cid, location|

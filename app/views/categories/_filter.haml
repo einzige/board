@@ -24,18 +24,17 @@
       });
     });
 
-
-
 #cut.filter.left
   %h1.left= category.name
 
   .right= render :partial => 'categories/operations', :object => Operation.for(category)
   .clear.w15
 
-  - form_tag '', :method => :get, :id => 'search_form' do 
-    .fields_container{:style => "height: #{category.filter_layout.height}px;"}
-      = hidden_field_tag 'operation', @operation.slug
+  - form_tag '', :method => :get, :id => 'search_form', :class => 'canvas' do 
+    .fields_container{:style => "height: #{(operation || category).filter_layout.height}px;"}
+      = hidden_field_tag 'operation', operation.slug
       
-      = render :partial => 'categories/time_range',      :object => category.filter_layout
+      = render :partial => 'filter_layouts/time_range',  :object => category.filter_layout
       = render :partial => 'categories/characteristics', :object => category.characteristics_for(operation)
+
     = submit_tag 'Искать', :style => 'float: right;'

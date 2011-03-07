@@ -53,8 +53,11 @@ class Category
     if operation
       ancestors_characteristics.any_in(:operation_id => [operation.id, nil])
     else
-      []
+      ancestors_characteristics.where(:operation_id => nil)
     end
+  end
+  def characteristics_only_for operation
+    operation ? ancestors_characteristics.where(:operation_id => operation.id) : []
   end
   def shared_characteristics
     ancestors_characteristics.where(:operation_id => nil)

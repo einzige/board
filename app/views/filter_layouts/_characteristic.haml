@@ -4,7 +4,8 @@
   style = " left:  #{layout.x}px;"      + 
           " top:   #{layout.y}px;"      +
           " width: #{layout.width}px;"  + 
-          " height:#{layout.height}px;" 
+          " height:#{layout.height}px;" + 
+          " background: white; padding: 2px; border: 2px dashed #{characteristic.operation ? 'blue' : 'orange'}"
 
   scid  = characteristic.id.to_s
 

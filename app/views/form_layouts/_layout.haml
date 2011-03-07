@@ -13,12 +13,20 @@
   .clear.w15
 
   - form_tag '', :id => 'form', :class => 'canvas', :onSubmit => 'return false;' do 
-    .admin.fields_container{:style => "height: #{category.form_layout.height}px;"}
+    .admin.fields_container{:style => "height: #{(operation || category).form_layout.height}px;"}
+      :ruby
+        if operation
+          characteristics = category.characteristics_only_for(operation)
+        else
+          characteristics = category.shared_characteristics
+        end
+
       = render :partial => 'form_layouts/characteristics', 
-                :locals => { :characteristics => operation ? category.characteristics_for(operation) : category.shared_characteristics }
+                :locals => { :characteristics => characteristics }
 
 .left
   - form_tag category_form_layout_path(category), :method => :put, :id => 'form_layout_form', do
+    = hidden_field_tag(:operation, operation.slug) if operation
     = submit_tag '', :class => 'save'
     %span.l.i (Сохраняем ТОЛЬКО РАСКЛАДКУ)
       

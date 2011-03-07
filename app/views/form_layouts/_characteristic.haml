@@ -1,0 +1,45 @@
+:ruby
+  element_style ||= nil
+  style = " left:  #{layout.x}px;"      + 
+          " top:   #{layout.y}px;"      +
+          " width: #{layout.width}px;"  + 
+          " height:#{layout.height}px;" + 
+          " background: white; padding: 2px; border: 2px dashed #{characteristic.operation ? 'blue' : 'orange'}"
+
+- scid = characteristic.id.to_s
+%span.characteristic{:id => scid, :style => style }
+
+  = label_tag "q[#{characteristic.id}]", characteristic.name 
+
+  %span.value{:style => "left: #{layout.padding}px; #{element_style}"}
+    - case characteristic.class
+      - when BooleanCharacteristic
+        = check_box_tag "q[#{characteristic.id}]", '', true
+
+      - when IntegerCharacteristic
+        = text_field_tag "q[#{characteristic.id}]", characteristic.default.to_s,
+                          {:min => characteristic.l_limit.to_i, :max => characteristic.r_limit.to_i, :step => characteristic.step.to_i}
+        = characteristic.measure
+        %span.description= "(#{characteristic.description})" unless characteristic.description.nil? || characteristic.description.empty?
+
+
+      - when FloatCharacteristic
+        = text_field_tag "q[#{characteristic.id}]", characteristic.default.to_s,
+                          {:min => characteristic.l_limit,      :max => characteristic.r_limit,      :step => characteristic.step}
+        = characteristic.measure
+        %span.description= "(#{characteristic.description})" unless characteristic.description.nil? || characteristic.description.empty?
+
+
+      - when SelectionCharacteristic
+        - case characteristic.representation
+          - when 'radiogroup'
+            - characteristic.selection_options.each do |o|
+              = radio_button_tag "q[#{characteristic.id}]", o.value
+              = o.value
+
+          - when 'selectbox'
+            = select_tag "q[#{characteristic.id}]", 
+              options_from_collection_for_select(characteristic.selection_options, "value", "value"), 
+                               :include_blank => characteristic.includes_blank?
+
+

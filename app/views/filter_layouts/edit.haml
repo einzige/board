@@ -3,17 +3,13 @@
     = render :partial => 'shared/breadcrumbs', :object => breads_for(@category, @operation)
 
   .clear.h15
-  .w680
-    %small
-      = @category.description
-      %a.b{ :href => '#' } Подать&nbsp;объявления&nbsp;в&nbsp;этот&nbsp;раздел
 
   .w480.left
     - if @operation
       %h3 Редактирование раскладки фильтра
       = render(:partial => 'shared/notice', :object => flash[:notice]) if flash[:notice]
-      = render :partial => 'categories/layout_editor/filter_layout', :locals => {:category  => @category, 
-                                                                                 :operation => @operation }
+      = render :partial => 'layout',        :locals => {:category  => @category, 
+                                                        :operation => @operation }
 
     .clear.h25
 
