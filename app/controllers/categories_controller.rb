@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 class CategoriesController < ApplicationController
 
-  load_and_authorize_resource :except => [:show, :index], :find_by => :slug
+  load_and_authorize_resource :only => [:edit, :create, :update, :destroy], :find_by => :slug
 
   def index
     @categories = {}
@@ -31,8 +31,6 @@ class CategoriesController < ApplicationController
 
     operations = Operation.for(@category)
     @operation = operations.find_by_slug(params[:operation]) || operations.first
-
-    @characteristics = @category.characteristics_for(@operation)
   end
 
   def update
@@ -64,17 +62,19 @@ class CategoriesController < ApplicationController
     redirect_to :back
   end
 
-  def set_layout
-    category = Category.find_by_slug(params[:id])
-    category.update_attribute(:layout, params[:layout])
-    
-    if params[:characteristics]
-      params[:characteristics].each do |cid, location|
-        Characteristic.criteria.id(cid).first.update_attribute(:layout, location[:layout])
-      end
-    end
-    flash[:notice] = 'Раскладка успешно сохранена.'
-    redirect_to :back
-  end
+  # AJAX
+  def children
+    category = Category.criteria.id(params[:id]).first
 
+    resp = category.children.map do |c|
+      { :id     =>  c.id, 
+        :branch => !c.leaf?, 
+        :name   =>  c.name, 
+        :slug   =>  c.slug }
+    end
+
+    respond_to do |wants|
+      wants.js { render :json => resp }
+    end
+  end
 end

@@ -12,6 +12,7 @@ class Lot
   referenced_in                     :category
   references_and_referenced_in_many :operations
   embeds_many                       :properties
+  embeds_one                        :contact
 
   validates_presence_of :name
   validates_presence_of :category

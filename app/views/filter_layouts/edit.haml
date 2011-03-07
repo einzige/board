@@ -1,0 +1,30 @@
+.w680.left
+  - if @category.valid?
+    = render :partial => 'shared/breadcrumbs', :object => breads_for(@category, @operation)
+
+  .clear.h15
+  .w680
+    %small
+      = @category.description
+      %a.b{ :href => '#' } Подать&nbsp;объявления&nbsp;в&nbsp;этот&nbsp;раздел
+
+  .w480.left
+    - if @operation
+      %h3 Редактирование раскладки фильтра
+      = render(:partial => 'shared/notice', :object => flash[:notice]) if flash[:notice]
+      = render :partial => 'categories/layout_editor/filter_layout', :locals => {:category  => @category, 
+                                                                                 :operation => @operation }
+
+    .clear.h25
+
+    = link_to 'Редактировать список характеристик', [@category, Characteristic]
+    %br/
+    = link_to 'Редактировать список операций', [@category, Operation]
+  .clear.h25
+
+.right.w240.center
+  .banner.w240{:style => 'height: 400px'}
+    .content 240x400
+  .w240= image_tag 'temp/direct.png'
+
+.clear

@@ -15,15 +15,25 @@ class Category
   validates_presence_of :name
 
   # REFERENCES
-  references_many :lots, :dependent => :destroy
-  references_many :characteristics, :dependent => :destroy
-  references_many :operations, :dependent => :destroy
+  references_many :lots,                      :dependent => :destroy
 
-  embeds_one :layout, :class_name => 'CategoryLayout'
+  references_many :characteristics,           :dependent => :destroy
+
+  references_many :integer_characteristics,   :dependent => :destroy
+  references_many :float_characteristics,     :dependent => :destroy
+  references_many :boolean_characteristics,   :dependent => :destroy
+  references_many :string_characteristics,    :dependent => :destroy
+  references_many :selection_characteristics, :dependent => :destroy
+
+  references_many :operations,                :dependent => :destroy
+
+  embeds_one :filter_layout, :class_name => 'CategoryFilterLayout'
+  embeds_one :view_layout,   :class_name => 'CategoryViewLayout'
+  embeds_one :form_layout,   :class_name => 'CategoryFormLayout'
   before_create do
-    unless self.layout
-      self.layout = CategoryLayout.new
-    end
+    self.filter_layout ||= CategoryFilterLayout.new
+    self.view_layout   ||= CategoryViewLayout.new
+    self.form_layout   ||= CategoryFormLayout.new
   end
 
   # SCOPES
@@ -36,15 +46,18 @@ class Category
   def descendant_lots
     Lot.any_in(:category_id => descendants.only(:id).map(&:id) << id) # FIXME:-+
   end                                                                 #        |
-  def descendant_characteristics                                      #        |
+  def ancestors_characteristics                                       #        |
     Characteristic.any_in(:category_id => parent_ids << id) # <----------------+
   end
   def characteristics_for operation
     if operation
-      descendant_characteristics.any_in(:operation_id => [operation.id, nil])
+      ancestors_characteristics.any_in(:operation_id => [operation.id, nil])
     else
       []
     end
+  end
+  def shared_characteristics
+    ancestors_characteristics.where(:operation_id => nil)
   end
 
   def ancestors_operations #OPTIMIZE

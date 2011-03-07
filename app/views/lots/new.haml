@@ -1,0 +1,40 @@
+- content_for :js do
+  = javascript_include_tag 'ui/overlay.min'
+  = javascript_include_tag 'ui/overlay.apple.min'
+  = coffeescript_include_tag 'dropdowner'
+  = coffeescript_include_tag 'lots/new'
+
+- content_for :css do
+  = stylesheet_link_tag 'ui/overlay'
+
+.w680.left
+  %h2.left= @category ? @category.name : 'Рубрика не выбрана'
+  &nbsp;
+  %span#selectbox.red.dashed.pointer.fs8{:rel => '#categories_selector'} Выбрать рубрику
+
+
+  -# CATEGORIES OVERLAY SELECTOR
+
+  #categories_selector.apple_overlay
+    %h2 Выберите рубрику
+    .center
+      %span.finisher
+        Категория выбрана
+        %a{:href => '#'} Продолжить
+    .content
+      %ul
+        - Category.roots.each do |c|
+          %li.branch{:id => c.id}= c.name
+  
+  - if @category
+    = render :partial => 'form'
+  - else
+    = image_tag 'fake.png', :class => 'fake'
+
+.right.w240.center
+  .banner.w240{:style => 'height: 400px'}
+    .content 240x400
+  .w240= image_tag 'temp/direct.png'
+
+.clear
+

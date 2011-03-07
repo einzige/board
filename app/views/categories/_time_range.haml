@@ -1,0 +1,13 @@
+%span.time-range{:style => "left: #{time_range.time_range_x}px; top: #{time_range.time_range_y}px"}
+  = label_tag :time_range, 'Объявления за:'
+  %br/ 
+  = radio_button_tag "time_range", 1, 1   == params[:time_range].to_i
+  %span Последние сутки
+  = radio_button_tag "time_range", 7, 7   == params[:time_range].to_i
+  %span Неделю
+  = radio_button_tag "time_range", 14, 14 == params[:time_range].to_i
+  %span Две недели
+  = radio_button_tag "time_range", NumericCharacteristic::GROSS, 
+                                   params[:time_range].nil? || NumericCharacteristic::GROSS == params[:time_range].to_i
+  %span Все
+

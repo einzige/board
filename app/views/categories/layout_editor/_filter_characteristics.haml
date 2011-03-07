@@ -1,0 +1,3 @@
+- characteristics.each do |c|
+  = render :partial => 'categories/characteristic',:object => c,:locals => {:layout        => c.filter_layout,
+                                                                            :element_style => 'padding-left: 4px; background: #458cfe;'}

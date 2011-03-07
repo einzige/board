@@ -1,0 +1,55 @@
+- form_for [@category, @lot], :disabled => true do |f|
+  %table
+    %tr
+      %td
+      %td{:colspan => 2}
+        .operations
+          - @category.ancestors_operations.each do |o|
+            %span= check_box_tag "operation_ids[]", o.id, false, :class => 'operation'
+            %span= o.name
+      %td
+    %tr
+      %td= f.label :name, 'Заголовок'
+      %td= f.text_field :name, :class => 'required'
+      %td
+        .description макс. 100 знаков
+    %tr
+      %td= f.label :description, 'Текст объявления'
+      %td= f.text_area :description, :class => 'required'
+      %td
+        .description макс. 800 знаков
+    = f.fields_for :contact do |cf|
+      %tr
+        %td= cf.label :name, 'Автор'
+        %td= cf.text_field :name
+        %td
+      %tr
+        %td= cf.label :phone, 'Номер телефона'
+        %td= cf.text_field :phone, :class => 'required'
+        %td
+      %tr
+        %td= cf.label :email, 'E-mail'
+        %td= cf.text_field :email, :class => 'required'
+        %td
+    %tr
+      %td
+      %td
+        %small.required.l Поля обязательные для заполнения
+      %td
+
+    %tr
+      %td
+      %td{ :style => 'width: 200px;', :colspan => 2}
+        %span.rights 
+          = check_box_tag 'agreement', true, true
+          Размещая это объявление, я принимаю условия
+          %br/
+          %a{:href => '#'}Пользовательского соглашения
+          (откроется в новом окне)
+      %td
+    %tr
+      %td
+      %td= submit_tag ''
+      %td
+      
+      

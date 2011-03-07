@@ -1,0 +1,26 @@
+.w680.left
+  - if @category.valid?
+    = render :partial => 'shared/breadcrumbs', :object => breads_for(@category, @operation)
+
+  .clear.h15
+
+  .w480.left
+    %h3 Редактирование раскладки формы добавления товара
+    = render(:partial => 'shared/notice', :object => flash[:notice]) if flash[:notice]
+    = render :partial => 'layout',        :locals => {:category  => @category, 
+                                                      :operation => @operation }
+
+    .clear.h25
+
+    = link_to 'Редактировать список характеристик', [@category, Characteristic]
+    %br/
+    = link_to 'Редактировать список операций',      [@category, Operation]
+
+  .clear.h25
+
+.right.w240.center
+  .banner.w240{:style => 'height: 400px'}
+    .content 240x400
+  .w240= image_tag 'temp/direct.png'
+
+.clear

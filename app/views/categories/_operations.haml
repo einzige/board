@@ -1,0 +1,5 @@
+- operations.each do |o|
+  - unless o == @operation
+    .tab= link_to o.name, "?operation=#{o.slug}#breadcrumbs"
+  - else
+    .tab.active= o.name

@@ -13,7 +13,8 @@
 
   .w480.left
     - if @operation
-      = render :partial => 'filter'
+      = render :partial => 'filter', :locals => {:category  => @category, 
+                                                 :operation => @operation }
     - else
       .i.l.b Для этой категории нет операций, соответсвенно нет и фильтра
     - if @lots.any?

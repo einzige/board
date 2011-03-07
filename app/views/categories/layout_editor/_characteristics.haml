@@ -1,0 +1,10 @@
+- characteristics.each do |c|
+  :erb
+    <% style = " left:  #{c.filter_layout.x}px;"      + 
+               " top:   #{c.filter_layout.y}px;"      +
+               " width: #{c.filter_layout.width}px;"  + 
+               " height:#{c.filter_layout.height}px;" + 
+               " background: white; padding: 2px; border: 1px dashed orange" %>
+
+  = render :partial => 'categories/characteristic', :object => c, :locals => {:style         => style, 
+                                                                              :element_style => 'padding-left: 4px; background: #458cfe;'}
