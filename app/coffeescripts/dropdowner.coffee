@@ -1,16 +1,17 @@
+# -*- coding: utf-8 -*-
 (($) ->
     $.fn.dropdowner = (options = {}) ->
         options.controller       or= 'categories'
         options.action           or= 'children'
-        options.collection       or= 'lots'
+        options.collection       or= 'ads'
         options.finisher_class   or= 'finisher'
-        options.finisher_caption or= 'Продолжить'
+        options.finisher_caption or= 'Continue'
 
-        selecbox  = $ "##{$(this).attr 'id'}[rel]"
-        selector  = $ selecbox.attr('rel')
+        selectbox = $ "##{$(this).attr 'id'}[rel]"
+        selector  = $ selectbox.attr('rel')
         finishers = $ ".#{options.finisher_class}"
 
-        selecbox.overlay()
+        selectbox.overlay()
 
         finishers.live 'click', ->
             li = selector.find 'li.leaf.selected:last'

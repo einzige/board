@@ -411,8 +411,11 @@ label:hover {
 .canvas .time-range { position: absolute; width: auto; }
 .canvas .time-range input#time_range_1 { margin-left: 0; }
 
+.canvas .characteristic .value {padding-left: 4px; background: #458cfe;}
+.canvas .characteristic {background: white; padding: 2px; border: 2px dashed;}
+
 .admin.fields_container {
-  background: #CCC; 
+  background: url(/images/ui/grid.gif); 
   border: 1px solid gray
 }
 
@@ -491,56 +494,67 @@ table.admin tr:hover{
 
 /* LOTS */
 
-form.new_lot {
+.lot_form {
   text-align: left;
   padding: 20px;
 }
 
-form.new_lot label {
+.lot_form label {
   font-size: 13pt;
+}
+
+.lot_form table label {
   text-align: right;
   float: right;
+}
+
+.lot_form label.required {
   padding-left: 9px;
   background: url('/images/star.png') no-repeat;
   background-position: left center;
 }
 
-form.new_lot small.required {
+.lot_form small.required {
   padding-left: 9px;
   background: url('/images/star.png') no-repeat;
   background-position: left center;
 }
 
-form.new_lot .rights {
+.lot_form .rights {
   font-size: 9pt;
 }
 
-form.new_lot table tr td {
+.lot_form table tr td {
   vertical-align: top;
 }
 
-form.new_lot table tr td:first-child {
+.lot_form table tr td:first-child {
   padding-right: 50px;
 }
 
-form.new_lot input.required, form.new_lot textarea.required {
+.lot_form input.required, .lot_form textarea.required {
   border: 1px solid orange;
 }
 
-form.new_lot .description {
+.lot_form .description {
   font-size: 9pt;
   color: gray;
 }
 
-form.new_lot input[type=text], form.new_lot textarea {
+.lot_form input[type=text] {
+  width: 60px;
+  border: 1px solid #4690DC;
+}
+
+.lot_form input[type=text].string, .lot_form textarea {
   width: 318px;
 }
 
-form.new_lot textarea {
+.lot_form textarea {
   height: 150px;
 }
 
-form.new_lot {
+.lot_form {
   -moz-border-radius: 15px;
   -webkit-border-radius: 15px;
   -khtml-border-radius: 15px;
@@ -556,7 +570,7 @@ form.new_lot {
   behavior: url(/ie-css3.htc);
 }
 
-form.new_lot input[type=submit]{
+.lot_form input[type=submit]{
   width: 214px;
   height: 34px;
   background: url(/images/add.png);
@@ -565,10 +579,18 @@ form.new_lot input[type=submit]{
   cursor: pointer;
 }
 
-form.new_lot input[type=submit]:hover{
+.lot_form input[type=submit]:hover{
   background-position: 0 100%;
 }
 
 .fake {
   margin-top: 20px;
+}
+
+.form_layout {
+  position: relative;
+}
+
+.form_layout .characteristic {
+  position: absolute;
 }

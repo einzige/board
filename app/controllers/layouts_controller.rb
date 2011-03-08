@@ -2,7 +2,7 @@
 class LayoutsController < ApplicationController
 
   before_filter do
-    redirect_to root_url unless current_user.admin?
+    redirect_to root_url unless current_user && current_user.admin?
   end
 
   AVIABLE_LAYOUTS = ['filter', 'view', 'form']

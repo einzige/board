@@ -12,7 +12,7 @@
   .right= render :partial => 'categories/operations', :object => Operation.for(category)
   .clear.w15
 
-  - form_tag '', :id => 'form', :class => 'canvas', :onSubmit => 'return false;' do 
+  - form_tag '', :id => 'form', :class => 'canvas lot_form', :onSubmit => 'return false;' do 
     .admin.fields_container{:style => "height: #{(operation || category).form_layout.height}px;"}
       :ruby
         if operation
@@ -22,7 +22,7 @@
         end
 
       = render :partial => 'form_layouts/characteristics', 
-                :locals => { :characteristics => characteristics }
+                :locals => { :characteristics => characteristics, :f => nil}
 
 .left
   - form_tag category_form_layout_path(category), :method => :put, :id => 'form_layout_form', do

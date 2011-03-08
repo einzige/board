@@ -14,7 +14,7 @@ Inform::Application.routes.draw do
     resource  :view_layout,   :except => :create
     resource  :form_layout,   :except => :create
 
-    resources :lots
+    resources :ads, :as => 'lots', :controller => :lots
 
     resources :operations
 
@@ -34,7 +34,7 @@ Inform::Application.routes.draw do
     resources :collection_items
   end
 
-  resources :lots
+  resources :ads, :as => 'lots', :controller => :lots
 
 
   # The priority is based upon order of creation:

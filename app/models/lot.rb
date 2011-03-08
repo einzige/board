@@ -28,7 +28,7 @@ class Lot
 
   protected
     def set_serial_number
-      serial_number = category.lots_count + 1
+      self.serial_number = ((Lot.max(:serial_number) || 0) + 1).to_i
     end
     def increase_category_lots_count
       category.inc(:lots_count, 1)
