@@ -17,6 +17,7 @@
     box-shadow: 0px 0px 20px #080808; 
 
     background: white;
+    z-index: 9999;
 	
 	/* 
 		width after the growing animation finishes

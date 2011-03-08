@@ -414,6 +414,8 @@ label:hover {
 .canvas .characteristic .value {padding-left: 4px; background: #458cfe;}
 .canvas .characteristic {background: white; padding: 2px; border: 2px dashed;}
 
+.characteristic .value {position: relative;}
+
 .admin.fields_container {
   background: url(/images/ui/grid.gif); 
   border: 1px solid gray
