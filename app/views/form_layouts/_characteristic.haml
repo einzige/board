@@ -4,11 +4,14 @@
       f = fake_form
     end
   end
-  style = " left:  #{layout.x}px;"      + 
-          " top:   #{layout.y}px;"      +
-          " width: #{layout.width}px;"  + 
-          " height:#{layout.height}px;" + 
-          " border-color: #{characteristic.operation ? 'blue' : 'orange'}"
+  style <<-EOS
+           left:  #{layout.x}px;       
+           top:   #{layout.y}px;      
+           width: #{layout.width}px;   
+           height:#{layout.height}px;  
+           border-color: #{characteristic.operation ? 'blue' : 'orange'}
+  EOS
+
 
 - scid = characteristic.id.to_s
 %span.characteristic{:id => scid, :style => style }
