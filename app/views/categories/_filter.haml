@@ -30,7 +30,7 @@
   .right= render :partial => 'categories/operations', :object => Operation.for(category)
   .clear.w15
 
-  - form_tag '', :method => :get, :id => 'search_form', :class => 'canvas' do 
+  - form_tag '', :method => :get, :id => 'search_form', :class => 'filter_form' do 
     .fields_container{:style => "height: #{(operation || category).filter_layout.height}px;"}
       = hidden_field_tag 'operation', operation.slug
       

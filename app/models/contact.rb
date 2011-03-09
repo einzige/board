@@ -5,5 +5,5 @@ class Contact
   field :phone
   field :email
 
-  embedded_in :lot, :inverse_of => :contact
+  embedded_in :lot, :inverse_of => :contacts
 end

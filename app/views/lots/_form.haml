@@ -54,7 +54,7 @@
         %td= f.text_area :description, :class => 'required'
         %td
           .description макс. 800 знаков
-      = f.fields_for :contact do |cf|
+      = f.fields_for :contacts do |cf|
         %tr
           %td= cf.label :name, 'Автор'
           %td= cf.text_field :name, :class => 'string'

@@ -30,18 +30,18 @@
 
         - when IntegerCharacteristic
           = f.text_field characteristic.id, {:value  => characteristic.default.to_i, 
-                                                  :min  => characteristic.l_limit.to_i, 
-                                                  :max  => characteristic.r_limit.to_i, 
-                                                  :step => characteristic.step.to_i}
+                                               :min  => characteristic.l_limit.to_i, 
+                                               :max  => characteristic.r_limit.to_i, 
+                                               :step => characteristic.step.to_i}
           = characteristic.measure
           %span.description= "(#{characteristic.description})" unless characteristic.description.nil? || characteristic.description.empty?
 
 
         - when FloatCharacteristic
           = f.text_field characteristic.id, {:value => characteristic.default,
-                                                 :min  => characteristic.l_limit,      
-                                                 :max  => characteristic.r_limit,      
-                                                 :step => characteristic.step}
+                                              :min  => characteristic.l_limit,      
+                                              :max  => characteristic.r_limit,      
+                                              :step => characteristic.step}
           = characteristic.measure
           %span.description= "(#{characteristic.description})" unless characteristic.description.nil? || characteristic.description.empty?
 

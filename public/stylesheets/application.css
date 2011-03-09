@@ -596,3 +596,7 @@ table.admin tr:hover{
 .form_layout .characteristic {
   position: absolute;
 }
+
+.filter_form .fields_container{position: relative}
+.filter_form .characteristic{position: absolute}
+.filter_form .time-range{position: absolute}
