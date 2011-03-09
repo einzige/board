@@ -8,24 +8,32 @@
       = @category.description
       %a.b{ :href => '#' } Подать&nbsp;объявления&nbsp;в&nbsp;этот&nbsp;раздел
 
+    .clear.h25
     %h1 Редактирование категории
     = render :partial => 'form'
 
-    %h1 Редактирование характеристик категории
+    .clear.h25
+    %h3 Редактирование характеристик категории
     = link_to 'Редактировать список характеристик', [@category, Characteristic]
 
-    %h1 Редактирование операций категории
+    .clear.h25
+    %h3 Редактирование операций категории
     = link_to 'Редактировать список операций', [@category, Operation]
 
   - if @category.valid?
     .w480.left
       - if @operation
-        %h1 Редактирование раскладки фильтра категории
-        = render :partial => 'layout'
+        .clear.h25
+        %h3 Редактирование раскладок
+        = link_to 'Редактировать раскладку фильтра',                 edit_category_filter_layout_path(@category)
+        %br/
+        = link_to 'Редактировать раскладку отображения товара',      edit_category_view_layout_path(@category)
+        %br/
+        = link_to 'Редактировать раскладку формы добавления товара', edit_category_form_layout_path(@category)
 
       .clear.h25
 
-      %h1 Редактирование списка дочерних категорий
+      %h3 Редактирование списка дочерних категорий
       = render :partial => 'list', :object => @category.children
       %h2 Создание новой категории
       = render :partial => 'form', :locals => {:category => Category.new, :parent => @category}

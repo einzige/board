@@ -41,9 +41,6 @@ class CharacteristicsController < ApplicationController
     render 'characteristics/index'
   end
 
-  def edit
-  end
-
   def show
     render :action => :edit
   end

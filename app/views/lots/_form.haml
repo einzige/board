@@ -1,0 +1,91 @@
+- content_for :js do
+  = javascript_include_tag "ui/jquery.tristate"
+  = javascript_include_tag "ui/jquery.jstepper.min"
+  = javascript_include_tag "jquery-ui.min"
+
+  :javascript
+    $(document).ready(function() {
+      $('.lot_form :checkbox.tristate').tristate();
+      $('.lot_form input[type=text]').each(function() {
+        var options = {}
+        var min = $(this).attr('min');
+        var max = $(this).attr('max');
+        var step = $(this).attr('step');
+
+        if (min)
+          $.extend(options, {minValue: parseFloat(min)});
+        if (max)
+          $.extend(options, {maxValue: parseFloat(max)});
+        if (step)
+          $.extend(options, {normalStep: parseFloat(step)});
+
+        if (min || max)
+          $(this).jStepper(options);
+      });
+    });
+
+- form_for [@category, @lot] do |f|
+  = hidden_field_tag 'operation_ids[]', @category.ancestors_operations.first.id
+  = hidden_field_tag 'operation_ids[]', @category.ancestors_operations.last.id 
+  .lot_form
+    .operations
+      %h2.l.left Операции: 
+      - @category.ancestors_operations.each do |o|
+        %span= check_box_tag "operation_ids[]", o.id, false, :class => 'operation'
+        %span= o.name
+    = fields_for :properties do |pf|
+      .form_layout{:style => "height: #{@category.form_layout.height}px;"}
+        = render :partial => 'form_layouts/characteristics', :locals => { :characteristics => @category.shared_characteristics, :f => pf }
+    %table
+      %tr
+        %td
+        %td{:colspan => 2}
+        %td
+      %tr
+        %td{:colspan => 3}
+          
+      %tr
+        %td= f.label :name, 'Заголовок'
+        %td= f.text_field :name, :class => 'required string'
+        %td
+          .description макс. 100 знаков
+      %tr
+        %td= f.label :description, 'Текст объявления'
+        %td= f.text_area :description, :class => 'required'
+        %td
+          .description макс. 800 знаков
+      = f.fields_for :contacts do |cf|
+        %tr
+          %td= cf.label :name, 'Автор'
+          %td= cf.text_field :name, :class => 'string'
+          %td
+        %tr
+          %td= cf.label :phone, 'Номер телефона'
+          %td= cf.text_field :phone, :class => 'required string'
+          %td
+        %tr
+          %td= cf.label :email, 'E-mail'
+          %td= cf.text_field :email, :class => 'required string'
+          %td
+      %tr
+        %td
+        %td
+          %small.required.l Поля обязательные для заполнения
+        %td
+
+      %tr
+        %td
+        %td{ :style => 'width: 200px;', :colspan => 2}
+          %span.rights 
+            = check_box_tag 'agreement', true, true
+            Размещая это объявление, я принимаю условия
+            %br/
+            %a{:href => '#'}Пользовательского соглашения
+            (откроется в новом окне)
+        %td
+      %tr
+        %td
+        %td= submit_tag ''
+        %td
+        
+        

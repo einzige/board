@@ -3,7 +3,7 @@
   = form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
     %table
       %tr
-        %td= f.email_field :email
+        %td= f.text_field :email
         %td= f.password_field :password
         %td= f.submit ">"
     - if devise_mapping.rememberable?

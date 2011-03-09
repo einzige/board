@@ -5,8 +5,8 @@
 
   :javascript
     $(document).ready(function() {
-      $('#searchform :checkbox').tristate();
-      $('#searchform input[type=text]').each(function() {
+      $('#search_form :checkbox').tristate();
+      $('#search_form input[type=text]').each(function() {
         var options = {}
         var min = $(this).attr('min');
         var max = $(this).attr('max');
@@ -24,91 +24,17 @@
       });
     });
 
+#cut.filter.left
+  %h1.left= category.name
 
-.filter.left#cut
-  %h1.left= @category.name
-
-  .right
-    - Operation.for(@category).each do |o|
-      - unless o == @operation
-        .tab= link_to o.name, "?operation=#{o.slug}#breadcrumbs"
-      - else
-        .tab.active= o.name
+  .right= render :partial => 'categories/operations', :object => Operation.for(category)
   .clear.w15
 
-  - form_tag '', :method => :get, :id => 'searchform' do 
-    .fields{:style => "height: #{@category.layout.height}px"}
-      = hidden_field_tag 'operation', @operation.slug
-
-      %span.time-range{:style => "left: #{@category.layout.time_range_x}px; top: #{@category.layout.time_range_y}px"}
-        = label_tag :time_range, 'Объявления за:'
-        %br/ 
-        = radio_button_tag "time_range", 1, 1   == params[:time_range].to_i
-        %span Последние сутки
-        = radio_button_tag "time_range", 7, 7   == params[:time_range].to_i
-        %span Неделю
-        = radio_button_tag "time_range", 14, 14 == params[:time_range].to_i
-        %span Две недели
-        = radio_button_tag "time_range", NumericCharacteristic::GROSS, 
-                                         params[:time_range].nil? || NumericCharacteristic::GROSS == params[:time_range].to_i
-        %span Все
-
-      - @category.characteristics_for(@operation).each do |c|
-        :erb
-          <% style = " left:  #{c.layout.x}px;"      + 
-                     " top:   #{c.layout.y}px;"      +
-                     " width: #{c.layout.width}px;"  + 
-                     " height:#{c.layout.height}px;" %>
-
-        %span.characteristic{:id => c.id, :style => style }
-          - scid = c.id.to_s
-          = label_tag "q[#{c.id}]", c.name 
-          %span.value{:style => "margin-left: #{c.layout.padding}px"}
-            - case c.class
-              - when BooleanCharacteristic
-                - value  = @q[scid].nil? ? '' : @q[scid]
-                = check_box_tag "q[#{c.id}]", value, true
-
-
-              - when IntegerCharacteristic
-                -if c.ranged?
-                  = text_field_tag "q[#{c.id}_greater_than]", @q[scid + '_greater_than'] || c.l_limit.to_i,
-                                                              {:min => c.l_limit.to_i, :max => c.r_limit.to_i, :step => c.step.to_i}
-                  &mdash;
-                  = text_field_tag "q[#{c.id}_less_than]",    @q[scid + '_less_than']    || c.r_limit.to_i,
-                                                              {:min => c.l_limit.to_i, :max => c.r_limit.to_i, :step => c.step.to_i}
-                -else
-                  = text_field_tag "q[#{c.id}]",              @q[scid]                   || c.default.to_s,
-                                                              {:min => c.l_limit.to_i, :max => c.r_limit.to_i, :step => c.step.to_i}
-                = c.measure
-                %span.description= "(#{c.description})" unless c.description.nil? || c.description.empty?
-
-
-              - when FloatCharacteristic
-                -if c.ranged?
-                  = text_field_tag "q[#{c.id}_greater_than]", @q[scid + '_greater_than'] || c.l_limit,
-                                                              {:min => c.l_limit, :max => c.r_limit, :step => c.step}
-                  &mdash;
-                  = text_field_tag "q[#{c.id}_less_than]",    @q[scid + '_less_than']    || c.r_limit,
-                                                              {:min => c.l_limit, :max => c.r_limit, :step => c.step}
-                -else
-                  = text_field_tag "q[#{c.id}]",              @q[scid]                   || c.default.to_s,
-                                                              {:min => c.l_limit, :max => c.r_limit, :step => c.step}
-                = c.measure
-                %span.description= "(#{c.description})" unless c.description.nil? || c.description.empty?
-
-
-              - when SelectionCharacteristic
-                - case c.representation
-                  - when 'radiogroup'
-                    - c.selection_options.each do |o|
-                      = radio_button_tag "q[#{c.id}]", o.value, @q[scid] == o.value
-                      = o.value
-
-                  - when 'selectbox'
-                    = select_tag "q[#{c.id}]", options_from_collection_for_select(c.selection_options, "value", "value", @q[scid]), 
-                                              :include_blank => c.includes_blank?
-
+  - form_tag '', :method => :get, :id => 'search_form', :class => 'filter_form' do 
+    .fields_container{:style => "height: #{(operation || category).filter_layout.height}px;"}
+      = hidden_field_tag 'operation', operation.slug
+      
+      = render :partial => 'filter_layouts/time_range',  :object => category.filter_layout
+      = render :partial => 'categories/characteristics', :object => category.characteristics_for(operation)
 
     = submit_tag 'Искать', :style => 'float: right;'
-      

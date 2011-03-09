@@ -1,3 +1,7 @@
+html.busy, html.busy * {  
+  cursor: wait !important;  
+} 
+
 ul.hmenu {
   list-style: none;	
   margin: 0 0 2em;
@@ -8,6 +12,8 @@ ul.hmenu li {
   display: inline;  
 }
 
+small {font-size: 8pt;}
+
 span { padding: 0; margin: 0 }
 a { 
   color: #0099cc; 
@@ -17,6 +23,11 @@ a {
 a:hover { text-decoration: none; color: orange; }
 
 a img { padding: 0; margin: 0; color: white; }
+
+[disabled] {
+  color: gray;
+  background-color: #ffc;
+}
 
 .clear { clear: both; width: 100%; }
 .h25 { height: 25px; }
@@ -42,6 +53,16 @@ a img { padding: 0; margin: 0; color: white; }
 .red { color: red; }
 .green { color: green; }
 .fs13 { font-size: 13pt; }
+.fs8 { font-size: 8pt; }
+
+.dashed {
+  text-decoration: none;
+  border-bottom: 1px dashed gray;
+}
+
+.pointer {
+  cursor: pointer;
+}
 
 body {
   font-family: Arial;
@@ -201,7 +222,7 @@ ul#main-menu {
   font-size: 8pt;
 }
 
-#login input[type=email], #login input[type=password] {
+#login input[type=text], #login input[type=password] {
   border: 1px solid #458cfe;
   width: 80px;
   font-size: 8pt;
@@ -382,13 +403,23 @@ label:hover {
   cursor: pointer;
 }
 
-#searchform .fields { position : relative; background: #ddeffd; min-height: 50px; }
-#searchform .characteristic { position : absolute; width: auto; }
-#searchform .value { position: relative; }
+.canvas .fields_container { position : relative; background: #ddeffd; min-height: 50px; }
+.canvas .characteristic { position : absolute; width: auto; }
+.canvas .value { position: relative; }
 
-#searchform .time-range label { font-weight: bold; }
-#searchform .time-range { position: absolute; width: auto; }
-#searchform .time-range input#time_range_1 { margin-left: 0; }
+.canvas .time-range label { font-weight: bold; }
+.canvas .time-range { position: absolute; width: auto; }
+.canvas .time-range input#time_range_1 { margin-left: 0; }
+
+.canvas .characteristic .value {padding-left: 4px; background: #458cfe;}
+.canvas .characteristic {background: white; padding: 2px; border: 2px dashed;}
+
+.characteristic .value {position: relative;}
+
+.admin.fields_container {
+  background: url(/images/ui/grid.gif); 
+  border: 1px solid gray
+}
 
 form table tr{
   vertical-align: top;
@@ -398,14 +429,20 @@ form table label {
   font-size: 10pt;
 }
 
-form table input {
-  border: 1px solid black; 
-  background: #EEE;
+form table input[type=text] {
+  border: 1px solid #4690DC; 
+  -webkit-box-shadow: inset 0px 0px 3px #ccaf82;
+  -moz-box-shadow: inset 0px 0px 3px #ccaf82;
+  box-shadow: inset 0px 0px 3px #ccaf82; 
+  behavior: url(/ie-css3.htc);
 }
 
 form table textarea {
   border: 1px solid black; 
-  background: #EEE;
+  -webkit-box-shadow: inset 0px 0px 3px #ccaf82;
+  -moz-box-shadow: inset 0px 0px 3px #ccaf82;
+  box-shadow: inset 0px 0px 3px #ccaf82; 
+  behavior: url(/ie-css3.htc);
 }
 form table textarea:hover {
   background: white;
@@ -456,3 +493,110 @@ table.admin td {
 table.admin tr:hover{
   background: #F0FCFF;
 }
+
+/* LOTS */
+
+.lot_form {
+  text-align: left;
+  padding: 20px;
+}
+
+.lot_form label {
+  font-size: 13pt;
+}
+
+.lot_form table label {
+  text-align: right;
+  float: right;
+}
+
+.lot_form label.required {
+  padding-left: 9px;
+  background: url('/images/star.png') no-repeat;
+  background-position: left center;
+}
+
+.lot_form small.required {
+  padding-left: 9px;
+  background: url('/images/star.png') no-repeat;
+  background-position: left center;
+}
+
+.lot_form .rights {
+  font-size: 9pt;
+}
+
+.lot_form table tr td {
+  vertical-align: top;
+}
+
+.lot_form table tr td:first-child {
+  padding-right: 50px;
+}
+
+.lot_form input.required, .lot_form textarea.required {
+  border: 1px solid orange;
+}
+
+.lot_form .description {
+  font-size: 9pt;
+  color: gray;
+}
+
+.lot_form input[type=text] {
+  width: 60px;
+  border: 1px solid #4690DC;
+}
+
+.lot_form input[type=text].string, .lot_form textarea {
+  width: 318px;
+}
+
+.lot_form textarea {
+  height: 150px;
+}
+
+.lot_form {
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -khtml-border-radius: 15px;
+  border-radius: 15px;
+
+  -webkit-box-shadow: 0px 0px 10px #c8c8c8;
+  -moz-box-shadow: 0px 0px 10px #c8c8c8;
+  box-shadow: 0px 0px 10px #c8c8c8; 
+
+  background: #fcfaeb;
+
+  margin-top: 10px;
+  behavior: url(/ie-css3.htc);
+}
+
+.lot_form input[type=submit]{
+  width: 214px;
+  height: 34px;
+  background: url(/images/add.png);
+  border: none;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.lot_form input[type=submit]:hover{
+  background-position: 0 100%;
+}
+
+.fake {
+  margin-top: 20px;
+}
+
+.form_layout {
+  position: relative;
+}
+
+.form_layout .characteristic {
+  position: absolute;
+}
+
+.filter_form .fields_container{position: relative}
+.filter_form .characteristic{position: absolute}
+.filter_form .time-range{position: absolute}

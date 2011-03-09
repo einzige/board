@@ -1,0 +1,61 @@
+:ruby
+  unless f ||= nil
+    fields_for 'lot[properties]' do |fake_form|
+      f = fake_form
+    end
+  end
+  style = " left:  #{layout.x}px;"      + 
+          " top:   #{layout.y}px;"      +
+          " width: #{layout.width}px;"  + 
+          " height:#{layout.height}px;" + 
+          " border-color: #{characteristic.operation ? 'blue' : 'orange'}"
+
+- scid = characteristic.id.to_s
+%span.characteristic{:id => scid, :style => style }
+
+  - if characteristic.class == BooleanCharacteristic
+    :ruby 
+      checked = characteristic.default
+      options = {:checked => 'checked'}
+      options[:class] = 'tristate'
+      value = checked.nil? ? '' : (characteristic.default ? 'true' : 'false')
+    
+    = f.check_box characteristic.id, options, value
+    = f.label     characteristic.id, characteristic.name 
+  - else
+    = f.label     characteristic.id, characteristic.name
+
+    %span.value{:style => "left: #{layout.padding}px;"}
+      - case characteristic.class
+
+        - when IntegerCharacteristic
+          = f.text_field characteristic.id, {:value  => characteristic.default.to_i, 
+                                               :min  => characteristic.l_limit.to_i, 
+                                               :max  => characteristic.r_limit.to_i, 
+                                               :step => characteristic.step.to_i}
+          = characteristic.measure
+          %span.description= "(#{characteristic.description})" unless characteristic.description.nil? || characteristic.description.empty?
+
+
+        - when FloatCharacteristic
+          = f.text_field characteristic.id, {:value => characteristic.default,
+                                              :min  => characteristic.l_limit,      
+                                              :max  => characteristic.r_limit,      
+                                              :step => characteristic.step}
+          = characteristic.measure
+          %span.description= "(#{characteristic.description})" unless characteristic.description.nil? || characteristic.description.empty?
+
+
+        - when SelectionCharacteristic
+          - case characteristic.representation
+            - when 'radiogroup'
+              - characteristic.selection_options.each do |o|
+                = f.radio_button characteristic.id, o.value
+                = o.value
+
+            - when 'selectbox'
+              = f.select characteristic.id, 
+                options_from_collection_for_select(characteristic.selection_options, "value", "value"), 
+                                 :include_blank => characteristic.includes_blank?
+
+

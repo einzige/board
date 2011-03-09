@@ -21,6 +21,8 @@
                if (s.value == value)
                  return s;
             }
+
+            return states.unchecked;
         }
 
         var toNextState = function(cbox) {
@@ -32,6 +34,8 @@
             var box = $(this);
             var cid = box.attr('id');
             var sid = cid + '_presentor';
+
+            box.attr('checked', 'checked');
 
             box.hide();
             var istate = getStateByValue(box.attr('value'));
@@ -46,8 +50,8 @@
             box.parents('form').find('label[for='+cid+']').first().click( function() { toNextState(box); });
 
             // ang this should not be passed into rails auto-generated hidden field
-            // var name = box.attr('name');
-            // $('input[type="hidden"][name="'+name+'"]').remove();
+            var name = box.attr('name');
+            $('input[type="hidden"][name="'+name+'"]').remove();
         });
         
         $.fn.setState = function(newState) {

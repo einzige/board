@@ -53,3 +53,5 @@ gem 'mongoid_slug', :require => 'mongoid/slug'
 gem 'russian'
 gem "cancan"
 
+gem 'barista'
+

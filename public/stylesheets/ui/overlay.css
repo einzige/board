@@ -1,0 +1,125 @@
+/* the overlayed element */
+.apple_overlay {
+	
+	/* initially overlay is hidden */
+    display: none;
+	
+	/* growing background image */
+	/* background-image:url(/images/ui/overlay/white.png); */
+
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    border-radius: 10px;
+
+    -webkit-box-shadow: 0px 0px 20px #080808;
+    -moz-box-shadow: 0px 0px 20px #080808;
+    box-shadow: 0px 0px 20px #080808; 
+
+    background: white;
+    z-index: 9999;
+	
+	/* 
+		width after the growing animation finishes
+		height is automatically calculated
+	*/
+	width:730px;
+	
+	/* some padding to layout nested elements nicely  */
+	padding:25px;
+
+	/* a little styling */	
+	font-size:12px;
+}
+
+/* default close button positioned on upper right corner */
+.apple_overlay .close {
+	background-image:url(/images/ui/overlay/close.png);
+	position:absolute; right:-5px; top:-1px;
+	cursor:pointer;
+	height:29px;
+	width:29px;
+}
+
+.apple_overlay ul {
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  border-radius: 5px;
+
+  -webkit-box-shadow: 0px 0px 10px #b8b8b8;
+  -moz-box-shadow: 0px 0px 10px #b8b8b8;
+  box-shadow: 0px 0px 10px #b8b8b8; 
+
+  list-style: none;
+  background: #EEE;
+  width: 200px;
+
+  display: table-cell;
+}
+
+.apple_overlay .content {
+  padding: 10px 5px 10px 5px;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.apple_overlay ul li {
+  border-radius: 5px;
+  padding: 5px 10px 5px 10px;
+  border-bottom: 1px solid #DDD; 
+  border-top: 1px solid #FFF; 
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.apple_overlay ul li:hover, .apple_overlay ul li.selected {
+  background: #5ebfe7;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.apple_overlay ul li.selected {
+  font-style: italic;
+}
+
+.apple_overlay ul li.branch {
+  background-image: url(/images/ui/overlay/li.png);
+  background-repeat:no-repeat;
+  background-position: right center; 
+}
+
+.apple_overlay ul li:last-child {
+  -moz-border-radius: 0 0 5px 5px;
+  -webkit-border-radius: 0 0 5px 5px;
+  -khtml-border-radius: 0 0 5px 5px;
+  border-bottom: none;
+}
+.apple_overlay ul li:first-child {
+  -moz-border-radius: 5px 5px 0 0;
+  -webkit-border-radius: 5px 5px 0 0;
+  -khtml-border-radius: 5px 5px 0 0;
+  border-top: none;
+}
+
+.apple_overlay .finisher {
+  margin: 0 auto;
+  display: none;
+  padding-left: 15px; 
+  background: url(/images/ui/overlay/cat-chosen.png) no-repeat;
+  background-position: left center; 
+  cursor: pointer;
+}
+
+.apple_overlay ul li.finisher {
+  background: none;
+  text-align: right;
+  color: red;
+}
+
+.apple_overlay ul li.finisher:hover {
+  background: red;
+  color: white;
+}
+

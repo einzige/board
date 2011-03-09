@@ -8,10 +8,16 @@ Inform::Application.routes.draw do
 
   resources :categories do 
     member do
-      post :set_layout
+      post :children
     end
-    resources :lots
+    resource  :filter_layout, :except => :create
+    resource  :view_layout,   :except => :create
+    resource  :form_layout,   :except => :create
+
+    resources :ads, :as => 'lots', :controller => :lots
+
     resources :operations
+
     resources :characteristics, :only => :index
     resources :integer_characteristics
     resources :float_characteristics
@@ -27,6 +33,8 @@ Inform::Application.routes.draw do
   resources :selection_collections do
     resources :collection_items
   end
+
+  resources :ads, :as => 'lots', :controller => :lots
 
 
   # The priority is based upon order of creation:

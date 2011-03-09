@@ -1,0 +1,26 @@
+- content_for :js do
+  = javascript_include_tag 'ui/overlay.min'
+  = javascript_include_tag 'ui/overlay.apple.min'
+  = javascript_include_tag 'lots/new'
+
+- content_for :css do
+  = stylesheet_link_tag 'ui/overlay'
+
+.w680.left
+  %h2.left= @category ? @category.name : 'Рубрика не выбрана'
+  &nbsp;
+  %span#selectbox.red.dashed.pointer.fs8{:rel => '#categories_selector'} Выбрать рубрику
+  = render :partial => 'categories/selector'
+  
+  - if @category
+    = render :partial => 'form'
+  - else
+    = image_tag 'fake.png', :class => 'fake'
+
+.right.w240.center
+  .banner.w240{:style => 'height: 400px'}
+    .content 240x400
+  .w240= image_tag 'temp/direct.png'
+
+.clear
+

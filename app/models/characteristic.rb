@@ -10,23 +10,22 @@ class Characteristic
   field :primary,     :type => Boolean, :default => false
   field :lots_count,  :type => Integer, :default => 0
   #field :collapsible, :type => Boolean, :default => false
-  #field :position,    :type => Integer, :default => 0
   
-  before_create do
-    unless self.layout
-      self.layout = CharacteristicLayout.new
-    end
-  end
-
   referenced_in :category
   referenced_in :operation
-  embeds_one    :layout, :class_name => 'CharacteristicLayout'
+
+  embeds_one    :filter_layout, :class_name => 'CharacteristicFilterLayout'
+  embeds_one    :view_layout,   :class_name => 'CharacteristicViewLayout'
+  embeds_one    :form_layout,   :class_name => 'CharacteristicFormLayout'
+  before_create do
+    self.filter_layout ||= FilterLayout.new
+    self.view_layout   ||= ViewLayout.new
+    self.form_layout   ||= FormLayout.new
+  end
 
   validates_presence_of     :name 
   validates_presence_of     :category
   validates_numericality_of :lots_count
-  #validates_presence_of     :layout
-  #validates_numericality_of :position
 
   scope :boolean,   where(:_type => "BooleanCharacteristic")
   scope :integer,   where(:_type => "IntegerCharacteristic")

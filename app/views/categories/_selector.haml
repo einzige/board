@@ -1,0 +1,13 @@
+- content_for :js do 
+  = javascript_include_tag 'dropdowner'
+
+#categories_selector.apple_overlay
+  %h2 Выберите рубрику
+  .center
+    %span.finisher
+      Категория выбрана
+      %a{:href => '#'} Продолжить
+  .content
+    %ul
+      - Category.roots.each do |c|
+        %li.branch{:id => c.id}= c.name

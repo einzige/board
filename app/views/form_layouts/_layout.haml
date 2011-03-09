@@ -1,0 +1,32 @@
+- content_for :js do
+  = javascript_include_tag "jquery-ui.min"
+
+  // THE MAIN CONTROLS HERE-----+
+  //                            |
+  //                            V
+  = javascript_include_tag "form_layout_editor"
+
+#cut.filter.left
+  %h1.left= category.name
+
+  .right= render :partial => 'categories/operations', :object => Operation.for(category)
+  .clear.w15
+
+  - form_tag '', :id => 'form', :class => 'canvas lot_form', :onSubmit => 'return false;' do 
+    .admin.fields_container{:style => "height: #{(operation || category).form_layout.height}px;"}
+      :ruby
+        if operation
+          characteristics = category.characteristics_only_for(operation)
+        else
+          characteristics = category.shared_characteristics
+        end
+
+      = render :partial => 'form_layouts/characteristics', 
+                :locals => { :characteristics => characteristics, :f => nil}
+
+.left
+  - form_tag category_form_layout_path(category), :method => :put, :id => 'form_layout_form', do
+    = hidden_field_tag(:operation, operation.slug) if operation
+    = submit_tag '', :class => 'save'
+    %span.l.i (Сохраняем ТОЛЬКО РАСКЛАДКУ)
+      
