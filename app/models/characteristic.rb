@@ -2,6 +2,10 @@
 class Characteristic
   include Mongoid::Document
   include Mongoid::Slug
+  include Mongoid::Layout::Item
+
+  default_layout
+
   field :name
   slug  :name
   #field :measure
@@ -13,15 +17,6 @@ class Characteristic
   
   referenced_in :category
   referenced_in :operation
-
-  embeds_one    :filter_layout, :class_name => 'CharacteristicFilterLayout'
-  embeds_one    :view_layout,   :class_name => 'CharacteristicViewLayout'
-  embeds_one    :form_layout,   :class_name => 'CharacteristicFormLayout'
-  before_create do
-    self.filter_layout ||= FilterLayout.new
-    self.view_layout   ||= ViewLayout.new
-    self.form_layout   ||= FormLayout.new
-  end
 
   validates_presence_of     :name 
   validates_presence_of     :category

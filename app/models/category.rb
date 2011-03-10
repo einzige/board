@@ -4,6 +4,10 @@ class Category
   include Mongoid::Tree::Ordering
   include Mongoid::Tree::Traversal
   include Mongoid::Slug
+  include Mongoid::Layout::Container
+
+  # POSITIONING 
+  time_range_extended_layout
 
   # FIELDS
   field :name
@@ -26,15 +30,6 @@ class Category
   references_many :selection_characteristics, :dependent => :destroy
 
   references_many :operations,                :dependent => :destroy
-
-  embeds_one :filter_layout, :class_name => 'CategoryFilterLayout'
-  embeds_one :view_layout,   :class_name => 'CategoryViewLayout'
-  embeds_one :form_layout,   :class_name => 'CategoryFormLayout'
-  before_create do
-    self.filter_layout ||= CategoryFilterLayout.new
-    self.view_layout   ||= CategoryViewLayout.new
-    self.form_layout   ||= CategoryFormLayout.new
-  end
 
   # SCOPES
   scope :not_empty, where(:lots_count.gt => 0)

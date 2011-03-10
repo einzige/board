@@ -10,4 +10,6 @@
   .content
     %ul
       - Category.roots.each do |c|
-        %li.branch{:id => c.id}= c.name
+        %li{:id    => c.id, 
+            :class => c.leaf? ? 'leaf' : 'branch',
+            :rel   => c.slug}= c.name
