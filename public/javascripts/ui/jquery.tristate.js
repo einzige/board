@@ -1,8 +1,8 @@
 (function($) {
     $.fn.tristate = function() {
         var states = { intermediate : { value : '',  css : 'does_not_matters' },
-                            checked : { value : 'true', css : 'yes' },
-                          unchecked : { value : 'false', css : 'no' }}
+                            checked : { value : '1', css : 'yes' },
+                          unchecked : { value : '0', css : 'no' }}
 
         var getNextState = function(state) {
             switch (state) {

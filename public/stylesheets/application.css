@@ -403,7 +403,7 @@ label:hover {
   cursor: pointer;
 }
 
-.canvas .fields_container { position : relative; background: #ddeffd; min-height: 50px; }
+.canvas .fields_container { position : relative; background: #ddeffd; min-height: 20px; }
 .canvas .characteristic { position : absolute; width: auto; }
 .canvas .value { position: relative; }
 
@@ -499,6 +499,10 @@ table.admin tr:hover{
 .lot_form {
   text-align: left;
   padding: 20px;
+}
+
+.lot_form div.operation {
+  display: none;
 }
 
 .lot_form label {
@@ -600,3 +604,15 @@ table.admin tr:hover{
 .filter_form .fields_container{position: relative}
 .filter_form .characteristic{position: absolute}
 .filter_form .time-range{position: absolute}
+
+div.operation hr {
+  border: none;
+  border-top: 1px dotted #ccc;
+  padding: 0;
+  margin: 5px 0 0 0;
+}
+
+div.operation h3 {
+  color: #ccc;
+  margin: 10px 0 5px 0;
+}

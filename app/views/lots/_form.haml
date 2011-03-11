@@ -4,8 +4,17 @@
   = javascript_include_tag "jquery-ui.min"
 
   :javascript
+    toggleOperation = function() {
+      operation_div = $('#'+$(this).attr('rel'));
+      if ($(this).attr('checked') && operation_div.find('.characteristic').length)
+        operation_div.show(); 
+      else 
+        operation_div.hide(); 
+    }
+
     $(document).ready(function() {
       $('.lot_form :checkbox.tristate').tristate();
+
       $('.lot_form input[type=text]').each(function() {
         var options = {}
         var min = $(this).attr('min');
@@ -22,6 +31,13 @@
         if (min || max)
           $(this).jStepper(options);
       });
+
+      $('.operation:checkbox').change(toggleOperation).each(toggleOperation); 
+
+      $('form.new_lot').submit(function(){
+        $('.operation:hidden').empty();
+        return true;
+      });
     });
 
 - form_for [@category, @lot] do |f|
@@ -31,8 +47,13 @@
     .operations
       %h2.l.left Операции: 
       - @category.ancestors_operations.each do |o|
-        %span= check_box_tag "operation_ids[]", o.id, false, :class => 'operation'
+        %span= check_box_tag "operation_ids[]", o.id, false, :class => 'operation', :rel => o.id
         %span= o.name
+      - @category.ancestors_operations.each do |o|
+        .operation{:id => o.id}
+          %h3= o.name
+          = render :partial => 'operations/fields', :locals => {:operation => o}
+          %hr
     = fields_for :properties do |pf|
       .form_layout{:style => "height: #{@category.form_layout.height}px;"}
         = render :partial => 'form_layouts/characteristics', :locals => { :characteristics => @category.shared_characteristics, :f => pf }

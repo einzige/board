@@ -22,6 +22,10 @@ class Operation
                                   << category.id)
   end
 
+  def ancestors_characteristics
+    category.characteristics_only_for(self)
+  end
+
   class << self
     alias find_by_slug! find_by_slug 
   end

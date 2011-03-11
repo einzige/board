@@ -16,7 +16,7 @@
     .admin.fields_container{:style => "height: #{(operation || category).form_layout.height}px;"}
       :ruby
         if operation
-          characteristics = category.characteristics_only_for(operation)
+          characteristics = operation.ancestors_characteristics
         else
           characteristics = category.shared_characteristics
         end

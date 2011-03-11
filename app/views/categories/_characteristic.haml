@@ -21,7 +21,7 @@
             checked = characteristic.default
             options = {:checked => 'checked'}
             options[:class] = 'tristate'
-            value = checked.nil? ? '' : (characteristic.default ? 'true' : 'false')
+            value = checked.nil? ? '' : (characteristic.default ? '1' : '0')
     
           = f.check_box characteristic.slug, options, value
 

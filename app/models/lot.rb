@@ -26,6 +26,24 @@ class Lot
   after_save     :save_operations
   after_destroy  :decrease_category_lots_count
 
+  def set_properties hash
+    hash.each do |cid, v|
+      next if v.strip.empty? # FIXME : removeme
+      
+      c = Characteristic.criteria.id(cid).first or next
+      case c.class
+      when IntegerCharacteristic then
+        properties.build({:value => v.to_i,    :characteristic_id => cid}, IntegerProperty)
+      when FloatCharacteristic   then
+        properties.build({:value => v.to_f,    :characteristic_id => cid}, FloatProperty)
+      when BooleanCharacteristic then
+        properties.build({:value => v.to_bool, :characteristic_id => cid}, BooleanProperty) # FIXME are we really need to_bool?
+      else
+        properties.build({:value => v,         :characteristic_id => cid}, StringProperty)
+      end
+    end
+  end
+
   protected
     def set_serial_number
       self.serial_number = ((Lot.max(:serial_number) || 0) + 1).to_i

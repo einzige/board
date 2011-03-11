@@ -6,11 +6,7 @@ class SelectionCharacteristic < Characteristic
   references_and_referenced_in_many :selection_collections
 
   def represents? something
-    if something.kind_of? Symbol
-      something == representation.to_sym
-    else
-      something == representation
-    end
+    something.to_s == representation
   end
 
   REPRESENTATIONS = {'выпадающий список' => "selectbox", 
@@ -18,4 +14,8 @@ class SelectionCharacteristic < Characteristic
                      'радиогруппа'       => "radiogroup"}
 
   validates_inclusion_of :representation, :in => REPRESENTATIONS.values, :allow_blank => false
+
+  def selection_options
+    selection_collections.map(&:collection_items).flatten
+  end
 end

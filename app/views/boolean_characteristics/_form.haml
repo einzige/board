@@ -27,10 +27,13 @@
       %td= f.label :name, 'Имя'
       %td= f.text_field :name
     %tr
-      -# FIXME:
-      %td= label_tag "characteristic[default]", 'Значение по-умолчанию'
-      - default = @characteristic.default.nil? ? '' : @characteristic.default.to_s
-      %td= check_box_tag "characteristic[default]", default, true, {:class => "tristate"}
+      %td= f.label :default, 'Значение по-умолчанию'
+      :ruby 
+        checked = @characteristic.default
+        options = {:checked => 'checked'}
+        options[:class] = 'tristate'
+        value = checked.nil? ? '' : (@characteristic.default ? '1' : '0')
+      %td= f.check_box :default, options, value
     %tr
       %td= f.label :description, 'Описание'
       %td= f.text_area :description

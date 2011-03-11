@@ -9,6 +9,7 @@ class LotsController < ApplicationController
     @category = Category.find_by_slug(params[:category_id])
     @lot = @category.lots.new(params['lot'])
     @lot.operations << Operation.any_in(:_id => params[:operation_ids])
+    @lot.set_properties(params[:properties])
 
     if @lot.save
       flash[:notice] = 'zaibis'
