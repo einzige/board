@@ -12,8 +12,10 @@
     - if characteristic.class == BooleanCharacteristic
       :ruby 
         checked = characteristic.default
-        options = {:checked => 'checked'}
-        options[:class] = 'tristate'
+        options = {}
+        options[:checked] = 'checked' unless checked.nil?
+        options[:class] = "tristate #{'primary' if characteristic.primary? }"
+        # options[:required] = 'required' if characteristic.required?
         value = checked.nil? ? '' : (characteristic.default ? '1' : '0')
       
       = f.check_box characteristic.id, options, value
@@ -28,7 +30,9 @@
             = f.text_field characteristic.id, {:value  => characteristic.default.to_i, 
                                                  :min  => characteristic.l_limit.to_i, 
                                                  :max  => characteristic.r_limit.to_i, 
-                                                 :step => characteristic.step.to_i}
+                                                 :step => characteristic.step.to_i,
+                                                 :class => "#{'primary' if characteristic.primary?}",
+                                                 :required => characteristic.required? ? 'required' : 'not-required'}
             = characteristic.measure
             %span.description= "(#{characteristic.description})" unless characteristic.description.nil? || characteristic.description.empty?
 
@@ -37,7 +41,9 @@
             = f.text_field characteristic.id, {:value => characteristic.default,
                                                 :min  => characteristic.l_limit,      
                                                 :max  => characteristic.r_limit,      
-                                                :step => characteristic.step}
+                                                :step => characteristic.step,
+                                                :class => "#{'primary' if characteristic.primary?}",
+                                                :required => characteristic.required? ? 'required' : 'not-required'}
             = characteristic.measure
             %span.description= "(#{characteristic.description})" unless characteristic.description.nil? || characteristic.description.empty?
 
@@ -46,12 +52,17 @@
             - case characteristic.representation
               - when 'radiogroup'
                 - characteristic.selection_options.each do |o|
-                  = f.radio_button characteristic.id, o.value
+                  = f.radio_button characteristic.id, o.value, {:required => characteristic.required? ? 'required' : 'not-required',
+                                                                :class    => "#{'primary' if characteristic.primary?}"}
                   = o.value
 
               - when 'selectbox'
                 = f.select characteristic.id, 
-                  options_from_collection_for_select(characteristic.selection_options, "value", "value"), 
-                                   :include_blank => characteristic.includes_blank?
+                  options_from_collection_for_select(characteristic.selection_options, 
+                                                    "value", 
+                                                    "value", 
+                                                    {:required => characteristic.required? ? 'required' : 'not-required',
+                                                     :class    => "#{'primary' if characteristic.primary?}"}), 
+                    :include_blank => characteristic.includes_blank?
 
 

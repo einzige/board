@@ -1,6 +1,7 @@
 class NumericProperty < Property
   validates_numericality_of :value, :less_than    =>  NumericCharacteristic::FIXNUM_MAX, 
                                     :greater_than => -NumericCharacteristic::FIXNUM_MAX
+  validates_presence_of :value, :if => :required?
 
   scope :integer, where(:characteristic.matches => {:_type => "IntegerCharacteristic"})
   scope :float,   where(:characteristic.matches => {:_type => "FloatCharacteristic"})

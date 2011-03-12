@@ -37,7 +37,8 @@
 
     .clear.h25
     #subheader
-      %span.orange-button.left
+      %a{:href => @category ? new_category_lot_path(@category) : new_lot_path}
+        %span.orange-button.left
       %ul#main-menu.left
         %li.active= link_to 'Объявления', '#'
         %li= link_to 'каталог товаров', '#'
