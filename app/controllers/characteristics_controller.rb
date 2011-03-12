@@ -19,6 +19,9 @@ class CharacteristicsController < ApplicationController
     if params['characteristic']['operation'].empty?
       params['characteristic']['operation'] = nil 
     end
+    if params['characteristic']['container'].empty?
+      params['characteristic']['container'] = nil
+    end
   end
 
   before_filter do
@@ -33,6 +36,10 @@ class CharacteristicsController < ApplicationController
     operation = params[:characteristic][:operation]
     if operation.nil? || operation.empty?
       params[:characteristic][:operation_id] = nil
+    end
+    container = params[:characteristic][:container]
+    if container.nil? || container.empty?
+      params[:characteristic][:container_id] = nil
     end
   end
 

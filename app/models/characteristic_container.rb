@@ -1,4 +1,4 @@
-class Container
+class CharacteristicContainer
   #FIXME: i must be in some operation
   include Mongoid::Document
   include Mongoid::Slug
@@ -8,6 +8,7 @@ class Container
 
   references_many :characteristics
   referenced_in   :category
+  referenced_in   :operation
 
   field :name
   slug  :name

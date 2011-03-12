@@ -30,7 +30,7 @@ class Category
   references_many :selection_characteristics, :dependent => :destroy
 
   references_many :operations,                :dependent => :destroy
-  references_many :containers,                :dependent => :destroy
+  references_many :characteristic_containers,                :dependent => :destroy
 
   # SCOPES
   scope :not_empty, where(:lots_count.gt => 0)

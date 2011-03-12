@@ -1,0 +1,24 @@
+- @characteristic_container ||= @category.characteristic_containers.build
+
+- form_for [@category, @characteristic_container] do |f|
+  = render(:partial => 'shared/notice', :object => flash[:notice]) if flash[:notice]
+
+  - if @characteristic_container.errors.full_messages.any?
+    = render(:partial => 'shared/error', :collection => @characteristic_container.errors.full_messages)
+
+  %table
+    %tr
+      %td= f.label :name, 'Имя'
+      %td= f.text_field :name
+    %tr
+      %td= f.label :operation, 'Операция'
+      %td= f.select :operation, options_from_collection_for_select(@category.ancestors_operations, :id, :name, @characteristic_container.operation_id), 
+                    :include_blank => true
+    %tr
+      %td= f.label :description, 'Описание'
+      %td= f.text_area :description
+    %tr
+      %td
+      %td= submit_tag '', :class => 'save'
+.h25
+

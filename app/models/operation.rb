@@ -13,6 +13,7 @@ class Operation
   referenced_in :category
   references_and_referenced_in_many :lots
   references_many :characteristics
+  references_many :characteristic_containers
 
   validates_presence_of :name
   # validates_presence_of :category
