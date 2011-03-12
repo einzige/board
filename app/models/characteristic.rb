@@ -15,6 +15,9 @@ class Characteristic
   field :lots_count,  :type => Integer, :default => 0
   #field :collapsible, :type => Boolean, :default => false
   
+  def required?; required end
+  def primary?;  primary  end
+  
   referenced_in :category
   referenced_in :operation
 

@@ -8,7 +8,6 @@ class Property
   embedded_in :lot, :inverse_of => :properties
 
   validates_presence_of :characteristic
-  validates_presence_of :value, :if => :required?
 
   def required?; 
     characteristic_id.nil? || characteristic.required? 

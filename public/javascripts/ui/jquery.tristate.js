@@ -35,7 +35,6 @@
             var cid = box.attr('id');
             var sid = cid + '_presentor';
 
-            box.attr('checked', 'checked');
 
             box.hide();
             var istate = getStateByValue(box.attr('value'));
