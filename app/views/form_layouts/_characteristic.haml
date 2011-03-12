@@ -21,7 +21,7 @@
       = f.check_box characteristic.id, options, value
       = f.label     characteristic.id, characteristic.name 
     - else
-      = f.label     characteristic.id, characteristic.name
+      = f.label     characteristic.id, characteristic.name, {:class => "#{'required' if characteristic.required?}"}
 
       %span.value{:style => "left: #{characteristic.form_layout.padding}px;"}
         - case characteristic.class
@@ -58,11 +58,7 @@
 
               - when 'selectbox'
                 = f.select characteristic.id, 
-                  options_from_collection_for_select(characteristic.selection_options, 
-                                                    "value", 
-                                                    "value", 
-                                                    {:required => characteristic.required? ? 'required' : 'not-required',
-                                                     :class    => "#{'primary' if characteristic.primary?}"}), 
-                    :include_blank => characteristic.includes_blank?
+                    options_from_collection_for_select(characteristic.selection_options, "value", "value"), 
+                    :include_blank => !characteristic.required?, :required => characteristic.required? ? 'required' : 'not-required', :class    =>"#{'primary' if characteristic.primary?}"
 
 

@@ -17,6 +17,7 @@ Inform::Application.routes.draw do
     resources :ads, :as => 'lots', :controller => :lots
 
     resources :operations
+    resources :containers
 
     resources :characteristics, :only => :index
     resources :integer_characteristics

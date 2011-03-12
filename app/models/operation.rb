@@ -15,9 +15,10 @@ class Operation
   references_many :characteristics
 
   validates_presence_of :name
-  validates_presence_of :category
+  # validates_presence_of :category
 
   def self.for category
+    # FIXME: use parent_ids instead
     Operation.any_in(:category_id => category.ancestors.only(:id).map(&:id) \
                                   << category.id)
   end

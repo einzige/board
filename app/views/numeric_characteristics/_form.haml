@@ -16,6 +16,12 @@
       %td= f.select :operation, options_from_collection_for_select(@category.ancestors_operations, :id, :name, @characteristic.operation_id), 
                     :include_blank => true
     %tr
+      %td= f.label :container, 'Группа'
+      %td
+        = f.select :container, options_from_collection_for_select(@category.ancestors_containers, :id, :name, @characteristic.container_id), 
+          :include_blank => true
+        = link_to 'Создать новую', [:new, @category, :container]  
+    %tr
       %td= f.label :name, 'Имя'
       %td= f.text_field :name
     %tr
