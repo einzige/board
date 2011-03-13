@@ -22,6 +22,15 @@ class LayoutsController < ApplicationController
     @category = Category.find_by_slug(params[:category_id])
   end
 
+  def edit
+    if @operation
+      @characteristics = @operation.ancestors_characteristics.without_container
+    else
+      @characteristics = @category.shared_characteristics.without_container
+    end
+    @containers = @category.characteristic_containers.for_operation(@operation)
+  end
+
   def update
     @category  = Category.find_by_slug(params[:category_id])
     @operation = Operation.find_by_slug(params[:operation])

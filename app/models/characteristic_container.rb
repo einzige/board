@@ -16,6 +16,8 @@ class CharacteristicContainer
 
   validates_presence_of :name
 
+  scope :for_operation, lambda {|operation| where(:operation_id.in => [operation ? operation.id : nil, nil])}
+
   class << self
     alias find_by_slug! find_by_slug 
   end

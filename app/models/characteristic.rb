@@ -20,11 +20,13 @@ class Characteristic
   
   referenced_in :category
   referenced_in :operation
-  referenced_in :container
+  referenced_in :characteristic_container
 
   validates_presence_of     :name 
   validates_numericality_of :lots_count
   #validates_presence_of    :category
+  
+  scope :without_container, where(:container_id => nil)
 
   scope :boolean,   where(:_type => "BooleanCharacteristic")
   scope :integer,   where(:_type => "IntegerCharacteristic")
