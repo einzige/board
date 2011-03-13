@@ -18,6 +18,9 @@
       %td= f.label :description, 'Описание'
       %td= f.text_area :description
     %tr
+      %td= f.label :collapsed, 'Коллапсирован'
+      %td= f.check_box :collapsed
+    %tr
       %td
       %td= submit_tag '', :class => 'save'
 .h25

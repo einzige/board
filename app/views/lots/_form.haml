@@ -69,11 +69,13 @@
       - @category.ancestors_operations.each do |o|
         .operation{:id => o.id}
           %h3= o.name
-          = render :partial => 'operations/fields', :locals => {:operation => o}
+          .fields_container{:style => "height: #{o.form_layout.height}px; width: 680px"}
+            = render :partial => 'form_layouts/characteristic', :collection => o.ancestors_characteristics
+            = render :partial => 'form_layouts/container',      :collection => @category.characteristic_containers.only_for_operation(o)
           %hr
-    = fields_for :properties do |pf|
-      .form_layout{:style => "height: #{@category.form_layout.height}px;"}
-        = render :partial => 'form_layouts/characteristics', :locals => { :characteristics => @category.shared_characteristics, :f => pf }
+    .form_layout{:style => "height: #{@category.form_layout.height}px;"}
+      = render :partial => 'form_layouts/characteristic', :collection => @category.characteristics.without_operation.without_container
+      = render :partial => 'form_layouts/container',      :collection => @category.characteristic_containers.without_operation
     %table
       %tr
         %td

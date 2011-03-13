@@ -28,7 +28,6 @@ class LayoutsController < ApplicationController
     else
       @characteristics = @category.shared_characteristics.without_container
     end
-    @containers = @category.characteristic_containers.for_operation(@operation)
   end
 
   def update
@@ -41,6 +40,11 @@ class LayoutsController < ApplicationController
     if params[:characteristics]
       params[:characteristics].each do |cid, location|
         Characteristic.criteria.id(cid).first.update_attribute(layout_name, location[layout_name])
+      end
+    end
+    if params[:characteristic_containers]
+      params[:characteristic_containers].each do |cid, location|
+        CharacteristicContainer.criteria.id(cid).first.update_attribute(layout_name, location[layout_name])
       end
     end
     flash[:notice] = 'Раскладка успешно сохранена.'

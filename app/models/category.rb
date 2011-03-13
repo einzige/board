@@ -30,7 +30,7 @@ class Category
   references_many :selection_characteristics, :dependent => :destroy
 
   references_many :operations,                :dependent => :destroy
-  references_many :characteristic_containers,                :dependent => :destroy
+  references_many :characteristic_containers, :dependent => :destroy
 
   # SCOPES
   scope :not_empty, where(:lots_count.gt => 0)
@@ -63,7 +63,7 @@ class Category
     ancestors_and_self.map(&:operations).flatten
   end
   def ancestors_containers #OPTIMIZE
-    ancestors_and_self.map(&:containers).flatten
+    ancestors_and_self.map(&:characteristic_containers).flatten
   end
 
 #      .----------------.

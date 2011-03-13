@@ -26,7 +26,7 @@ class Characteristic
   validates_numericality_of :lots_count
   #validates_presence_of    :category
   
-  scope :without_container, where(:container_id => nil)
+  scope :without_container, where(:characteristic_container_id => nil)
 
   scope :boolean,   where(:_type => "BooleanCharacteristic")
   scope :integer,   where(:_type => "IntegerCharacteristic")
@@ -34,8 +34,9 @@ class Characteristic
   scope :string,    where(:_type => "StringCharacteristic")
   scope :selection, where(:_type => "SelectionCharacteristic")
 
-  scope :shared,  where(:operation_id => nil)
-  scope :for_operation, lambda {|operation| where(:operation_id => operation.id)}
+  scope :without_operation,  where(:operation_id => nil)
+  scope :for_operation,      lambda {|operation| where(:operation_id.in => [operation ? operation.id : nil, nil])}
+  scope :only_for_operation, lambda {|operation| where(:operation_id    =>  operation ? operation.id : nil)}
 
   def inc_lots_count; inc(:lots_count, 1) end
   def dec_lots_count; inc(:lots_count,-1) end

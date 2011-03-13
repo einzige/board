@@ -1,24 +1,8 @@
-:ruby
-  style =  "left         :#{characteristic.form_layout.x}px;"       +  
-           "top          :#{characteristic.form_layout.y}px;"       +
-           "width        :#{characteristic.form_layout.width}px;"   +
-           "height       :#{characteristic.form_layout.height}px;"  +
-           "border-color :#{characteristic.operation ? 'blue' : 'orange'}"
-- scid = characteristic.id.to_s
-
 = fields_for 'properties' do |f|
-  %span.characteristic{:id => scid, :style => style }
+  %span.characteristic{:id => characteristic.id, :style => style_for(characteristic) }
 
     - if characteristic.class == BooleanCharacteristic
-      :ruby 
-        checked = characteristic.default
-        options = {}
-        options[:checked] = 'checked' unless checked.nil?
-        options[:class] = "tristate #{'primary' if characteristic.primary? }"
-        # options[:required] = 'required' if characteristic.required?
-        value = checked.nil? ? '' : (characteristic.default ? '1' : '0')
-      
-      = f.check_box characteristic.id, options, value
+      = f.check_box characteristic.id, check_box_options_for(characteristic)
       = f.label     characteristic.id, characteristic.name 
     - else
       = f.label     characteristic.id, characteristic.name, {:class => "#{'required' if characteristic.required?}"}
@@ -45,7 +29,8 @@
                                                 :class => "#{'primary' if characteristic.primary?}",
                                                 :required => characteristic.required? ? 'required' : 'not-required'}
             = characteristic.measure
-            %span.description= "(#{characteristic.description})" unless characteristic.description.nil? || characteristic.description.empty?
+            - unless characteristic.description.nil? || characteristic.description.empty?
+              %span.description= "(#{characteristic.description})"
 
 
           - when SelectionCharacteristic
