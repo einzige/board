@@ -12,12 +12,14 @@ class Operation
 
   referenced_in :category
   references_and_referenced_in_many :lots
-  references_many :characteristics
+  references_many :characteristics,           :dependent => :destroy
+  references_many :characteristic_containers, :dependent => :destroy
 
   validates_presence_of :name
-  validates_presence_of :category
-
+  # validates_presence_of :category
+  
   def self.for category
+    # FIXME: use parent_ids instead
     Operation.any_in(:category_id => category.ancestors.only(:id).map(&:id) \
                                   << category.id)
   end

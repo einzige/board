@@ -22,6 +22,14 @@ class LayoutsController < ApplicationController
     @category = Category.find_by_slug(params[:category_id])
   end
 
+  def edit
+    if @operation
+      @characteristics = @operation.ancestors_characteristics.without_container
+    else
+      @characteristics = @category.shared_characteristics.without_container
+    end
+  end
+
   def update
     @category  = Category.find_by_slug(params[:category_id])
     @operation = Operation.find_by_slug(params[:operation])
@@ -32,6 +40,11 @@ class LayoutsController < ApplicationController
     if params[:characteristics]
       params[:characteristics].each do |cid, location|
         Characteristic.criteria.id(cid).first.update_attribute(layout_name, location[layout_name])
+      end
+    end
+    if params[:characteristic_containers]
+      params[:characteristic_containers].each do |cid, location|
+        CharacteristicContainer.criteria.id(cid).first.update_attribute(layout_name, location[layout_name])
       end
     end
     flash[:notice] = 'Раскладка успешно сохранена.'

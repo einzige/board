@@ -1,0 +1,14 @@
+%h2 
+  Редактирование контейнера характеристик для
+  [
+  = link_to @category.name, [:edit, @category], :class => 'red'
+  (
+  = render :partial => 'shared/breadcrumbs', :object => breads_for(@category)
+  )
+  ]
+
+= render :partial => 'form'
+= link_to 'Вернуться к списку контейнеров категорий', [@category, CharacteristicContainer]
+
+.clear.h25
+.clear.h25

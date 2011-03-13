@@ -13,6 +13,33 @@ $(document).ready(function()
     }
   });
 
+  $('.admin .container').each(function(){
+    var w = parseInt($(this).width());
+    var h = parseInt($(this).height());
+    var x = parseInt($(this).css('left'));
+    var y = parseInt($(this).css('top'));
+    var id= $(this).attr('id');
+    $('<input type="hidden" name="characteristic_containers['+id+'][form_layout][x]"       for="'+id+'_x" value="'+x+'" />').appendTo($('#form_layout_form'));
+    $('<input type="hidden" name="characteristic_containers['+id+'][form_layout][y]"       for="'+id+'_y" value="'+y+'" />').appendTo($('#form_layout_form'));
+    $('<input type="hidden" name="characteristic_containers['+id+'][form_layout][width]"   for="'+id+'_w" value="'+w+'" />').appendTo($('#form_layout_form'));
+    $('<input type="hidden" name="characteristic_containers['+id+'][form_layout][height]"  for="'+id+'_h" value="'+h+'" />').appendTo($('#form_layout_form'));
+  });
+
+  $('.admin .container').resizable({
+    minWidth: 20, 
+    minHeight: 20,
+    stop: function(event, ui) {
+      $('input[for="'+$(this).attr('id')+'_w"]').val(parseInt($(this).width()));
+      $('input[for="'+$(this).attr('id')+'_h"]').val(parseInt($(this).height()));
+    }
+  }).draggable({
+    containment: "parent",
+    stop: function(event, ui) {
+      $('input[for="'+$(this).attr('id')+'_x"]').val(parseInt($(this).css('left')));
+      $('input[for="'+$(this).attr('id')+'_y"]').val(parseInt($(this).css('top')));
+    }
+  });
+
   // given characteristics for that form
   //
 

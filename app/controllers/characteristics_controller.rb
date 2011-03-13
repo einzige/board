@@ -16,8 +16,10 @@ class CharacteristicsController < ApplicationController
   end
 
   before_filter :only => [:create, :update] do #FIXME
-    if params['characteristic']['operation'].empty?
-      params['characteristic']['operation'] = nil 
+    operation = params[:characteristic][:operation]
+    if operation.nil? || operation.empty?
+      params[:characteristic][:operation] = nil 
+      params[:characteristic][:operation_id] = nil
     end
   end
 
@@ -27,13 +29,6 @@ class CharacteristicsController < ApplicationController
 
   before_filter :except => [:new, :create, :index] do
     @characteristic = Characteristic.find_by_slug(params[:id])
-  end
-
-  before_filter :only => :update do
-    operation = params[:characteristic][:operation]
-    if operation.nil? || operation.empty?
-      params[:characteristic][:operation_id] = nil
-    end
   end
 
   def index

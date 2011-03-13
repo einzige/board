@@ -648,3 +648,10 @@ div.operation h3 {
 .primary {
   font-weight: bold;
 }
+.fields_container { position: relative; }
+.container        { position: absolute; }
+.container        .characteristic { position: absolute; }
+.fields_container .characteristic { position: absolute; }
+.admin .container {position: absolute;}
+.admin .container { background: url(/images/backgrounds/blue50g.png); border: 1px dotted; }
+

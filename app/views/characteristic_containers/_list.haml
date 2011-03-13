@@ -1,0 +1,15 @@
+- if list.any?
+  %table.admin 
+    %th Название
+    %th Описание
+    %th
+    - list.each do |o|
+      %tr
+        %td.b.l= link_to o.name, [:edit, o.category, o]
+        %td.i.l= o.description
+        %td= link_to 'Удалить', [o.category, o],
+                      :confirm => 'Вы действительно этого хотите?',
+                      :method  => :delete,
+                      :class   => :red
+- else
+  .red.i.b Нет контейнеров. Обязательно создайте.
