@@ -1,25 +1,43 @@
+- content_for :js do
+  = javascript_include_tag "jquery-ui.min"
+  = javascript_include_tag "layout_editor"
+
+  :javascript
+    $(document).ready(function(){$('.admin.fields_container').initEditor({layout: 'form_layout'})});
+
 .w680.left
   - if @category.valid?
     = render :partial => 'shared/breadcrumbs', :object => breads_for(@category, @operation)
-
-  .clear.h15
+  .clear
 
   .w480.left
     %h3 Редактирование раскладки формы добавления товара
-    = render(:partial => 'shared/notice', :object => flash[:notice]) if flash[:notice]
-    = render :partial => 'layout'
+    = render :partial => 'shared/notice'
 
-    .clear.h25
+    %span.l.i Пустые контейнеры здесь не отображаются.
 
+    #cut.filter.left
+      %h1.left= @category.name
+
+      .right= render :partial => 'categories/operations', :object => @category.ancestors_operations
+      .clear.w15
+
+      - form_tag '', :id => 'form', :class => 'canvas lot_form', :onSubmit => 'return false;' do 
+        .admin.fields_container{:style => "height: #{(@operation || @category).form_layout.height}px;", :rel => '#layout_form'}
+          = render :partial => 'form_layouts/characteristic', 
+                     :collection => @characteristics
+          = render :partial => 'form_layouts/container',      
+                     :collection => @category.characteristic_containers.only_for_operation(@operation)
+
+    .left
+      - form_tag category_form_layout_path(@category), :method => :put, :id => 'layout_form', do
+        = hidden_field_tag(:operation, @operation.slug) if @operation
+        = submit_tag '', :class => 'save'
+        %span.l.i (Сохраняем ТОЛЬКО РАСКЛАДКУ)
+      
+    .clear.h15
     = link_to 'Редактировать список характеристик', [@category, Characteristic]
     %br/
     = link_to 'Редактировать список операций',      [@category, Operation]
-
   .clear.h25
-
-.right.w240.center
-  .banner.w240{:style => 'height: 400px'}
-    .content 240x400
-  .w240= image_tag 'temp/direct.png'
-
 .clear

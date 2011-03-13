@@ -59,11 +59,15 @@ class Category
     ancestors_characteristics.where(:operation_id => nil)
   end
 
-  def ancestors_operations #OPTIMIZE
-    ancestors_and_self.map(&:operations).flatten
+  def ancestors_operations
+    Category.any_in(:_id => parent_ids << id)
+            .only(&:operations)
+            .map( &:operations).flatten
   end
-  def ancestors_containers #OPTIMIZE
-    ancestors_and_self.map(&:characteristic_containers).flatten
+  def ancestors_containers #OPTIMIZE use ancestors_and self instead? 
+    Category.any_in(:_id => parent_ids << id)
+            .only(&:characteristic_containers)
+            .map( &:characteristic_containers).flatten
   end
 
 #      .----------------.

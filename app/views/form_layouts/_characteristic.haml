@@ -1,5 +1,5 @@
 = fields_for 'properties' do |f|
-  %span.characteristic{:id => characteristic.id, :style => style_for(characteristic) }
+  %span.characteristic{:id => characteristic.id, :style => style_for(characteristic), :rel => "#layout_form" }
 
     - if characteristic.class == BooleanCharacteristic
       = f.check_box characteristic.id, check_box_options_for(characteristic)
