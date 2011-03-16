@@ -8,6 +8,12 @@
       return $(this).addClass('busy');
     }).bind("ajaxStop", function() {
       return $(this).removeClass('busy');
+    }).bind("ajaxSend", function(event, request, settings) {
+      if (typeof(AUTH_TOKEN) == "undefined") return $(this);
+      settings.data = settings.data || "";
+      settings.data += (settings.data ? "&" : "") + "authenticity_token=" + encodeURIComponent(AUTH_TOKEN);
+      return $(this);
     });
   });
 }).call(this);
+

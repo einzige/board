@@ -22,7 +22,7 @@
                  return s;
             }
 
-            return states.unchecked;
+            return states.intermediate;
         }
 
         var toNextState = function(cbox) {

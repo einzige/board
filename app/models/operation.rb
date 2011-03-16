@@ -21,6 +21,9 @@ class Operation
   def ancestors_characteristics
     category.characteristics_only_for(self)
   end
+  def all_characteristics
+    category.ancestors_characteristics.where(:operation_id.in => [nil, id])
+  end
 
   class << self
     alias find_by_slug! find_by_slug 

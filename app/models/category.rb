@@ -40,11 +40,9 @@ class Category
 
   # SERVICE FUNCTIONS
   def descendant_lots
-    Lot.any_in(:category_id => descendants.only(:id).map(&:id) << id) # FIXME:-+
-  end                                                                 #        |
-  def ancestors_characteristics                                       #        |
-    Characteristic.any_in(:category_id => parent_ids << id) # <----------------+
-  end
+    Lot.any_in(:category_id => descendants.only(:id).map(&:id) << id)
+  end                                                               
+
   def characteristics_for operation
     if operation
       ancestors_characteristics.any_in(:operation_id => [operation.id, nil])
@@ -52,38 +50,16 @@ class Category
       ancestors_characteristics.where(:operation_id => nil)
     end
   end
+
   def characteristics_only_for operation
     operation ? ancestors_characteristics.where(:operation_id => operation.id) : []
   end
-  def shared_characteristics
-    ancestors_characteristics.where(:operation_id => nil)
-  end
 
-  def ancestors_operations
-    Category.any_in(:_id => parent_ids << id)
-            .only(&:operations)
-            .map( &:operations).flatten
-  end
-  def ancestors_containers #OPTIMIZE use ancestors_and self instead? 
-    Category.any_in(:_id => parent_ids << id)
-            .only(&:characteristic_containers)
-            .map( &:characteristic_containers).flatten
-  end
+  def ancestors_operations;      ancestors_for Operation               end
+  def ancestors_containers;      ancestors_for CharacteristicContainer end
+  def ancestors_characteristics; ancestors_for Characteristic          end
 
-#      .----------------.
-#  ____|.------+-------.|__________________
-# | 1'9||'7""6"|5"""4""||3""""""2'''''''''1|
-# |____||______|_______||__________________|_______
-#   \  || | 1''|''''''2||""""3""""4"""5""6""7'8'9'1|_____
-#  _/__||_|____|_______||__________________________|     |
-# | 1''||'''''2|"""""3"||"4"""5""6""7'8'9'1|-------`     |
-# |____|`------+-------`|__________________|             |
-#  \___\================/_________________/              |
-#       `--------------`                                 |
-#    aul.ru                                              |
-#                         /\                             |
-#                        #  \                            |
-  def search_lots params={}, operation=nil #\____________/
+  def search_lots params={}, operation=nil
     # There are NO LOGIC>-------------------------------------+ 
     #                                                         |    
     # params shold be in the given storage:    _              |
@@ -137,5 +113,10 @@ class Category
 
   class << self
     alias find_by_slug! find_by_slug 
+  end
+
+  protected
+  def ancestors_for a_class
+    a_class.any_in(:category_id => parent_ids << id)
   end
 end
