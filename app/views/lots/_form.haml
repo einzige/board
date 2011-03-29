@@ -38,7 +38,7 @@
         = render :partial => 'form_layouts/container',      :collection => @category.ancestors_containers.only_for_operation(o)
       %hr
 
-  .form_layout{:style => "height: #{@category.form_layout.height}px;"}
+  .fields_container{:style => "height: #{@category.form_layout.height}px;"}
     = render :partial => 'form_layouts/characteristic', :collection => @category.ancestors_characteristics.without_container.without_operation
     = render :partial => 'form_layouts/container',      :collection => @category.ancestors_containers.without_operation
 

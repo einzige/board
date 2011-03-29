@@ -1,0 +1,25 @@
+.admin-menu.fixed.top0.right0
+  #admin_toggler
+  - if @category && !@category.new_record?
+    .group
+      %h1= "#{@category.name}:"
+      .tab
+        = link_to "Редактировать", edit_category_path(@category)
+      .tab
+        = link_to "Подкатегории", edit_category_path(@category, :anchor => 'new_category')
+      .tab
+        = link_to "Операции", category_operations_path(@category)
+      .tab
+        = link_to "Характеристики", category_characteristics_path(@category)
+      .clear
+  - if params[:controller] == 'categories' && params[:action] == 'index'
+    .tab
+      = link_to 'Создать категорию', new_category_path
+  - if @operation && !@operation.new_record?
+    .group
+      %h1= "#{@operation.name}:"
+      .tab
+        = link_to "Редактировать", edit_category_operation_path(@category, @operation)
+
+  = yield :admin_menu
+

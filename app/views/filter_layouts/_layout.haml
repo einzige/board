@@ -7,19 +7,18 @@
   = javascript_include_tag "filter_layout_editor"
 
 #cut.filter.left
-  %h1.left= category.name
+  .heap
+    %h1.left= category.name
 
-  .right= render :partial => 'categories/operations', :object => Operation.for(category)
-  .clear.w15
+    .right= render :partial => 'categories/operations', :object => category.ancestors_operations
+    .clear.w15
 
   - form_tag '', :id => 'search_form', :class => 'canvas', :onSubmit => 'return false;' do 
-    .admin.fields_container{:style => "height: #{(operation || category).filter_layout.height}px;"}
-      = render :partial => 'time_range',                    
-                :object => (operation || category).filter_layout
-      = render :partial => 'characteristics', 
-                :locals => { :characteristics => category.characteristics_for(operation) }
+    .fields_container{:style => "height: #{(operation || category).filter_layout.height}px;"}
+      = render :partial => 'time_range' 
+      = render :partial => 'characteristic', :collection => category.characteristics_for(operation)
 
-  = submit_tag 'Искать', :style => 'float: right;'
+      = submit_tag ''
 
 .left
   - form_tag category_filter_layout_path(category), :method => :put, :id => 'filter_layout_form', do

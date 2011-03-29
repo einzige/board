@@ -1,65 +1,25 @@
-:ruby
-  element_style ||= nil
-  q             ||= @q || {}
-  style = " left:  #{layout.x}px;"      + 
-          " top:   #{layout.y}px;"      +
-          " width: #{layout.width}px;"  + 
-          " height:#{layout.height}px;" + 
-          " background: white; padding: 2px; border: 2px dashed #{characteristic.operation ? 'blue' : 'orange'}"
+= fields_for 'q', :builder => FilterFormBuilder do |f|
 
-  scid  = characteristic.id.to_s
+  %span.characteristic{:id => characteristic.id, :style => filter_style_for(characteristic)}
 
-%span.characteristic{:id => scid, :style => style }
+    = f.label characteristic.slug, characteristic.name 
 
-  = label_tag "q[#{characteristic.id}]", characteristic.name 
+    %span.value{:style => "left: #{characteristic.filter_layout.padding}px;"}
+      - case characteristic.class
+        - when BooleanCharacteristic
+          = f.tristate characteristic
 
-  %span.value{:style => "left: #{layout.padding}px; #{element_style}"}
-    - case characteristic.class
+        - when IntegerCharacteristic, FloatCharacteristic
+          - if characteristic.ranged? 
+            = f.numeric_gt characteristic
+            &mdash;
+            = f.numeric_lt characteristic
+          - else
+            = f.numeric characteristic
 
+          = characteristic.measure 
+          - unless characteristic.description.nil? || characteristic.description.empty?
+            %span.description= "(#{characteristic.description})"
 
-      - when BooleanCharacteristic
-        - value  = q[scid].nil? ? '' : q[scid]
-        = check_box_tag "q[#{characteristic.id}]", value, true
-
-
-      - when IntegerCharacteristic
-        -if characteristic.ranged?
-          = text_field_tag "q[#{characteristic.id}_greater_than]", q[scid + '_greater_than'] || characteristic.l_limit.to_i,
-                            {:min => characteristic.l_limit.to_i, :max => characteristic.r_limit.to_i, :step => characteristic.step.to_i}
-          &mdash;
-          = text_field_tag "q[#{characteristic.id}_less_than]",    q[scid + '_less_than']    || characteristic.r_limit.to_i,
-                            {:min => characteristic.l_limit.to_i, :max => characteristic.r_limit.to_i, :step => characteristic.step.to_i}
-        -else
-          = text_field_tag "q[#{characteristic.id}]",              q[scid]                   || characteristic.default.to_s,
-                            {:min => characteristic.l_limit.to_i, :max => characteristic.r_limit.to_i, :step => characteristic.step.to_i}
-        = characteristic.measure
-        %span.description= "(#{characteristic.description})" unless characteristic.description.nil? || characteristic.description.empty?
-
-
-      - when FloatCharacteristic
-        -if characteristic.ranged?
-          = text_field_tag "q[#{characteristic.id}_greater_than]", q[scid + '_greater_than'] || characteristic.l_limit,
-                            {:min => characteristic.l_limit, :max => characteristic.r_limit, :step => characteristic.step}
-          &mdash;
-          = text_field_tag "q[#{characteristic.id}_less_than]",    q[scid + '_less_than']    || characteristic.r_limit,
-                            {:min => characteristic.l_limit, :max => characteristic.r_limit, :step => characteristic.step}
-        -else
-          = text_field_tag "q[#{characteristic.id}]",              q[scid]                   || characteristic.default.to_s,
-                            {:min => characteristic.l_limit, :max => characteristic.r_limit, :step => characteristic.step}
-        = characteristic.measure
-        %span.description= "(#{characteristic.description})" unless characteristic.description.nil? || characteristic.description.empty?
-
-
-      - when SelectionCharacteristic
-        - case characteristic.representation
-          - when 'radiogroup'
-            - characteristic.selection_options.each do |o|
-              = radio_button_tag "q[#{characteristic.id}]", o.value, q[scid] == o.value
-              = o.value
-
-          - when 'selectbox'
-            = select_tag "q[#{characteristic.id}]", 
-              options_from_collection_for_select(characteristic.selection_options, "value", "value", q[scid]), 
-                               :include_blank => characteristic.includes_blank?
-
-
+        - when SelectionCharacteristic
+          = f.selection characteristic

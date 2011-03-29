@@ -2,14 +2,14 @@
 %html
   %head
     %title Inform24.ru // Internet-Board
-    = stylesheet_link_tag :all
+    = stylesheet_link_tag 'application', 'jquery-ui'
     = javascript_include_tag 'jquery.min', 'rails.js'
+    = javascript_include_tag 'admin' if current_user.admin?
     = csrf_meta_tag
     = remote_forgery_protection
     = yield :js
     = yield :css
   %body
-    -#%ul.hmenu
     -#%p{:style => "color: green"}= notice
     -#%p{:style => "color: red"}= alert
     #header
@@ -20,57 +20,61 @@
         %span.b.temp -26
         %span , днем
         %span.b.temp -14
-
       .clear
       #logo
         = link_to image_tag('logo.png'), root_path
-        .clear
         .w100p
           .center
             %span.home 
               = link_to 'Главная', root_path, :class => 'dashed'
             %span.letter 
-              = link_to 'Написать нам', '/Написать нам', :class => 'dashed'
+              = link_to 'Написать нам', '#',  :class => 'dashed'
       #slogan
-        .content Бесплатные объявления Красноярск
+        %span Бесплатные объявления Красноярск
       .banner.right{:style => 'width: 450px'}
-        .content 450x100
-
+        %span 450x100
     .clear.h25
+
     #subheader
-      %a{:href => @category ? new_category_lot_path(@category) : new_lot_path}
-        %span.orange-button.left
+      %a{:href => link_to_new_lot, :class => 'orange-button left'}
+
       %ul#main-menu.left
-        %li.active= link_to 'Объявления', '#'
-        %li= link_to 'каталог товаров', '#'
-        %li= link_to 'каталог предприятий', '#'
+        %li.active= link_to 'Объявления',          '#'
+        %li=        link_to 'Каталог товаров',     '#'
+        %li=        link_to 'Каталог предприятий', '#'
 
       #login.right
         = render :partial => 'devise/sessions/login_form'
-        -#= render 'devise/menu/registration_items'
-        -#= render 'devise/menu/login_items'
+    .clear
 
-    - if flash[:error]
-      .clear= render(:partial => 'shared/error', :object => flash[:error])
-
-    .clear.h25
     #content= yield
 
     #footer
       %ul.links
-        %li= link_to 'каталог товаров', '#'
-        %li= link_to 'каталог предприятий', '#'
-        %li= link_to 'каталог товаров', '#'
-        %li= link_to 'каталог товаров', '#'
-        %li= link_to 'каталог товаров', '#'
-        %li= link_to 'каталог предприятий', '#'
-        %li= link_to 'каталог предприятий', '#'
-      .clear
-      .text
+        %li= link_to 'Объявления о продаже', '#'
+        %li= link_to 'Объевления о покупке', '#'
+        %li= link_to 'Каталог товаров', '#'
+        %li= link_to 'Каталог предприятий', '#'
+        %li= link_to 'Карта разделов', '#'
+        %li= link_to 'Реклама на сайте', '#'
+        %li= link_to 'Обратная связь', '#'
+        %li= link_to 'Контакты', '#'
+      .clear.h25
+      %small.g.l
+        В минувшую пятницу Дмитрий Медведев посетил Саяно-Шушенскую ГЭС, где провёл заседание президиума Госсовета о мерах по повышению устойчивости работы энергетического комплекса страны. Цены бьют рекорды - Для России, как и для любой крупной страны, надёжное обеспечение электроэнергией является основой для устойчивого развития экономики, а стало быть, основой для качества жизни наших людей, для поддержания нужной безопасности в государстве и в обществе, - сказал президент.
+      .clear.h25
       #counters.left
-        Counters here
-      #rules.left
-        Rules here
+        = image_tag 'temp/counter1.png'
+        = image_tag 'temp/counter2.png'
+      #rules.left.w480
+        Перепечатка материалов сайта осуществляется только с разрешения администрации, при этом ссылка на inform24.ru обязательна.
       #copyrights.right
-        Copyright goes here
+        Copyright &copy; Компания &laquo;Енисей-информ&raquo;, 2007-2010
+        %br/
+        = link_to 'Inform24.ru', root_path
+        &mdash;
+        бесплатные объявления Красноярск.
+
+    - if current_user.admin?
+      = render :partial => 'shared/admin_menu'
 

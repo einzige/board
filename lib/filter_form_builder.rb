@@ -1,6 +1,6 @@
 class FilterFormBuilder < DefaultFormBuilder
   #FIXME: checkboxes here
-  def selection characteristic, value
+  def selection characteristic, value = nil
     case characteristic.representation
     when 'radiogroup' then
       characteristic.selection_options.map do |o|

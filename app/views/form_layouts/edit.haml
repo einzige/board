@@ -17,17 +17,20 @@
     %span.l.i Пустые контейнеры здесь не отображаются.
 
     #cut.filter.left
-      %h1.left= @category.name
+      .heap
+        %h1.left= @category.name
 
-      .right= render :partial => 'categories/operations', :object => @category.ancestors_operations
-      .clear.w15
+        .right
+          .tab{:class => "#{'active' unless @operation}"}= link_to 'Общие свойства', [:edit, @category, :form_layout]
+          = render :partial => 'categories/operations', :object => @category.ancestors_operations
+        .clear.w15
 
       - form_tag '', :id => 'form', :class => 'canvas lot_form', :onSubmit => 'return false;' do 
         .admin.fields_container{:style => "height: #{(@operation || @category).form_layout.height}px;", :rel => '#layout_form'}
           = render :partial => 'form_layouts/characteristic', 
-                     :collection => @category.ancestors_characteristics.without_container
+                     :collection => (@operation || @category).ancestors_characteristics.without_container.only_for_operation(@operation)
           = render :partial => 'form_layouts/container',      
-                     :collection => @category.characteristic_containers.only_for_operation(@operation)
+                     :collection => (@operation || @category).characteristic_containers.only_for_operation(@operation)
 
     .left
       - form_tag category_form_layout_path(@category), :method => :put, :id => 'layout_form', do

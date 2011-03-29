@@ -1,5 +1,6 @@
-- category  ||= @category
-- parent    ||= @category.parent
+:ruby 
+  category  ||= @category || Category.new
+  parent    ||= category.parent
 - form_for category do |f|
   = render(:partial => 'shared/notice', :object => flash[:notice]) if flash[:notice]
   - if category.errors.full_messages.any?

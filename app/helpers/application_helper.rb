@@ -15,7 +15,7 @@ module ApplicationHelper
   #
 
   def breads_for category, operation = nil
-    res = category.ancestors_and_self.map do |c| 
+    res = category.ancestors.map do |c| 
       {
         :name => c.name, 
         :link => c 
@@ -57,6 +57,10 @@ module ApplicationHelper
       end
     end
     style
+  end
+
+  def link_to_new_lot
+    @category ? new_category_lot_path(@category) : new_lot_path
   end
 
 end

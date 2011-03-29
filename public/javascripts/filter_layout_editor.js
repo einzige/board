@@ -7,8 +7,8 @@ $(document).ready(function()
   var trpx = parseInt($('.time-range').css('left'));
   var trpy = parseInt($('.time-range').css('top'));
   $('<input type="hidden" name="filter_layout[height]"      value="'  +h+ '" />').appendTo($('#filter_layout_form'));
-  $('<input type="hidden" name="filter_layout[time_range_x" value="'+trpx+'" />').appendTo($('#filter_layout_form'));
-  $('<input type="hidden" name="filter_layout[time_range_y" value="'+trpy+'" />').appendTo($('#filter_layout_form'));
+  $('<input type="hidden" name="filter_layout[time_range_x]" value="'+trpx+'" />').appendTo($('#filter_layout_form'));
+  $('<input type="hidden" name="filter_layout[time_range_y]" value="'+trpy+'" />').appendTo($('#filter_layout_form'));
 
   $('#search_form .fields_container').resizable({
     maxWidth: 680, 
@@ -22,8 +22,8 @@ $(document).ready(function()
     containment: "parent",
     grid: [2,2],
     stop: function(event, ui) {
-      $('input[name="filter_layout[time_range_x"]').val(parseInt($(this).css('left')));
-      $('input[name="filter_layout[time_range_y"]').val(parseInt($(this).css('top')));
+      $('input[name="filter_layout[time_range_x]"]').val(parseInt($(this).css('left')));
+      $('input[name="filter_layout[time_range_y]"]').val(parseInt($(this).css('top')));
     }
   });
 

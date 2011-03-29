@@ -39,7 +39,7 @@
             box.hide();
             var istate = getStateByValue(box.attr('value'));
 
-            box.wrap('<div class="'+istate.css+'" id="'+sid+'" />');
+            box.wrap('<div class="checkbox '+istate.css+'" id="'+sid+'" />');
             var presentor = $('#'+sid);
 
             box.unbind('click');
@@ -58,7 +58,7 @@
             var span = cbox.parent();
 
             cbox.val(newState.value);
-            span.attr('class', newState.css)
+            span.attr('class', 'checkbox ' + newState.css)
 
             // so we dont need to pass it to POST if its in intermediate state
             if (newState == states.intermediate)

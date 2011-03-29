@@ -8,16 +8,16 @@
     $(document).ready(function() { $('#search_form').initForm(); });
 
 #cut.filter.left
-  %h1.left= @category.name
-
-  .right= render :partial => 'categories/operations', :object => @category.ancestors_operations
-  .clear.w15
+  .heap
+    %h1.left= @category.name
+    .right= render :partial => 'categories/operations', :object => @category.ancestors_operations
+    .clear
 
   - form_tag '', :method => :get, :id => 'search_form', :class => 'filter_form' do 
     .fields_container{:style => "height: #{(@operation || @category).filter_layout.height}px;"}
       = hidden_field_tag 'operation', @operation.slug
       
       = render :partial => 'filter_layouts/time_range'
-      = render :partial => 'categories/characteristic', :collection => @operation.all_characteristics
+      = render :partial => 'categories/characteristic', :collection => @category.characteristics_for(@operation)#@operation.all_characteristics
 
-    = submit_tag 'Искать', :style => 'float: right;'
+      = submit_tag ''

@@ -1,4 +1,4 @@
-%span.time-range{:style => "left: #{@category.filter_layout.time_range_x}px; top: #{@category.filter_layout.time_range_y}px"}
+%span.time-range{:style => "left: #{(@operation || @category).filter_layout.time_range_x}px; top: #{(@operation || @category).filter_layout.time_range_y}px"}
   = label_tag :time_range, 'Объявления за:'
   %br/ 
   = radio_button_tag "time_range", 1, 1   == params[:time_range].to_i

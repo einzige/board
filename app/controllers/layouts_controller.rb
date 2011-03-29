@@ -26,7 +26,7 @@ class LayoutsController < ApplicationController
     if @operation
       @characteristics = @operation.ancestors_characteristics.without_container
     else
-      @characteristics = @category.shared_characteristics.without_container
+      @characteristics = @category.ancestors_characteristics.without_operation.without_container
     end
   end
 

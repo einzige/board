@@ -1,8 +1,15 @@
+- content_for :admin_menu do
+  .group
+    %h1 Фильтр:
+    .tab
+      = link_to 'Редактировать раскладку', edit_category_filter_layout_path(@category)
+    .clear
+
 .w680.left
   = render :partial => 'shared/breadcrumbs', :object => breads_for(@category, @operation)
 
   .clear.h15
-  .w680
+  .w680max
     %small
       = @category.description
       %a.b{ :href => new_category_lot_path(@category) } Подать&nbsp;объявления&nbsp;в&nbsp;этот&nbsp;раздел
@@ -26,4 +33,3 @@
   .w240= image_tag 'temp/direct.png'
 
 .clear
-
