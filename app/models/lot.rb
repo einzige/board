@@ -23,23 +23,23 @@ class Lot
   before_create  :set_serial_number
   after_create   :increase_category_lots_count
   before_destroy :clean_operations
-  after_save     :save_operations
+  after_save     :save_operations, :save_properties
   after_destroy  :decrease_category_lots_count
 
   def set_properties hash
-    hash.each do |cid, v|
+    hash.each do |slug, v|
       next if v.strip.empty? # FIXME : removeme
       
-      c = Characteristic.criteria.id(cid).first or next
+      c = Characteristic.find_by_slug(slug) or next
       case c.class
       when IntegerCharacteristic then
-        properties.build({:value => v.to_i,    :characteristic_id => cid}, IntegerProperty)
+        properties.build({:value => v.to_i,    :characteristic_id => c.id}, IntegerProperty)
       when FloatCharacteristic   then
-        properties.build({:value => v.to_f,    :characteristic_id => cid}, FloatProperty)
+        properties.build({:value => v.to_f,    :characteristic_id => c.id}, FloatProperty)
       when BooleanCharacteristic then
-        properties.build({:value => v.to_bool, :characteristic_id => cid}, BooleanProperty) # FIXME are we really need to_bool?
+        properties.build({:value => v.to_bool, :characteristic_id => c.id}, BooleanProperty) # FIXME are we really need to_bool?
       else
-        properties.build({:value => v,         :characteristic_id => cid}, StringProperty)
+        properties.build({:value => v,         :characteristic_id => c.id}, StringProperty)
       end
     end
   end
@@ -57,6 +57,9 @@ class Lot
 
     def save_operations
       operations.each { |o| o.save if o.changed? }
+    end
+    def save_properties
+      properties.each { |p| p.save if p.changed? }
     end
     def clean_operations
       operations.each { |o| o.lot_ids.delete(id) }

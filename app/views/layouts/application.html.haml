@@ -4,7 +4,7 @@
     %title Inform24.ru // Internet-Board
     = stylesheet_link_tag 'application', 'jquery-ui'
     = javascript_include_tag 'jquery.min', 'rails.js'
-    = javascript_include_tag 'admin' if current_user.admin?
+    = javascript_include_tag 'admin' if current_user && current_user.admin?
     = csrf_meta_tag
     = remote_forgery_protection
     = yield :js
@@ -75,6 +75,6 @@
         &mdash;
         бесплатные объявления Красноярск.
 
-    - if current_user.admin?
+    - if current_user && current_user.admin?
       = render :partial => 'shared/admin_menu'
 

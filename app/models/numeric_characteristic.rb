@@ -24,4 +24,9 @@ class NumericCharacteristic < Characteristic
 
   def ranged?; range end
 
+  before_update do
+    self[:min] = l_limit if l_limit > min
+    self[:max] = r_limit if r_limit < max
+  end
+
 end

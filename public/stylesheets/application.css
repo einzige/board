@@ -628,6 +628,9 @@ table.admin {
     opacity: 0.8;
     text-shadow: 1px 1px 1px #000000;
     filter: dropshadow(color=black, offx=1, offy=1); }
+    .admin-menu .group h1 a {
+      color: inherit;
+      text-decoration: none; }
 .admin-menu .tab {
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;

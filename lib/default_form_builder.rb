@@ -59,11 +59,11 @@ class DefaultFormBuilder < ActionView::Helpers::FormBuilder
 
   def integer_gt characteristic, value = nil
     text_field "#{characteristic.slug}_greater_than",
-                  integer_attrs_for(characteristic, value || characteristic.max) 
+                  integer_attrs_for(characteristic, value || lim_or_min(characteristic))
   end
   def integer_lt characteristic, value = nil
     text_field "#{characteristic.slug}_less_than", 
-                  integer_attrs_for(characteristic, value || characteristic.max) 
+                  integer_attrs_for(characteristic, value || lim_or_max(characteristic))
   end
   def integer characteristic, value = nil
     text_field characteristic.slug, 
@@ -72,11 +72,11 @@ class DefaultFormBuilder < ActionView::Helpers::FormBuilder
 
   def float_gt characteristic, value = nil
     text_field "#{characteristic.slug}_greater_than"
-                  float_attrs_for(characteristic, value || characteristic.max) 
+                  float_attrs_for(characteristic, value || lim_or_min(characteristic.l_limit))
   end
   def float_lt characteristic, value = nil
     text_field "#{characteristic.slug}_less_than", 
-                  float_attrs_for(characteristic, value || characteristic.max) 
+                  float_attrs_for(characteristic, value || lim_or_max(characteristic.r_limit))
   end
   def float characteristic, value = nil
     text_field characteristic.slug, 
@@ -84,6 +84,20 @@ class DefaultFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   private 
+  def lim_or_min characteristic
+    if characteristic.min >= characteristic.r_limit
+      characteristic.l_limit
+    else
+      characteristic.min
+    end
+  end
+  def lim_or_max characteristic
+    if characteristic.max <= characteristic.l_limit
+      characteristic.r_limit
+    else
+      characteristic.max
+    end
+  end
   def attrs_for characteristic, value = nil
     {
     :required => characteristic.required? ? 'required' : 'not-required',

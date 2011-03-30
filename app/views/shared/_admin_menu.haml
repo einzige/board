@@ -2,7 +2,7 @@
   #admin_toggler
   - if @category && !@category.new_record?
     .group
-      %h1= "#{@category.name}:"
+      %h1= link_to "#{@category.name}:", @category
       .tab
         = link_to "Редактировать", edit_category_path(@category)
       .tab

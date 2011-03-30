@@ -1,10 +1,6 @@
 .w210.left.center
   #categories-list
     %h2 Рубрики объявлений
-
-    - if can? :manage, Category
-      = link_to 'СОЗДАТЬ КАТЕГОРИЮ', new_category_path, :class => 'red b fs13 i'
-
     - if @categories[:roots].any?
       %ul
         - @categories[:roots].each do |c|

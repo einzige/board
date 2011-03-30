@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   end
 
   def is_current_user? usr
-    return current_user && (current_user == usr)
+    current_user && (current_user == usr)
   end
+
 end

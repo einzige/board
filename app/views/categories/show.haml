@@ -13,9 +13,6 @@
     %small
       = @category.description
       %a.b{ :href => new_category_lot_path(@category) } Подать&nbsp;объявления&nbsp;в&nbsp;этот&nbsp;раздел
-    - if can? :manage, @category
-      %br/
-      = link_to 'РЕДАКТИРОВАТЬ КАТЕГОРИЮ',  [:edit, @category], :class => 'red b fs13 i'
   .clear.h15
 
   .w480.left
