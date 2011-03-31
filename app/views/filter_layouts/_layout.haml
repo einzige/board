@@ -16,7 +16,7 @@
   - form_tag '', :id => 'search_form', :class => 'canvas', :onSubmit => 'return false;' do 
     .fields_container{:style => "height: #{(operation || category).filter_layout.height}px;"}
       = render :partial => 'time_range' 
-      = render :partial => 'characteristic', :collection => category.characteristics_for(operation)
+      = render :partial => 'characteristic', :collection => operation.all_characteristics#category.characteristics_for(operation)
 
       = submit_tag ''
 
