@@ -18,11 +18,29 @@
   .w480.left
     - if @operation
       = render :partial => 'filter'
+      .clear
     - else
       .i.l.b Для этой категории нет операций, соответсвенно нет и фильтра
-    - if @lots.any?
-      .content= render :partial => 'shared/lot_breadcrumbs', :object => breads_for(@lots.first.category, @lots.first.operations.first)
 
+    - if @lots.any?
+      .content
+        .h25
+        = render :partial => 'categories/tools'
+        .h25
+
+        .lots
+          %hr
+          = render :partial => 'categories/lot', :collection => @lots
+
+        .h25
+        = render :partial => 'categories/tools'
+        .h25
+          .clear
+
+  .clear.h25
+    = @lots.selector
+  .clear.h25
+  = render :partial => 'categories/tree'
 
 .right.w240.center
   .banner.w240{:style => 'height: 400px'}

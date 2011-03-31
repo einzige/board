@@ -5,6 +5,11 @@
     = stylesheet_link_tag 'application', 'jquery-ui'
     = javascript_include_tag 'jquery.min', 'rails.js'
     = javascript_include_tag 'admin' if current_user && current_user.admin?
+    :erb
+      <!--[if IE]>
+          <link href="/stylesheets/ie.css" rel="stylesheet" type="text/css" />
+          <script type="text/javascript" src="/javascripts/html5.js"></script>
+      <![endif]-->
     = csrf_meta_tag
     = remote_forgery_protection
     = yield :js

@@ -1,5 +1,6 @@
 $blue: #458cfe;
 $panel-color: #EAEAEA;
+$blue-panel-color: #ddeffd;
 
 @mixin round($radius: 10px) {
   border-radius: $radius;
@@ -21,8 +22,8 @@ $panel-color: #EAEAEA;
 }
 
 @mixin shadowed-text {
-  text-shadow: 1px 1px 1px #000000;
-  filter: dropshadow(color=#000000, offx=1, offy=1); 
+  text-shadow: 1px 1px 1px #777;
+  filter: dropshadow(color=#777, offx=1, offy=1); 
 }
 
 @mixin gradient {
@@ -80,21 +81,25 @@ html.busy, html.busy * {
 .clear { clear: both; width: 100%; }
 
 .b { font-weight: bold; }
+.n { font-weight: normal; }
 .i { font-style: italic; }
 .l { color: gray; }
 
 .center { margin: 0 auto; text-align: center; }
 .relative { position: relative; }
 
-.red   { color: red;   }
-.black { color: black  }
-.green { color: green; }
+.red    { color: red;   }
+.black  { color: black  }
+.green  { color: green; }
+.orange { color: orange; }
 
 .fixed { position: fixed; }
 .top0     { top: 0;    }
 .bottom0  { bottom: 0; }
 .right0   { right: 0;  }
 .left0    { left: 0;   }
+
+.tac { text-align: center; } 
 
 /*.fs13 { font-size: 13pt; }
 .fs8  { font-size: 8pt;  }*/
@@ -110,6 +115,14 @@ html.busy, html.busy * {
 
 .pointer {
   cursor: pointer;
+}
+
+.invalid {
+  border: 1px solid red;
+  padding-bottom: 2px;
+  @include round(4px);
+  @include inner-shadow;
+  @include shadow;
 }
 
 body {
@@ -140,7 +153,7 @@ small { font-size: 8pt; }
 span  { padding: 0; margin: 0 }
 
 a { 
-  color: #0099cc; 
+  color: blue; 
   text-decoration: underline; 
   cursor: pointer; 
   &:hover { 
@@ -408,14 +421,11 @@ label {
 
 .filter { 
   width: 680px;
-  padding: 0 15px 20px 15px;
   
-  $fields-container-color: #ddeffd;
-
   .fields_container {
     @include round;
 
-    background: $fields-container-color;
+    background: $blue-panel-color;
 
     input[type=text] {
       border: 1px solid $blue;
@@ -466,7 +476,7 @@ label {
       font-size: 12pt;
 
       &.active {
-        background: $fields-container-color;
+        background: $blue-panel-color;
       }
 
       a {
@@ -478,7 +488,7 @@ label {
       }
 
       &:hover {
-        background-color: lighten($fields-container-color, 3%);
+        background-color: lighten($blue-panel-color, 3%);
       }
     }
     .right {
@@ -592,8 +602,15 @@ table.admin {
   margin-top: 10px;
   padding: 20px;
 
-  div.operation {
-    display: none;
+  .operations {
+    .error {
+      display: none;
+      float:right;
+    }
+    div.operation {
+      display: none;
+      float: left;
+    }
   }
 
   label {
@@ -786,4 +803,76 @@ table.admin {
     }
   }
 
+}
+
+.tree {
+  a { 
+    color: #444; 
+    &:hover {
+      color: blue;
+    }
+  }
+}
+
+.content {
+  .tools {
+    .look-at {
+      padding-left: 16px;
+      height: 16px;
+      background: url('/images/zoom.png') no-repeat left center;
+    }
+    .print {
+      padding-left: 20px;
+      height: 16px;
+      background: url('/images/print.png') no-repeat left center;
+    }
+    .cancel {
+      padding-left: 11px;
+      height: 16px;
+      background: url('/images/cross.png') no-repeat left center;
+    }
+  }
+
+  .lots {
+    width: 680px;
+    hr {
+      border: none;
+      border-bottom: 1px solid orange;
+    }
+    .lot {
+      $divider-space: 20px;
+      padding: 10px;
+      hr {
+        border: none;
+        border-bottom: 1px dashed gray;
+      }
+      .picture {
+        float: left; 
+        width: 85px; 
+        height: 65px; 
+        background: #F0F0F0; 
+      }
+      .description {
+        line-height: 1.3;
+        padding-right: $divider-space;
+        padding-left: 10px;
+        label {
+          font-weight: bold;
+        }
+        a {
+          color: black;
+          text-decoration: none;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+      .contacts {
+        padding-left: $divider-space;
+        border-left: 1px solid #DDD;
+        width: 120px;
+        min-height: 65px;
+      }
+    }
+  }
 }

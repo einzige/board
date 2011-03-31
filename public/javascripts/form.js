@@ -1,9 +1,10 @@
-/* DO NOT MODIFY. This file was compiled Tue, 29 Mar 2011 17:25:15 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 30 Mar 2011 05:55:51 GMT from
  * /home/szinin/git/inform/app/coffeescripts/form.coffee
  */
 
 (function() {
   (function($) {
+    var validate_operations;
     $.fn.initForm = function() {
       $(this).initNumeric();
       $(this).initValidation();
@@ -39,6 +40,15 @@
         }
       });
     };
+    validate_operations = function() {
+      if (!$('.operations :checked').length) {
+        $('.operations .error').show();
+        return $('.operations').addClass('invalid');
+      } else {
+        $('.operations .error').hide();
+        return $('.operations').removeClass('invalid');
+      }
+    };
     return $.fn.initValidation = function() {
       if ($.tools) {
         $.tools.validator.localize('ru', {
@@ -47,6 +57,10 @@
         $(this).validator({
           lang: 'ru'
         });
+        if ($('.operations :checkbox').length) {
+          $('.operations :checkbox').change(validate_operations);
+          $(this).bind("onBeforeValidate", validate_operations);
+        }
         return $(this).bind("onFail", function(e, errors) {
           if (e.originalEvent.type === 'submit') {
             return $.each(errors, function() {

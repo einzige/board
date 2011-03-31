@@ -26,6 +26,14 @@ class Lot
   after_save     :save_operations, :save_properties
   after_destroy  :decrease_category_lots_count
 
+  def get_property pname
+    properties.find(:first, :conditions => {:slug => pname.to_s})
+  end
+
+  def has_property? pname
+    !get_property(pname).nil?
+  end
+
   def set_properties hash
     hash.each do |slug, v|
       next if v.strip.empty? # FIXME : removeme

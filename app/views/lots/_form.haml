@@ -19,24 +19,30 @@
 
       $('form.lot_form').initForm();
       $('form.lot_form').submit(function(){
-        $('.operation:hidden').empty();
-        return true;
+        if($('.operations :checked').length > 0) {
+          $('.operation:hidden').empty();
+          return true;
+        } else {
+          return false;
+        }
       });
     });
 
 - form_for [@category, @lot], :html => {:class => 'lot_form'} do |f|
-  %h2.l.left Операции: 
-  - @category.ancestors_operations.each do |o|
-    %span= check_box_tag "operation_ids[]", o.id, false, :class => 'operation'
-    %span= o.name
+  .operations
+    .error Должна быть указана хотябы одна операция
+    %h2.l.left Операции: 
+    - @category.ancestors_operations.each do |o|
+      %span= check_box_tag "operation_ids[]", o.id, false, :class => 'operation'
+      %span= o.name
 
-  - @category.ancestors_operations.each do |o|
-    .operation{:id => o.id}
-      %h3= o.name
-      .fields_container{:style => "height: #{o.form_layout.height}px; width: 680px"}
-        = render :partial => 'form_layouts/characteristic', :collection => o.ancestors_characteristics
-        = render :partial => 'form_layouts/container',      :collection => @category.ancestors_containers.only_for_operation(o)
-      %hr
+    - @category.ancestors_operations.each do |o|
+      .operation{:id => o.id}
+        %h3= o.name
+        .fields_container{:style => "height: #{o.form_layout.height}px; width: 680px"}
+          = render :partial => 'form_layouts/characteristic', :collection => o.ancestors_characteristics
+          = render :partial => 'form_layouts/container',      :collection => @category.ancestors_containers.only_for_operation(o)
+        %hr
 
   .fields_container{:style => "height: #{@category.form_layout.height}px;"}
     = render :partial => 'form_layouts/characteristic', :collection => @category.ancestors_characteristics.without_container.without_operation

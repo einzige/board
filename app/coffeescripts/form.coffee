@@ -25,11 +25,22 @@
 
             $(this).jStepper(options) if (min || max)
 
+    validate_operations = () ->
+        unless $('.operations :checked').length
+            $('.operations .error').show()
+            $('.operations').addClass('invalid')
+        else
+            $('.operations .error').hide()
+            $('.operations').removeClass('invalid')
 
     $.fn.initValidation = () ->
         if $.tools
             $.tools.validator.localize('ru', {'[required]': 'This field is required'})
             $(this).validator({lang: 'ru'})
+
+            if $('.operations :checkbox').length
+                $('.operations :checkbox').change validate_operations
+                $(this).bind "onBeforeValidate",  validate_operations
 
             $(this).bind "onFail", (e, errors) ->
                 if e.originalEvent.type == 'submit'

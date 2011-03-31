@@ -19,7 +19,7 @@ class Operation
   # validates_presence_of :category
   
   def ancestors_characteristics
-    category.characteristics_only_for(self)
+    category.characteristics_for(self)
   end
   def all_characteristics
     category.ancestors_characteristics.where(:operation_id.in => [nil, id])

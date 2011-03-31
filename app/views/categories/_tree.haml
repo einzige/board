@@ -1,0 +1,12 @@
+.tree
+  %h2.orange.i.n Разделы
+  %hr{:style => 'border-color: black'}
+
+  - Category.roots.each do |c|
+    .left
+      %span.b.orange= c.name
+      .h15
+      - c.children.each do |cc|
+        = link_to cc.name, c
+        %br/
+  .clear.h25

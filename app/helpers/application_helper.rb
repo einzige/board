@@ -15,7 +15,7 @@ module ApplicationHelper
   #
 
   def breads_for category, operation = nil
-    res = category.ancestors.map do |c| 
+    res = category.ancestors_and_self.uniq.map do |c| 
       {
         :name => c.name, 
         :link => c 

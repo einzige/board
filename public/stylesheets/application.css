@@ -48,6 +48,9 @@ html.busy, html.busy * {
 .b {
   font-weight: bold; }
 
+.n {
+  font-weight: normal; }
+
 .i {
   font-style: italic; }
 
@@ -70,6 +73,9 @@ html.busy, html.busy * {
 .green {
   color: green; }
 
+.orange {
+  color: orange; }
+
 .fixed {
   position: fixed; }
 
@@ -85,6 +91,9 @@ html.busy, html.busy * {
 .left0 {
   left: 0; }
 
+.tac {
+  text-align: center; }
+
 /*.fs13 { font-size: 13pt; }
 .fs8  { font-size: 8pt;  }*/
 .dashed {
@@ -96,6 +105,20 @@ html.busy, html.busy * {
 
 .pointer {
   cursor: pointer; }
+
+.invalid {
+  border: 1px solid red;
+  padding-bottom: 2px;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -khtml-border-radius: 4px;
+  -webkit-box-shadow: inset 0px 0px 3px #ccaf82;
+  -moz-box-shadow: inset 0px 0px 3px #ccaf82;
+  box-shadow: inset 0px 0px 3px #ccaf82;
+  -webkit-box-shadow: 2px 2px 2px #aaaaaa;
+  -moz-box-shadow: 2px 2px 2px #aaaaaa;
+  box-shadow: 2px 2px 2px #aaaaaa; }
 
 body {
   font-family: Arial;
@@ -126,7 +149,7 @@ span {
   margin: 0; }
 
 a {
-  color: #0099cc;
+  color: blue;
   text-decoration: underline;
   cursor: pointer; }
   a:hover {
@@ -345,8 +368,7 @@ label {
     margin-bottom: 20px; }
 
 .filter {
-  width: 680px;
-  padding: 0 15px 20px 15px; }
+  width: 680px; }
   .filter .fields_container {
     border-radius: 10px;
     -moz-border-radius: 10px;
@@ -503,8 +525,12 @@ table.admin {
   background: #fcfaeb;
   margin-top: 10px;
   padding: 20px; }
-  .lot_form div.operation {
-    display: none; }
+  .lot_form .operations .error {
+    display: none;
+    float: right; }
+  .lot_form .operations div.operation {
+    display: none;
+    float: left; }
   .lot_form label {
     font-size: 13pt; }
     .lot_form label.required {
@@ -575,8 +601,8 @@ table.admin {
   margin: 5px 0 0 0; }
 
 .error {
-  text-shadow: 1px 1px 1px #000000;
-  filter: dropshadow(color=black, offx=1, offy=1);
+  text-shadow: 1px 1px 1px #777;
+  filter: dropshadow(color=#777777, offx=1, offy=1);
   height: 15px;
   background-color: #FFFE36;
   border: 1px solid #E1E16D;
@@ -594,8 +620,8 @@ table.admin {
   -webkit-box-shadow: 0 0 6px #ddd; }
   .error p {
     margin-top: 3px;
-    text-shadow: 1px 1px 1px #000000;
-    filter: dropshadow(color=black, offx=1, offy=1); }
+    text-shadow: 1px 1px 1px #777;
+    filter: dropshadow(color=#777777, offx=1, offy=1); }
 
 .admin-menu #admin_toggler {
   width: 14px;
@@ -626,8 +652,8 @@ table.admin {
     padding: 0;
     color: white;
     opacity: 0.8;
-    text-shadow: 1px 1px 1px #000000;
-    filter: dropshadow(color=black, offx=1, offy=1); }
+    text-shadow: 1px 1px 1px #777;
+    filter: dropshadow(color=#777777, offx=1, offy=1); }
     .admin-menu .group h1 a {
       color: inherit;
       text-decoration: none; }
@@ -648,9 +674,58 @@ table.admin {
   .admin-menu .tab:hover {
     background-image: url(/images/backgrounds/lines.png); }
   .admin-menu .tab a {
-    text-shadow: 1px 1px 1px #000000;
-    filter: dropshadow(color=black, offx=1, offy=1);
+    text-shadow: 1px 1px 1px #777;
+    filter: dropshadow(color=#777777, offx=1, offy=1);
     color: inherit;
     font-weight: bold;
     text-decoration: none;
     text-transform: uppercase; }
+
+.tree a {
+  color: #444; }
+  .tree a:hover {
+    color: blue; }
+
+.content .tools .look-at {
+  padding-left: 16px;
+  height: 16px;
+  background: url("/images/zoom.png") no-repeat left center; }
+.content .tools .print {
+  padding-left: 20px;
+  height: 16px;
+  background: url("/images/print.png") no-repeat left center; }
+.content .tools .cancel {
+  padding-left: 11px;
+  height: 16px;
+  background: url("/images/cross.png") no-repeat left center; }
+.content .lots {
+  width: 680px; }
+  .content .lots hr {
+    border: none;
+    border-bottom: 1px solid orange; }
+  .content .lots .lot {
+    padding: 10px; }
+    .content .lots .lot hr {
+      border: none;
+      border-bottom: 1px dashed gray; }
+    .content .lots .lot .picture {
+      float: left;
+      width: 85px;
+      height: 65px;
+      background: #F0F0F0; }
+    .content .lots .lot .description {
+      line-height: 1.3;
+      padding-right: 20px;
+      padding-left: 10px; }
+      .content .lots .lot .description label {
+        font-weight: bold; }
+      .content .lots .lot .description a {
+        color: black;
+        text-decoration: none; }
+        .content .lots .lot .description a:hover {
+          text-decoration: underline; }
+    .content .lots .lot .contacts {
+      padding-left: 20px;
+      border-left: 1px solid #DDD;
+      width: 120px;
+      min-height: 65px; }

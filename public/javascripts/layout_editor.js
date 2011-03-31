@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Tue, 29 Mar 2011 17:25:15 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 30 Mar 2011 05:55:51 GMT from
  * /home/szinin/git/inform/app/coffeescripts/layout_editor.coffee
  */
 
