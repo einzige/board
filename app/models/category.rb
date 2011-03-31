@@ -65,46 +65,36 @@ class Category
 
     return criteria if params.nil? || params.empty?
 
-    results = []
+    matches = []
 
     params.reject! { |k,v| v.empty? }
-
     params.each do |cid, value|
       if value.is_a? Array
         if Characteristic.find_by_slug(cid).numeric?
-          results << criteria.where("properties" => {'$elemMatch' => {:slug  => match[1], 
-                                                                      :value => {'$in' => value.map(&:to_f)}}})
+          matches << {:slug  => cid, :value => {'$in' => value.map(&:to_f)}}
         else
-          results << criteria.where("properties" => {'$elemMatch' => {:slug  => match[1], 
-                                                                      :value => {'$in' => value.map(&:to_s)}}})
+          matches << {:slug  => cid, :value => {'$in' => value.map(&:to_s)}}
         end
       else 
-        # FIXME: combine gte, lte in one query
         match = cid.match(/(.+)_less_than$/) 
         unless match.nil?
-          results << criteria.where("properties" => {'$elemMatch' => {:slug  => match[1], 
-                                                                      :value => {'$lte' => value.to_f}}})
+          matches << {:slug  => match[1], :value => {'$lte' => value.to_f}}
         else
           match = cid.match(/(.+)_greater_than$/)
           unless match.nil?
-            results << criteria.where("properties" => {'$elemMatch' => {:slug  => match[1], 
-                                                                        :value => {'$gte' => value.to_f}}})
+            matches << {:slug  => match[1], :value => {'$gte' => value.to_f}}
           else
-            # do simple where
             if Characteristic.find_by_slug(cid).numeric?
-              results << criteria.where("properties" => {'$elemMatch' => {:slug => cid, :value => value.to_f}})
+              matches << {:slug => cid, :value => value.to_f}
             else
-              results << criteria.where("properties" => {'$elemMatch' => {:slug => cid, :value => value.to_s}})
+              matches << {:slug => cid, :value => value.to_s}
             end
           end # end greater_than
         end # end less_than
       end # endif
     end # endeach
 
-    result = results.first
-    results.each {|r| result &= r }
-
-    Lot.any_in :_id => result.map(&:id)
+    criteria.where("properties" => {"$all" => matches.map {|r| {'$elemMatch' => r} }})
   end
 
   # service methods
