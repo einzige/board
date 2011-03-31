@@ -3,10 +3,11 @@
   = javascript_include_tag "ui/jquery.jstepper.min"
   = javascript_include_tag "jquery-ui.min"
   = javascript_include_tag 'ui/validator'
+  = javascript_include_tag 'form'
 
   :javascript
     toggleOperation = function() {
-      operation_div = $('#'+$(this).attr('rel'));
+      operation_div = $('#'+$(this).val());
       if ($(this).attr('checked') && operation_div.find('.characteristic').length)
         operation_div.show(); 
       else 
@@ -14,118 +15,80 @@
     }
 
     $(document).ready(function() {
-      $.tools.validator.localize('ru', {'[required]': 'Поле обязательно к заполнению'});
-      $('form.new_lot').validator({lang: 'ru'});
-      $('.lot_form :checkbox.tristate').tristate();
+      $(':checkbox.operation').change(toggleOperation).each(toggleOperation); 
 
-      /* joke */
-      $('#agreement').click(function() { $(this).fadeOut(400).fadeIn(200).attr('checked', 'checked') });
-
-      $("form.new_lot").bind("onFail", function(e, errors)  {
-          if (e.originalEvent.type == 'submit') {
-              $.each(errors, function()  {
-                  var input = this.input;
-                  input.css({borderColor: 'red'}).focus(function()  {
-                      input.css({borderColor: '#444'});
-                  });
-              });
-          }
-      });
-
-      $('.lot_form input[type=text]').each(function() {
-        var options = {}
-        var min = $(this).attr('min');
-        var max = $(this).attr('max');
-        var step = $(this).attr('step');
-
-        if (min)
-          $.extend(options, {minValue: parseFloat(min)});
-        if (max)
-          $.extend(options, {maxValue: parseFloat(max)});
-        if (step)
-          $.extend(options, {normalStep: parseFloat(step)});
-
-        if (min || max)
-          $(this).jStepper(options);
-      });
-
-      $('.operation:checkbox').change(toggleOperation).each(toggleOperation); 
-
-      $('form.new_lot').submit(function(){
-        $('.operation:hidden').empty();
-        return true;
+      $('form.lot_form').initForm();
+      $('form.lot_form').submit(function(){
+        if($('.operations :checked').length > 0) {
+          $('.operation:hidden').empty();
+          return true;
+        } else {
+          return false;
+        }
       });
     });
 
-- form_for [@category, @lot] do |f|
-  = hidden_field_tag 'operation_ids[]', @category.ancestors_operations.first.id
-  = hidden_field_tag 'operation_ids[]', @category.ancestors_operations.last.id 
-  .lot_form
-    .operations
-      %h2.l.left Операции: 
-      - @category.ancestors_operations.each do |o|
-        %span= check_box_tag "operation_ids[]", o.id, false, :class => 'operation', :rel => o.id
-        %span= o.name
-      - @category.ancestors_operations.each do |o|
-        .operation{:id => o.id}
-          %h3= o.name
-          .fields_container{:style => "height: #{o.form_layout.height}px; width: 680px"}
-            = render :partial => 'form_layouts/characteristic', :collection => o.ancestors_characteristics
-            = render :partial => 'form_layouts/container',      :collection => @category.characteristic_containers.only_for_operation(o)
-          %hr
-    .form_layout{:style => "height: #{@category.form_layout.height}px;"}
-      = render :partial => 'form_layouts/characteristic', :collection => @category.characteristics.without_operation.without_container
-      = render :partial => 'form_layouts/container',      :collection => @category.characteristic_containers.without_operation
-    %table
-      %tr
-        %td
-        %td{:colspan => 2}
-        %td
-      %tr
-        %td{:colspan => 3}
-          
-      %tr
-        %td= f.label :name, 'Заголовок', :class => 'required'
-        %td= f.text_field :name, :class => 'required string', :required => 'required'
-        %td
-          .description макс. 100 знаков
-      %tr
-        %td= f.label :description, 'Текст объявления', :class => 'required'
-        %td= f.text_area :description, :class => 'required', :required => 'required'
-        %td
-          .description макс. 800 знаков
-      = f.fields_for :contacts do |cf|
-        %tr
-          %td= cf.label :name, 'Автор'
-          %td= cf.text_field :name, :class => 'string'
-          %td
-        %tr
-          %td= cf.label :phone, 'Номер телефона', :class => 'required'
-          %td= cf.text_field :phone, :class => 'required string', :required => 'required'
-          %td
-        %tr
-          %td= cf.label :email, 'E-mail', :class => 'required'
-          %td= cf.text_field :email, :class => 'required string', :required => 'required'
-          %td
-      %tr
-        %td
-        %td
-          %small.required.l Поля обязательные для заполнения
-        %td
+- form_for [@category, @lot], :html => {:class => 'lot_form'} do |f|
+  .operations
+    .error Должна быть указана хотябы одна операция
+    %h2.l.left Операции: 
+    - @category.ancestors_operations.each do |o|
+      %span= check_box_tag "operation_ids[]", o.id, false, :class => 'operation'
+      %span= o.name
 
+    - @category.ancestors_operations.each do |o|
+      .operation{:id => o.id}
+        %h3= o.name
+        .fields_container{:style => "height: #{o.form_layout.height}px; width: 680px"}
+          = render :partial => 'form_layouts/characteristic', :collection => o.ancestors_characteristics
+          = render :partial => 'form_layouts/container',      :collection => @category.ancestors_containers.only_for_operation(o)
+        %hr
+
+  .fields_container{:style => "height: #{@category.form_layout.height}px;"}
+    = render :partial => 'form_layouts/characteristic', :collection => @category.ancestors_characteristics.without_container.without_operation
+    = render :partial => 'form_layouts/container',      :collection => @category.ancestors_containers.without_operation
+
+  %table
+    %tr
+      %td= f.label :name, 'Заголовок', :class => 'required'
+      %td= f.text_field :name, :class => 'required string', :required => 'required'
+      %td
+        .description макс. 100 знаков
+    %tr
+      %td= f.label :description, 'Текст объявления', :class => 'required'
+      %td= f.text_area :description, :class => 'required', :required => 'required'
+      %td
+        .description макс. 800 знаков
+    = f.fields_for :contacts do |cf|
       %tr
-        %td
-        %td{ :style => 'width: 200px;', :colspan => 2}
-          %span.rights 
-            = check_box_tag 'agreement', true, true, :required => 'required'
-            Размещая это объявление, я принимаю условия
-            %br/
-            %a{:href => '#'}Пользовательского соглашения
-            (откроется в новом окне)
+        %td= cf.label :name, 'Автор'
+        %td= cf.text_field :name, :class => 'string'
         %td
       %tr
+        %td= cf.label :phone, 'Номер телефона', :class => 'required'
+        %td= cf.text_field :phone, :class => 'required string', :required => 'required'
         %td
-        %td= submit_tag ''
+      %tr
+        %td= cf.label :email, 'E-mail', :class => 'required'
+        %td= cf.text_field :email, :class => 'required string', :required => 'required'
         %td
-        
-        
+    %tr
+      %td
+      %td
+        %small.required.l Поля обязательные для заполнения
+      %td
+
+    %tr
+      %td
+      %td{ :style => 'width: 200px;', :colspan => 2}
+        %span.rights 
+          = check_box_tag 'agreement', true, true, :required => 'required'
+          Размещая это объявление, я принимаю условия
+          %br/
+          %a{:href => '#'}Пользовательского соглашения
+          (откроется в новом окне)
+      %td
+    %tr
+      %td
+      %td= submit_tag ''
+      %td

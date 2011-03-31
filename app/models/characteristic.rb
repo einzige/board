@@ -17,6 +17,9 @@ class Characteristic
   
   def required?; required end
   def primary?;  primary  end
+  def numeric? 
+    kind_of? NumericCharacteristic
+  end
   
   referenced_in :category
   referenced_in :operation

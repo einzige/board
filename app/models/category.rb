@@ -40,11 +40,9 @@ class Category
 
   # SERVICE FUNCTIONS
   def descendant_lots
-    Lot.any_in(:category_id => descendants.only(:id).map(&:id) << id) # FIXME:-+
-  end                                                                 #        |
-  def ancestors_characteristics                                       #        |
-    Characteristic.any_in(:category_id => parent_ids << id) # <----------------+
-  end
+    Lot.any_in(:category_id => descendants.only(:id).map(&:id) << id)
+  end                                                               
+
   def characteristics_for operation
     if operation
       ancestors_characteristics.any_in(:operation_id => [operation.id, nil])
@@ -52,75 +50,62 @@ class Category
       ancestors_characteristics.where(:operation_id => nil)
     end
   end
+
   def characteristics_only_for operation
     operation ? ancestors_characteristics.where(:operation_id => operation.id) : []
   end
-  def shared_characteristics
-    ancestors_characteristics.where(:operation_id => nil)
-  end
 
-  def ancestors_operations #OPTIMIZE
-    ancestors_and_self.map(&:operations).flatten
-  end
-  def ancestors_containers #OPTIMIZE
-    ancestors_and_self.map(&:characteristic_containers).flatten
-  end
+  def ancestors_operations;      ancestors_for Object::Operation               end
+  def ancestors_containers;      ancestors_for Object::CharacteristicContainer end
+  def ancestors_characteristics; ancestors_for Object::Characteristic          end
 
-#      .----------------.
-#  ____|.------+-------.|__________________
-# | 1'9||'7""6"|5"""4""||3""""""2'''''''''1|
-# |____||______|_______||__________________|_______
-#   \  || | 1''|''''''2||""""3""""4"""5""6""7'8'9'1|_____
-#  _/__||_|____|_______||__________________________|     |
-# | 1''||'''''2|"""""3"||"4"""5""6""7'8'9'1|-------`     |
-# |____|`------+-------`|__________________|             |
-#  \___\================/_________________/              |
-#       `--------------`                                 |
-#    aul.ru                                              |
-#                         /\                             |
-#                        #  \                            |
-  def search_lots params={}, operation=nil #\____________/
-    # There are NO LOGIC>-------------------------------------+ 
-    #                                                         |    
-    # params shold be in the given storage:    _              |
-    # ingeter   => {characteristic_id => value} \             V 
-    # float     => {characteristic_id => value}  \_____USES_SIMPLE_{matches}.where______OR
-    # string    => {characteristic_id => value}  /                                      |
-    # boolean   => {characteristic_id => value}_/                                       V
-    # checkers  => {characteristic_id[] => [1,2,3,4...]}--------------------> uses {in}.where
-    # any_other => {characteristic_id_(less_than|greater_than)}-------------> uses {gt|lt}.where
-    # __________________________________________________________________________________________
-
+  def search_lots params={}, conditions=nil
     criteria = descendant_lots
-    criteria = criteria.where(:operation_ids => operation.id) unless operation.nil?
+    criteria = criteria.where(conditions) unless conditions.nil?
 
-    return criteria if params.nil?
+    return criteria if params.nil? || params.empty?
+
+    results = []
+
+    params.reject! { |k,v| v.empty? }
 
     params.each do |cid, value|
       if value.is_a? Array
-        criteria = criteria.in({"properties.characteristic_id" => [cid], 
-                                            "properties.slug"  => value.to_s.parameterize})
+        if Characteristic.find_by_slug(cid).numeric?
+          results << criteria.where("properties" => {'$elemMatch' => {:slug  => match[1], 
+                                                                      :value => {'$in' => value.map(&:to_f)}}})
+        else
+          results << criteria.where("properties" => {'$elemMatch' => {:slug  => match[1], 
+                                                                      :value => {'$in' => value.map(&:to_s)}}})
+        end
       else 
-        match = cid.match(/(.+)_less_than$/)                                    # lte-+-fix
-        unless match.nil?                                                       #     |
-          criteria = criteria.where({"properties.characteristic_id" => match[1],#     V
-                                         :properties.lte => {:value => value.to_f + 10**-10}}) if match.length > 1
+        # FIXME: combine gte, lte in one query
+        match = cid.match(/(.+)_less_than$/) 
+        unless match.nil?
+          results << criteria.where("properties" => {'$elemMatch' => {:slug  => match[1], 
+                                                                      :value => {'$lte' => value.to_f}}})
         else
           match = cid.match(/(.+)_greater_than$/)
           unless match.nil?
-            criteria = criteria.where({"properties.characteristic_id" => match[1], 
-                                           :properties.gte => {:value => value.to_f}}) if match.length > 1
+            results << criteria.where("properties" => {'$elemMatch' => {:slug  => match[1], 
+                                                                        :value => {'$gte' => value.to_f}}})
           else
             # do simple where
-            criteria = criteria.where({"properties.characteristic_id" => cid, 
-                                                   "properties.slug"  => value.to_s.parameterize})
+            if Characteristic.find_by_slug(cid).numeric?
+              results << criteria.where("properties" => {'$elemMatch' => {:slug => cid, :value => value.to_f}})
+            else
+              results << criteria.where("properties" => {'$elemMatch' => {:slug => cid, :value => value.to_s}})
+            end
           end # end greater_than
         end # end less_than
       end # endif
     end # endeach
-    criteria
-  end
 
+    result = results.first
+    results.each {|r| result &= r }
+
+    Lot.any_in :_id => result.map(&:id)
+  end
 
   # service methods
   #
@@ -133,5 +118,10 @@ class Category
 
   class << self
     alias find_by_slug! find_by_slug 
+  end
+
+  protected
+  def ancestors_for a_class
+    a_class.any_in(:category_id => parent_ids << id)
   end
 end

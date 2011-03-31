@@ -18,14 +18,11 @@ class Operation
   validates_presence_of :name
   # validates_presence_of :category
   
-  def self.for category
-    # FIXME: use parent_ids instead
-    Operation.any_in(:category_id => category.ancestors.only(:id).map(&:id) \
-                                  << category.id)
-  end
-
   def ancestors_characteristics
-    category.characteristics_only_for(self)
+    category.characteristics_for(self)
+  end
+  def all_characteristics
+    category.ancestors_characteristics.where(:operation_id.in => [nil, id])
   end
 
   class << self

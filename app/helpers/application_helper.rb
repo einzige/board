@@ -15,7 +15,7 @@ module ApplicationHelper
   #
 
   def breads_for category, operation = nil
-    res = category.ancestors_and_self.map do |c| 
+    res = category.ancestors_and_self.uniq.map do |c| 
       {
         :name => c.name, 
         :link => c 
@@ -29,37 +29,38 @@ module ApplicationHelper
     res
   end
 
-  def style_for something
+  def remote_forgery_protection
+    javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery?
+  end
+
+  def form_style_for something
+    style_for something, "form_layout"
+  end
+  def filter_style_for something
+    style_for something, "filter_layout"
+  end
+
+  def style_for something, layout = 'form_layout'
     if something.kind_of? Characteristic
-      style =  "left         :#{something.form_layout.x}px;"       +  
-               "top          :#{something.form_layout.y}px;"       +
-               "width        :#{something.form_layout.width}px;"   +
-               "height       :#{something.form_layout.height}px;"  +
+      style =  "left         :#{something.send(layout).x}px;"       +  
+               "top          :#{something.send(layout).y}px;"       +
+               "width        :#{something.send(layout).width}px;"   +
+               "height       :#{something.send(layout).height}px;"  +
                "border-color :#{something.operation ? 'blue' : 'orange'}"
     else 
       if something.kind_of? CharacteristicContainer
-        style =  "left         :#{something.form_layout.x}px;"       +  
-                 "top          :#{something.form_layout.y}px;"       +
-                 "width        :#{something.form_layout.width}px;"   +
-                 "height       :#{something.form_layout.height}px;"  +
+        style =  "left         :#{something.send(layout).x}px;"       +  
+                 "top          :#{something.send(layout).y}px;"       +
+                 "width        :#{something.send(layout).width}px;"   +
+                 "height       :#{something.send(layout).height}px;"  +
                  "border-color :#{something.operation ? 'blue;' : 'orange;'}"
       end
     end
     style
   end
 
-  def check_box_options_for something
-    options = {}
-
-    if something.kind_of? Characteristic
-      checked = something.default
-
-      options[:checked] = 'checked' unless checked.nil?
-      options[:class]   = "tristate #{'primary' if something.primary? }"
-      options[:value]   =  checked.nil? ? '' : (something.default ? '1' : '0')
-    end
-
-    options
+  def link_to_new_lot
+    @category ? new_category_lot_path(@category) : new_lot_path
   end
 
 end

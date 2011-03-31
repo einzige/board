@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Tue, 08 Mar 2011 06:49:34 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 30 Mar 2011 05:55:51 GMT from
  * /home/szinin/git/inform/app/coffeescripts/dropdowner.coffee
  */
 

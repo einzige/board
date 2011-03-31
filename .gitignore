@@ -7,3 +7,4 @@ vendor/cache/**
 vendor/bundle/**
 **.swp
 **.swo
+public/stylesheets/.sass-cache/**

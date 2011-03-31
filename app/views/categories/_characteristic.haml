@@ -1,80 +1,29 @@
 :ruby
-  element_style ||= nil
-  q             ||= @q || {}
-  style = " left:  #{layout.x}px;"      + 
-          " top:   #{layout.y}px;"      +
-          " width: #{layout.width}px;"  + 
-          " height:#{layout.height}px;" 
+  query ||= @query || {}
+  slug = characteristic.slug
 
-  scid  = characteristic.slug.to_s
-= fields_for 'q' do |f|
-  %span.characteristic{:id => scid, :style => style }
+= fields_for 'q', :builder => FilterFormBuilder do |f|
+
+  %span.characteristic{:id => slug, :style => filter_style_for(characteristic)}
 
     = f.label characteristic.slug, characteristic.name 
 
-    %span.value{:style => "left: #{layout.padding}px; #{element_style}"}
+    %span.value{:style => "left: #{characteristic.filter_layout.padding}px;"}
       - case characteristic.class
-
-
         - when BooleanCharacteristic
-          :ruby 
-            checked = characteristic.default
-            options = {:checked => 'checked'}
-            options[:class] = 'tristate'
-            value = checked.nil? ? '' : (characteristic.default ? '1' : '0')
-    
-          = f.check_box characteristic.slug, options, value
+          = f.tristate characteristic, query[slug]
 
-        - when IntegerCharacteristic
-          -if characteristic.ranged?
-            = f.text_field "#{characteristic.slug}_greater_than", { :value => (q[scid + '_greater_than'] || characteristic.l_limit.to_i), 
-                                                                    :min   => characteristic.l_limit.to_i, 
-                                                                    :max   => characteristic.r_limit.to_i, 
-                                                                    :step  => characteristic.step.to_i }
+        - when IntegerCharacteristic, FloatCharacteristic
+          - if characteristic.ranged? 
+            = f.numeric_gt characteristic, query["#{slug}_greater_than"]
             &mdash;
-            = f.text_field "#{characteristic.slug}_less_than", { :value => (q[scid + '_less_than'] || characteristic.l_limit.to_i), 
-                                                                    :min   => characteristic.l_limit.to_i, 
-                                                                    :max   => characteristic.r_limit.to_i, 
-                                                                    :step  => characteristic.step.to_i }
-          -else
-            = f.text_field characteristic.slug, { :value => (q[scid] || characteristic.l_limit.to_i), 
-                                                                    :min   => characteristic.l_limit.to_i, 
-                                                                    :max   => characteristic.r_limit.to_i, 
-                                                                    :step  => characteristic.step.to_i }
-          = characteristic.measure
-          %span.description= "(#{characteristic.description})" unless characteristic.description.nil? || characteristic.description.empty?
+            = f.numeric_lt characteristic, query["#{slug}_less_than"]
+          - else
+            = f.numeric characteristic, query[slug]
 
-
-        - when FloatCharacteristic
-          -if characteristic.ranged?
-            = f.text_field "#{characteristic.slug}_greater_than", { :value => (q[scid + '_greater_than'] || characteristic.l_limit), 
-                                                                    :min   => characteristic.l_limit, 
-                                                                    :max   => characteristic.r_limit, 
-                                                                    :step  => characteristic.step }
-            &mdash;
-            = f.text_field "#{characteristic.slug}_less_than", { :value => (q[scid + '_less_than'] || characteristic.l_limit), 
-                                                                    :min   => characteristic.l_limit, 
-                                                                    :max   => characteristic.r_limit, 
-                                                                    :step  => characteristic.step }
-          -else
-            = f.text_field characteristic.slug, { :value => (q[scid] || characteristic.l_limit), 
-                                                                    :min   => characteristic.l_limit, 
-                                                                    :max   => characteristic.r_limit, 
-                                                                    :step  => characteristic.step }
-          = characteristic.measure
-          %span.description= "(#{characteristic.description})" unless characteristic.description.nil? || characteristic.description.empty?
-
+          = characteristic.measure 
+          - unless characteristic.description.nil? || characteristic.description.empty?
+            %span.description= "(#{characteristic.description})"
 
         - when SelectionCharacteristic
-          - case characteristic.representation
-            - when 'radiogroup'
-              - characteristic.selection_options.each do |o|
-                = radio_button_tag characteristic.slug, o.value, q[scid] == o.value
-                = o.value
-
-            - when 'selectbox'
-              = select_tag characteristic.slug, 
-                options_from_collection_for_select(characteristic.selection_options, "value", "value", q[scid]), 
-                                 :include_blank => characteristic.includes_blank?
-
-
+          = f.selection characteristic, query[slug]

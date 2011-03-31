@@ -1,49 +1,18 @@
-= fields_for 'properties' do |f|
-  %span.characteristic{:id => characteristic.id, :style => style_for(characteristic) }
+= fields_for 'properties', :builder => DefaultFormBuilder do |f|
+  %span.characteristic{:id => characteristic.id, :style => style_for(characteristic), :rel => "#layout_form" }
+    = f.label characteristic 
+    %span.value{:style => "left: #{characteristic.form_layout.padding}px;"}
+      - case characteristic.class
+        - when BooleanCharacteristic
+          = f.tristate characteristic
 
-    - if characteristic.class == BooleanCharacteristic
-      = f.check_box characteristic.id, check_box_options_for(characteristic)
-      = f.label     characteristic.id, characteristic.name 
-    - else
-      = f.label     characteristic.id, characteristic.name, {:class => "#{'required' if characteristic.required?}"}
+        - when IntegerCharacteristic, FloatCharacteristic
+          = f.numeric characteristic
+          = characteristic.measure
+          - unless characteristic.description.nil? || characteristic.description.empty?
+            %span.description= "(#{characteristic.description})"
 
-      %span.value{:style => "left: #{characteristic.form_layout.padding}px;"}
-        - case characteristic.class
-
-          - when IntegerCharacteristic
-            = f.text_field characteristic.id, {:value  => characteristic.default.to_i, 
-                                                 :min  => characteristic.l_limit.to_i, 
-                                                 :max  => characteristic.r_limit.to_i, 
-                                                 :step => characteristic.step.to_i,
-                                                 :class => "#{'primary' if characteristic.primary?}",
-                                                 :required => characteristic.required? ? 'required' : 'not-required'}
-            = characteristic.measure
-            %span.description= "(#{characteristic.description})" unless characteristic.description.nil? || characteristic.description.empty?
-
-
-          - when FloatCharacteristic
-            = f.text_field characteristic.id, {:value => characteristic.default,
-                                                :min  => characteristic.l_limit,      
-                                                :max  => characteristic.r_limit,      
-                                                :step => characteristic.step,
-                                                :class => "#{'primary' if characteristic.primary?}",
-                                                :required => characteristic.required? ? 'required' : 'not-required'}
-            = characteristic.measure
-            - unless characteristic.description.nil? || characteristic.description.empty?
-              %span.description= "(#{characteristic.description})"
-
-
-          - when SelectionCharacteristic
-            - case characteristic.representation
-              - when 'radiogroup'
-                - characteristic.selection_options.each do |o|
-                  = f.radio_button characteristic.id, o.value, {:required => characteristic.required? ? 'required' : 'not-required',
-                                                                :class    => "#{'primary' if characteristic.primary?}"}
-                  = o.value
-
-              - when 'selectbox'
-                = f.select characteristic.id, 
-                    options_from_collection_for_select(characteristic.selection_options, "value", "value"), 
-                    :include_blank => !characteristic.required?, :required => characteristic.required? ? 'required' : 'not-required', :class    =>"#{'primary' if characteristic.primary?}"
+        - when SelectionCharacteristic
+          = f.selection characteristic
 
 

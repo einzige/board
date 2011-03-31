@@ -2,39 +2,22 @@
   = javascript_include_tag "ui/jquery.tristate"
   = javascript_include_tag "ui/jquery.jstepper.min"
   = javascript_include_tag "jquery-ui.min"
+  = javascript_include_tag "form"
 
   :javascript
-    $(document).ready(function() {
-      $('#search_form :checkbox').tristate();
-      $('#search_form input[type=text]').each(function() {
-        var options = {}
-        var min = $(this).attr('min');
-        var max = $(this).attr('max');
-        var step = $(this).attr('step');
-
-        if (min)
-          $.extend(options, {minValue: parseFloat(min)});
-        if (max)
-          $.extend(options, {maxValue: parseFloat(max)});
-        if (step)
-          $.extend(options, {normalStep: parseFloat(step)});
-
-        if (min || max)
-          $(this).jStepper(options);
-      });
-    });
+    $(document).ready(function() { $('#search_form').initForm(); });
 
 #cut.filter.left
-  %h1.left= category.name
-
-  .right= render :partial => 'categories/operations', :object => Operation.for(category)
-  .clear.w15
+  .heap
+    %h1.left= @category.name
+    .right= render :partial => 'categories/operations', :object => @category.ancestors_operations
+    .clear
 
   - form_tag '', :method => :get, :id => 'search_form', :class => 'filter_form' do 
-    .fields_container{:style => "height: #{(operation || category).filter_layout.height}px;"}
-      = hidden_field_tag 'operation', operation.slug
+    .fields_container{:style => "height: #{(@operation || @category).filter_layout.height}px;"}
+      = hidden_field_tag 'operation', @operation.slug
       
-      = render :partial => 'filter_layouts/time_range',  :object => category.filter_layout
-      = render :partial => 'categories/characteristics', :object => category.characteristics_for(operation)
+      = render :partial => 'filter_layouts/time_range'
+      = render :partial => 'categories/characteristic', :collection => @operation.all_characteristics#@category.characteristics_for(@operation)#@operation.all_characteristics
 
-    = submit_tag 'Искать', :style => 'float: right;'
+      = submit_tag ''

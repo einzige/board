@@ -3,7 +3,6 @@ class FilterLayoutsController < LayoutsController
   @@layout_type = 'filter'
 
   before_filter :except => :update do
-    operations = Operation.for(@category)
-    @operation = operations.find_by_slug(params[:operation]) || operations.first
+    @operation = Operation.find_by_slug(params[:operation]) || @category.ancestors_operations.first
   end
 end

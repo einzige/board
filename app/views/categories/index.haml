@@ -1,38 +1,49 @@
 .w210.left.center
-  %h2 Рубрики объявлений
-  - if can? :manage, Category
-    = link_to 'СОЗДАТЬ КАТЕГОРИЮ', new_category_path, :class => 'red b fs13 i'
-  - if @categories[:roots].any?
-    %ul#categories-list
-      - @categories[:roots].each do |c|
-        %li= link_to c.name, c
-  -else
-    %span.i.l Нет рубрик
+  #categories-list
+    %h2 Рубрики объявлений
+    - if @categories[:roots].any?
+      %ul
+        - @categories[:roots].each do |c|
+          %li= link_to c.name, c
+    -else
+      %span.i.l Нет рубрик
 
-.main
-  %small
-    %b Доска бесплатных объявлений
-    И пошел дальше этот текст...
+.main.left.ml15
+  .w680max
+    %small
+      %b Доска бесплатных объявлений Красноярск
+      %br/
+      Объявления на inform24.ru - это доска бесплатных обхявлений о продаже и покупке самых разнообразных товаров в Красноярске. Недвижимость, автомобили, домашние животные, бытовая техника, электроника, одежда и многое другое. Самые актуальные объявления от частных лиц и организаций. На сайте 
+      %span.orange 835&nbsp;098
+      объявлений. 
+      = link_to 'Размещение объявлений', link_to_new_lot
+      &mdash; бесплатно!
+      .b Ваши объявления работают круглосуточно!
   .clear.h25
+
   .w240.left
     = render :partial => 'categories/popular'
+
   .w240.left.ml15
     = image_tag "temp/stroka.png"
   .clear.h25
+
   .w240.left
     .banner.w240
-      .content 240x208
+      %span 240x208
+
   .w240.left.ml15
     = image_tag "temp/urgent.png"
 
 .right.w240.center
   .banner.w240
-    .content 240x123
+    %span 240x123
+
   .banner.w240
-    .content 240x123
+    %span 240x123
+
   .w240= image_tag 'temp/direct.png'
 
-.w480
-  = render :partial => 'lots/recent'
-  
+= render :partial => 'lots/recent'
+
 .clear

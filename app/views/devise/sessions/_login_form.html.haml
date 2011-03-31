@@ -1,17 +1,18 @@
 -unless user_signed_in?
-  %span Личный кабинет
+  %span.red.fs10 Личный кабинет
   = form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
-    %table
+    %table{:cellspacing => 0, :cellpadding => 0}
       %tr
         %td= f.text_field :email
         %td= f.password_field :password
-        %td= f.submit ">"
+        %td= f.submit ""
     - if devise_mapping.rememberable?
       %div
         = f.check_box :remember_me
         = f.label :remember_me, 'Запомнить меня'
   = render :partial => "devise/shared/links"
 -else
-  .left{:style => 'width: 10px; height: 15px; background: red; margin: 0px 10px 0 0;'}
-  = link_to "Выйти", destroy_user_session_path
-  .clear
+  %a{:href => destroy_user_session_path}
+    .logout
+  .clear.h25
+  .clear.h15

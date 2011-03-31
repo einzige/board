@@ -6,7 +6,7 @@ class CategoriesController < ApplicationController
   def index
     @categories = {}
     @categories[:roots] = Category.roots.only(:slug, :name)
-    @categories[:popular] = Category.where(:parent_id.in => Category.roots.only(:id).map(&:id)) \
+    @categories[:popular] = Category.where(:parent_id.in => @categories[:roots].only(:_id).map(&:_id)) \
                                     .desc(:lots_count)
                                     .limit(8)
                                     .only(:slug, :name, :parent_id)
@@ -16,20 +16,21 @@ class CategoriesController < ApplicationController
   end
 
   def show
-    @q = params[:q] || {}
+    @query = params[:q] || {}
     @category = Category.find_by_slug(params[:id])
 
-    operations = Operation.for(@category)
+    operations = @category.ancestors_operations
     @operation = operations.find_by_slug(params[:operation]) || operations.first
 
-    @lots = @category.search_lots(@q, @operation) 
-                     .where(:created_at.gt => (-((params[:time_range] || NumericCharacteristic::GROSS).to_i)).days.from_now)
+    @lots = @category.search_lots(@query, 
+                                  {:operation_ids => @operation.id, 
+                                   :created_at.gt => (-((params[:time_range] || NumericCharacteristic::GROSS).to_i)).days.from_now})
   end
 
   def edit
     @category = Category.find_by_slug(params[:id])
 
-    operations = Operation.for(@category)
+    operations = @category.ancestors_operations
     @operation = operations.find_by_slug(params[:operation]) || operations.first
   end
 
@@ -64,7 +65,7 @@ class CategoriesController < ApplicationController
 
   # AJAX
   def children
-    category = Category.criteria.id(params[:id]).first
+    category = Category.first(:conditions => {:_id => params[:id]})
 
     resp = category.children.map do |c|
       { :id     =>  c.id, 

@@ -21,6 +21,11 @@ class CharacteristicsController < ApplicationController
       params[:characteristic][:operation] = nil 
       params[:characteristic][:operation_id] = nil
     end
+    container = params[:characteristic][:characteristic_container_id]
+    if container.nil? || container.empty?
+      params[:characteristic][:characteristic_container] = nil
+      params[:characteristic][:characteristic_container_id] = nil
+    end
   end
 
   before_filter do

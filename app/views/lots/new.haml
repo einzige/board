@@ -1,3 +1,11 @@
+- content_for :admin_menu do
+  - if @category
+    .group
+      %h1 Форма:
+      .tab
+        = link_to 'Редактировать раскладку', edit_category_form_layout_path(@category)
+      .clear
+
 - content_for :js do
   = javascript_include_tag 'ui/overlay.min'
   = javascript_include_tag 'ui/overlay.apple.min'
@@ -15,7 +23,8 @@
   - if @category
     = render :partial => 'form'
   - else
-    = image_tag 'fake.png', :class => 'fake'
+    .h25
+    = image_tag 'fake.png'
 
 .right.w240.center
   .banner.w240{:style => 'height: 400px'}

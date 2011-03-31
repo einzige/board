@@ -2,8 +2,9 @@
 class Property
   include Mongoid::Document
 
+  field :slug
+  field :data,  :type => Hash
   referenced_in :characteristic
-  key           :characteristic_id
 
   embedded_in :lot, :inverse_of => :properties
 
@@ -20,8 +21,15 @@ class Property
 
   after_create  :increase_characteristic_lots_count
   after_destroy :decrease_characteristic_lots_count
+  before_save   :connect_to_characteristic 
 
   protected
+    def connect_to_characteristic
+      self['slug'] = characteristic.slug
+      self.data = {} if self.data.nil?
+      self.data['slug'] = characteristic.slug
+      self.data['value'] = self['value']
+    end
     def increase_characteristic_lots_count
       characteristic.inc_lots_count
     end

@@ -1,0 +1,27 @@
+.lot
+  .left
+    = render :partial => 'shared/lot_breadcrumbs', :object => breads_for(lot.category, lot.operations.first)
+  .tac
+    %small.l= "№#{lot.serial_number} размещено #{lot.created_at}"
+    .right.b Инвест
+  .clear.h15
+
+  %div.left
+    .picture
+    .tac.l 3 фото
+
+  .description.left
+    = check_box_tag :lot_id
+    = label_tag :lot_id, lot.name
+    %br
+    = link_to lot.description, lot
+    - if lot.has_property? :tsiena
+      %br
+      %span.red.b= "#{lot.get_property(:tsiena).value} р."
+
+  .contacts.right.l
+    = "Автор: #{lot.contacts.name}"
+    %br/
+    = "тел. #{lot.contacts.phone}"
+  .clear.h15
+  %hr
