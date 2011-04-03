@@ -133,6 +133,13 @@ h2 {
   margin: 0;
   padding: 0; }
 
+h1 {
+  color: #333;
+  font-size: 14pt;
+  margin: 0;
+  padding: 0;
+  font-weight: normal; }
+
 ul {
   margin: 0;
   padding: 0; }
@@ -514,7 +521,7 @@ table.admin {
     border-bottom: 1px dashed #AACCFF;
     padding: 10px; }
 
-.lot_form {
+.orange-form {
   border-radius: 10px;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
@@ -525,55 +532,58 @@ table.admin {
   background: #fcfaeb;
   margin-top: 10px;
   padding: 20px; }
-  .lot_form .operations .error {
+  .orange-form .operations .error {
     display: none;
     float: right; }
-  .lot_form .operations div.operation {
+  .orange-form .operations div.operation {
     display: none;
     float: left; }
-  .lot_form label {
+  .orange-form label {
     font-size: 13pt; }
-    .lot_form label.required {
+    .orange-form label.required {
       padding-left: 9px;
       background: url("/images/star.png") no-repeat;
       background-position: left center; }
-  .lot_form small.required {
+  .orange-form small.required {
     padding-left: 9px;
     background: url("/images/star.png") no-repeat;
     background-position: left center; }
-  .lot_form .rights {
+  .orange-form .rights {
     font-size: 9pt; }
-  .lot_form .description {
+  .orange-form .description {
     font-size: 9pt;
     color: gray; }
-  .lot_form table label {
+  .orange-form table label {
     text-align: right;
     float: right; }
-  .lot_form table tr td {
+  .orange-form table tr td {
     vertical-align: top; }
-    .lot_form table tr td:first-child {
+    .orange-form table tr td:first-child {
       padding-right: 50px; }
-  .lot_form input[type=text] {
+  .orange-form input[type=text], .orange-form input[type=password] {
     width: 60px;
     border: 1px solid #458cfe; }
-    .lot_form input[type=text]:hover {
+    .orange-form input[type=text]:hover, .orange-form input[type=password]:hover {
       border: 1px solid orange; }
-    .lot_form input[type=text].string {
+    .orange-form input[type=text].string, .orange-form input[type=password].string {
       width: 318px; }
-  .lot_form input[type=submit] {
+  .orange-form input[type=submit] {
     width: 214px;
     height: 34px;
-    background: url(/images/add.png);
     border: none;
     margin-top: 20px;
     cursor: pointer; }
-    .lot_form input[type=submit]:hover {
+    .orange-form input[type=submit].add-lot {
+      background: url(/images/add.png); }
+    .orange-form input[type=submit].register {
+      background: url(/images/register.png); }
+    .orange-form input[type=submit]:hover {
       background-position: 0 100%; }
-  .lot_form textarea {
+  .orange-form textarea {
     width: 318px;
     height: 150px;
     border: 1px solid #458cfe; }
-    .lot_form textarea:hover {
+    .orange-form textarea:hover {
       border: 1px solid orange; }
 
 .fields_container {

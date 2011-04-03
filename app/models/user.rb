@@ -6,6 +6,7 @@ class User
   field :name
   slug  :name
   field :roles_mask, :type => Fixnum, :default => 0
+  field :phone
 
   references_many :lots, :dependent => :delete
   referenced_in   :company

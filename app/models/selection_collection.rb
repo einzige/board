@@ -14,7 +14,7 @@ class SelectionCollection
     parse_items str
   end
   def parse_items str
-    str.split("\n").each do |i|
+    str.split.each do |i|
       self.collection_items.create({:value => i})
     end
   end

@@ -39,7 +39,7 @@ class Characteristic
 
   scope :without_operation,  where(:operation_id => nil)
   scope :for_operation,      lambda {|operation| where(:operation_id.in => [operation ? operation.id : nil, nil])}
-  scope :only_for_operation, lambda {|operation| where(:operation_id    =>  operation ? operation.id : nil)}
+  scope :only_for_operation, lambda {|operation| where(:operation_id.in => [operation ? operation.id : nil])}
 
   def inc_lots_count; inc(:lots_count, 1) end
   def dec_lots_count; inc(:lots_count,-1) end

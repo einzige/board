@@ -139,6 +139,13 @@ h2 {
   margin: 0; padding: 0;
 }
 
+h1 {
+  color: #333;
+  font-size: 14pt;
+  margin: 0; padding: 0;
+  font-weight: normal;
+}
+
 ul { 
   margin: 0; padding: 0;
 }
@@ -593,7 +600,7 @@ table.admin {
   }
 }
 
-.lot_form {
+.orange-form {
   @include round;
   @include shadow;
 
@@ -647,7 +654,7 @@ table.admin {
   }
 
   input {
-    &[type=text] {
+    &[type=text],&[type=password] {
       width: 60px;
       border: 1px solid $blue;
 
@@ -661,16 +668,19 @@ table.admin {
     &[type=submit]{
       width: 214px;
       height: 34px;
-      background: url(/images/add.png);
       border: none;
       margin-top: 20px;
       cursor: pointer;
-
+      &.add-lot {
+        background: url(/images/add.png);
+      }
+      &.register {
+        background: url(/images/register.png);
+      }
       &:hover{
         background-position: 0 100%;
       }
     }
-
   }
   textarea {
     width: 318px;

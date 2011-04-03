@@ -3,8 +3,16 @@ Inform::Application.routes.draw do
 
   root :to => "categories#index"
 
-  devise_for :users
-  resources :users, :only => :show
+  # USERS
+  match '/registrations' => 'users#index', :as => 'registrations'
+  
+  devise_for :users, :controllers => { :registrations => 'registrations' }
+  resources :users, :only => [:show, :destroy] do
+    member do
+      get :edit_role
+      put :update_role
+    end
+  end
 
   resources :categories do 
     member do

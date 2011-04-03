@@ -27,10 +27,8 @@
 
       - form_tag '', :id => 'form', :class => 'canvas lot_form', :onSubmit => 'return false;' do 
         .admin.fields_container{:style => "height: #{(@operation || @category).form_layout.height}px;", :rel => '#layout_form'}
-          = render :partial => 'form_layouts/characteristic', 
-                     :collection => (@operation || @category).ancestors_characteristics.without_container.only_for_operation(@operation)
-          = render :partial => 'form_layouts/container',      
-                     :collection => (@operation || @category).characteristic_containers.only_for_operation(@operation)
+          = render :partial => 'form_layouts/characteristic', :collection => (@operation || @category).ancestors_characteristics.without_container.only_for_operation(@operation)
+          = render :partial => 'form_layouts/container', :collection => (@operation || @category).characteristic_containers.only_for_operation(@operation)
 
     .left
       - form_tag category_form_layout_path(@category), :method => :put, :id => 'layout_form', do

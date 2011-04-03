@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %title Inform24.ru // Internet-Board
+    %title= yield :title || "Inform24.ru // Internet-Board"
     = stylesheet_link_tag 'application', 'jquery-ui'
     = javascript_include_tag 'jquery.min', 'rails.js'
     = javascript_include_tag 'admin' if current_user && current_user.admin?
