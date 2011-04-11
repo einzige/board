@@ -22,9 +22,14 @@ class CategoriesController < ApplicationController
     operations = @category.ancestors_operations
     @operation = operations.find_by_slug(params[:operation]) || operations.first
 
+    before = (params[:time_range] || NumericCharacteristic::GROSS).to_i
+
     @lots = @category.search_lots(@query, 
-                                  {:operation_ids => @operation.id, 
-                                   :created_at.gt => (-((params[:time_range] || NumericCharacteristic::GROSS).to_i)).days.from_now})
+                                  {
+                                    :operation_ids => @operation.id, 
+                                    :created_at.gt => (-before).days.from_now
+                                  }
+                                 ).paginate(:per_page => 8, :page => params[:page])
   end
 
   def edit

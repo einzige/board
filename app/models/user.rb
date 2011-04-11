@@ -2,21 +2,31 @@ class User
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::Slug
+  include Mongoid::Paperclip
 
+  field :login
   field :name
-  slug  :name
+  slug  :login
   field :roles_mask, :type => Fixnum, :default => 0
   field :phone
 
   references_many :lots, :dependent => :delete
   referenced_in   :company
 
-  validates_presence_of   :name, :email
-  validates_uniqueness_of :name, :email, :case_sensitive => false
+  validates_presence_of   :login, :email
+  validates_uniqueness_of :login, :email, :case_sensitive => false
 
-  attr_accessible :name, :email, :password, 
+  attr_accessible :name, :login, :phone, :email, :password, 
                                  :password_confirmation, 
-                                 :remember_me, :roles_mask
+                                 :remember_me, :roles_mask, :avatar
+
+  has_mongoid_attached_file :avatar,
+                            :styles => { 
+                              :popup  => "800x600=",
+                              :medium => "300x300>",
+                              :thumb  => "100x100>",
+                              :icon   => "64x64"
+                            }
 
   # Roles - Do not change the order and do not remove roles if you
   # already have productive data! Thou it's safe to append new roles

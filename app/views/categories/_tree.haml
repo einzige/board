@@ -2,11 +2,11 @@
   %h2.orange.i.n Разделы
   %hr{:style => 'border-color: black'}
 
-  - Category.roots.each do |c|
-    .left
-      %span.b.orange= c.name
-      .h15
-      - c.children.each do |cc|
-        = link_to cc.name, cc
-        %br/
+  - Category.roots.each do |c| 
+    - unless c.leaf?
+      %dl.left
+        %dt
+          = link_to c.name, c
+        - c.children.each do |cc|
+          %dd= link_to cc.name, cc
   .clear.h25

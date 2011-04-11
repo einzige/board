@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Wed, 30 Mar 2011 05:55:51 GMT from
+/* DO NOT MODIFY. This file was compiled Mon, 04 Apr 2011 06:02:35 GMT from
  * /home/szinin/git/inform/app/coffeescripts/form.coffee
  */
 
@@ -62,7 +62,7 @@
           $(this).bind("onBeforeValidate", validate_operations);
         }
         return $(this).bind("onFail", function(e, errors) {
-          if (e.originalEvent.type === 'submit') {
+          if (e.originalEvent && e.originalEvent.type === 'submit') {
             return $.each(errors, function() {
               var input;
               input = this.input;

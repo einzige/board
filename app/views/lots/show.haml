@@ -1,0 +1,13 @@
+%h1= @lot.name
+
+.w680.blue-panel
+  - if @lot.has_photos?
+    .photos
+      %h2.red Фотографии
+      - @lot.photos.each do |p|
+        = link_to image_tag(p.cover_picture.url(:thumb)), p.cover_picture.url
+  .description.fs13
+    %span.orange Объявление:
+    = @lot.description
+
+  = render :partial => 'categories/lot', :object => @lot

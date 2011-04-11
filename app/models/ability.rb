@@ -12,6 +12,12 @@ class Ability
         can :manage, User do |usr|
           user == usr
         end
+        can :manage, Password do |usr|
+
+        end
+        can :manage, Lot do |lot|
+          user == lot.user
+        end
       end
     end
   end

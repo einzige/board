@@ -22,6 +22,9 @@ html.busy, html.busy * {
   width: 480px; }
 
 /* FIXME: remove me */
+.w680 {
+  width: 680px; }
+
 .w680max {
   max-width: 680px; }
 
@@ -76,6 +79,9 @@ html.busy, html.busy * {
 .orange {
   color: orange; }
 
+.blue {
+  color: blue; }
+
 .fixed {
   position: fixed; }
 
@@ -94,8 +100,10 @@ html.busy, html.busy * {
 .tac {
   text-align: center; }
 
-/*.fs13 { font-size: 13pt; }
-.fs8  { font-size: 8pt;  }*/
+.fs13 {
+  font-size: 13pt; }
+
+/*.fs8  { font-size: 8pt;  }*/
 .dashed {
   text-decoration: none;
   border-bottom: 1px dashed gray; }
@@ -181,6 +189,25 @@ label {
   font-size: 9pt; }
   .breadcrumbs a {
     color: black; }
+
+.pagination {
+  font-size: 9pt;
+  padding-top: 2px; }
+  .pagination span {
+    font-size: 9pt; }
+    .pagination span.disabled {
+      display: none; }
+  .pagination a {
+    text-decoration: none; }
+    .pagination a:hover {
+      color: blue;
+      text-decoration: underline; }
+    .pagination a.previous_page, .pagination a.next_page {
+      text-decoration: underline; }
+  .pagination em {
+    color: orange;
+    font-weight: bold;
+    font-style: normal; }
 
 .banner {
   background: orange;
@@ -553,6 +580,17 @@ table.admin {
   .orange-form .description {
     font-size: 9pt;
     color: gray; }
+  .orange-form .clear {
+    clear: both;
+    height: 10px; }
+  .orange-form .col1 {
+    float: left;
+    width: 180px;
+    padding-right: 20px; }
+  .orange-form .col2 {
+    float: left;
+    width: 320px;
+    padding-right: 10px; }
   .orange-form table label {
     text-align: right;
     float: right; }
@@ -691,10 +729,17 @@ table.admin {
     text-decoration: none;
     text-transform: uppercase; }
 
-.tree a {
-  color: #444; }
-  .tree a:hover {
-    color: blue; }
+.tree dl dt {
+  margin: 0 20px 10px 0; }
+  .tree dl dt a {
+    color: orange;
+    font-weight: bold; }
+.tree dl dd {
+  margin: 0; }
+  .tree dl dd a {
+    color: #444; }
+    .tree dl dd a:hover {
+      color: blue; }
 
 .content .tools .look-at {
   padding-left: 16px;
@@ -722,13 +767,16 @@ table.admin {
       float: left;
       width: 85px;
       height: 65px;
-      background: #F0F0F0; }
+      background: #F0F0F0;
+      text-align: center; }
+    .content .lots .lot label {
+      font-weight: bold; }
     .content .lots .lot .description {
+      width: 400px;
+      border-right: 1px solid #DDD;
       line-height: 1.3;
       padding-right: 20px;
       padding-left: 10px; }
-      .content .lots .lot .description label {
-        font-weight: bold; }
       .content .lots .lot .description a {
         color: black;
         text-decoration: none; }
@@ -736,6 +784,71 @@ table.admin {
           text-decoration: underline; }
     .content .lots .lot .contacts {
       padding-left: 20px;
-      border-left: 1px solid #DDD;
       width: 120px;
       min-height: 65px; }
+
+/* ADMIN: FIXME: move to admin.scss */
+.button {
+  border-radius: 7px;
+  -moz-border-radius: 7px;
+  -webkit-border-radius: 7px;
+  -khtml-border-radius: 7px;
+  -webkit-box-shadow: 2px 2px 2px #aaaaaa;
+  -moz-box-shadow: 2px 2px 2px #aaaaaa;
+  box-shadow: 2px 2px 2px #aaaaaa;
+  background: #222;
+  color: white;
+  font-size: 10pt;
+  padding: 3px;
+  border: 2px solid white;
+  text-decoration: none;
+  cursor: pointer;
+  margin: 20px; }
+  .button:hover {
+    background: darkred; }
+  .button.edit {
+    background: darkgreen; }
+    .button.edit:hover {
+      background: green;
+      border: none; }
+  .button.delete {
+    background: red; }
+    .button.delete:hover {
+      background: lightred;
+      border: none; }
+
+/* UPLOADER: */
+.upload-form input[type=file] {
+  border: none;
+  border: 1px solid blue;
+  width: 100px; }
+
+#pxUpload {
+  cursor: pointer;
+  width: 87px;
+  height: 26px;
+  background: url(/images/upload.png); }
+  #pxUpload:hover {
+    background-position: 0 bottom; }
+
+#uploaded_images img {
+  padding: 5px;
+  background-color: white;
+  color: white;
+  border: 1px solid #DADADA;
+  -webkit-box-shadow: 2px 2px 2px #aaaaaa;
+  -moz-box-shadow: 2px 2px 2px #aaaaaa;
+  box-shadow: 2px 2px 2px #aaaaaa; }
+
+.uploadData {
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -khtml-border-radius: 4px;
+  padding: 5px;
+  width: 420px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color: #F0F8FF;
+  border: 1px solid #B0D8FF;
+  position: relative; }

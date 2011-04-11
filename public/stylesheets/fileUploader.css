@@ -1,0 +1,39 @@
+#px_display {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.uploadData .fname {
+	padding-right: 10px;
+	width: 120px;
+    font-style: italic;
+    color: gray;
+}
+.uploadData .loader {
+	width: 140px;
+	text-align: center;
+	border-bottom-width: 1px;
+	border-bottom-style: dotted;
+	border-bottom-color: #999999;
+}
+.uploadData .result {
+	display: block;
+	float: left;
+	width: 130px;
+	padding-left: 10px;
+}
+.uploadData .close {
+	background-image: url(/images/close.gif);
+	height: 16px;
+	width: 16px;
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	cursor: pointer;
+}
+.uploadData .close:hover {
+	background-position: 16px 0px;
+}
+#px_button input{
+	margin-right: 6px;
+	padding: 5px;
+}

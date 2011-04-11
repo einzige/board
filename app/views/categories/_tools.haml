@@ -1,8 +1,13 @@
-.tools
+.tools.w680
   .look-at.left
     = link_to 'Посмотреть выбранные', '#'
   .print.left.ml15
     = link_to 'Распечатать выбранные', '#'
   .cancel.left.ml15
     = link_to 'Отменить выбор', '#'
+  .right
+    - pagination = paginate @lots
+    - if pagination
+      %span.left.blue Страницы:&nbsp;
+      .right= pagination
   .clear

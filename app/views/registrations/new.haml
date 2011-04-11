@@ -1,0 +1,32 @@
+- title 'Регистрация'
+
+%h1 
+  Регистрация на доске объявлений
+  = link_to 'Inform24.ru', root_path
+%blockquote
+  - form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => {:class => 'orange-form'}) do |f|
+    = devise_error_messages!
+  
+    %table
+      %tr
+        %td= f.label :name, 'Логин', :class => 'required'
+        %td= f.text_field :name, :class => 'required string', :required => 'required'
+      %tr
+        %td= f.label :email, 'E-mail', :class => 'required'
+        %td= f.text_field :email, :class => 'required string', :required => 'required'
+      %tr
+        %td= f.label :password, 'Пароль', :class => 'required'
+        %td= f.password_field :password, :class => 'required string', :required => 'required'
+      %tr
+        %td= f.label :password_confirmation, 'Повтор пароля', :class => 'required' 
+        %td= f.password_field :password_confirmation, :class => 'required string', :required => 'required'
+      %tr
+        %td= f.label :phone, 'Номер телефона'
+        %td= f.text_field :phone, :class => 'string'
+      %tr
+        %td
+        %td
+          %small.required.l Поля обязательные для заполнения
+      %tr
+        %td
+        %td= f.submit '', :class => 'register right'

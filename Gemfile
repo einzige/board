@@ -7,6 +7,8 @@ gem 'rails', '3.0.5'
 
 gem 'sqlite3'
 
+gem "will_paginate"
+gem "mongoid-paperclip", :require => "mongoid_paperclip"
 # Use unicorn as the web server
 # gem 'unicorn'
 

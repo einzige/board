@@ -43,7 +43,7 @@
                 $(this).bind "onBeforeValidate",  validate_operations
 
             $(this).bind "onFail", (e, errors) ->
-                if e.originalEvent.type == 'submit'
+                if e.originalEvent && e.originalEvent.type == 'submit'
                     $.each errors, ->
                         input = this.input
                         input.css({borderColor: 'red'}).focus ->

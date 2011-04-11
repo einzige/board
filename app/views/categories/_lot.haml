@@ -3,18 +3,27 @@
     = render :partial => 'shared/lot_breadcrumbs', :object => breads_for(lot.category, lot.operations.first)
   .tac
     %small.l= "№#{lot.serial_number} размещено #{lot.created_at}"
-    .right.b Инвест
+    - if lot.has_company?
+      .right.b= lot.company.name
   .clear.h15
 
   %div.left
-    .picture
-    .tac.l 3 фото
+    - if lot.has_photos?
+      .picture
+        = link_to image_tag(lot.thumb), lot
+      .tac.l= "#{lot.photos.count} фото"
+    -else
+      .picture
+      .tac.l= "Без фото"
 
+
+  %div
+    &nbsp;
+    = check_box_tag "lot_selection_#{lot.serial_number}"
+    = label_tag "lot_selection_#{lot.serial_number}", lot.name
   .description.left
-    = check_box_tag :lot_id
-    = label_tag :lot_id, lot.name
-    %br
     = link_to lot.description, lot
+    -# FIXME:
     - if lot.has_property? :tsiena
       %br
       %span.red.b= "#{lot.get_property(:tsiena).value} р."
@@ -23,5 +32,8 @@
     = "Автор: #{lot.contacts.name}"
     %br/
     = "тел. #{lot.contacts.phone}"
+    - if can? :manage, lot
+      .h15.clear
+      = link_to 'удалить', lot, :method => :delete, :confirm => 'Вы действительно хотите этого?', :class => 'button delete'
   .clear.h15
   %hr

@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include LayoutHelper
+
   # DEVISE ----------------------------
   def resource_name
     :user
@@ -30,7 +32,11 @@ module ApplicationHelper
   end
 
   def remote_forgery_protection
-    javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery?
+    javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect}; var SESSION_TOKEN = '#{session_token}';"
+  end
+
+  def session_token
+    @session_token ||= rand(32**8).to_s(32)
   end
 
   def form_style_for something
@@ -61,6 +67,10 @@ module ApplicationHelper
 
   def link_to_new_lot
     @category ? new_category_lot_path(@category) : new_lot_path
+  end
+
+  def paginate collection
+    will_paginate collection, :next_label => '>>', :previous_label => '<<'
   end
 
 end

@@ -10,7 +10,9 @@ class Lot
   
   referenced_in                     :user
   referenced_in                     :category
+  referenced_in                     :company
   references_and_referenced_in_many :operations
+  references_many                   :photos, :dependent => :destroy
   embeds_many                       :properties
   embeds_one                        :contacts
 
@@ -19,6 +21,8 @@ class Lot
   validates_length_of   :operation_ids, :minimum => 1
   validates_length_of   :name, :minimum => 2, :maximum => 512
   validates_length_of   :description, :maximum => 6000
+
+  default_scope desc(:created_at)
 
   before_create  :set_serial_number
   after_create   :increase_category_lots_count
@@ -50,6 +54,27 @@ class Lot
         properties.build({:value => v,         :characteristic_id => c.id}, StringProperty)
       end
     end
+  end
+
+  def attach_photos attaching_photos, auto_save = true
+    self.photos |= attaching_photos
+    self.save if auto_save
+  end
+
+  def has_company?
+    not company_id.nil?
+  end
+
+  def main_photo ptype = :medium
+    photos.first.cover_picture.url ptype
+  end
+
+  def thumb
+    main_photo :thumb
+  end
+
+  def has_photos?
+    photos && photos.any?
   end
 
   protected
