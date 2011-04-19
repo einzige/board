@@ -9,7 +9,7 @@ class Property
 
   validates_presence_of :characteristic
 
-  def required?; 
+  def required?; #FIXME
     characteristic_id.nil? || characteristic.required? 
   end
 
@@ -20,7 +20,7 @@ class Property
 
   after_create  :increase_characteristic_lots_count
   after_destroy :decrease_characteristic_lots_count
-  before_save   :connect_to_characteristic 
+  before_save   :connect_to_characteristic # FIXME
 
   protected
     def connect_to_characteristic

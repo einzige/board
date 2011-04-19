@@ -35,9 +35,10 @@ class Lot
   end
 
   def has_property? pname
-    !get_property(pname).nil?
+    get_property(pname).present?
   end
 
+  # FIXME
   def set_properties hash
     hash.each do |slug, v|
       next if v.strip.empty? # FIXME : removeme
@@ -56,13 +57,14 @@ class Lot
     end
   end
 
+  # FIXME:
   def attach_photos attaching_photos, auto_save = true
     self.photos |= attaching_photos
     self.save if auto_save
   end
 
   def has_company?
-    not company_id.nil?
+    !company_id.nil?
   end
 
   def main_photo ptype = :medium
@@ -88,13 +90,14 @@ class Lot
       category.inc(:lots_count, -1) unless category.nil?
     end
 
-    def save_operations
+    # FIXME
+    def save_operations # remove
       operations.each { |o| o.save if o.changed? }
     end
     def save_properties
       properties.each { |p| p.save if p.changed? }
     end
-    def clean_operations
+    def clean_operations # remove
       operations.each { |o| o.lot_ids.delete(id) }
     end
 end

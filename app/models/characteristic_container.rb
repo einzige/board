@@ -1,5 +1,5 @@
 class CharacteristicContainer
-  #FIXME: i must be in some operation
+  #FIXME: must be contained in operation
   include Mongoid::Document
   include Mongoid::Slug
   include Mongoid::Layout::Container
@@ -15,12 +15,13 @@ class CharacteristicContainer
   field :description
   field :collapsed, :type => Boolean, :default => false
 
-  before_destroy do
+  validates_presence_of :name
+
+  before_destroy do #FIXME
     characteristics.each {|c| c.update_attribute(:characteristic_container_id, nil)}
   end
 
-  validates_presence_of :name
-
+  # FIXME:
   scope :for_operation,      (lambda do |operation| 
     where(:operation_id.in => [operation ? operation.id : nil, nil])
   end)
@@ -34,6 +35,6 @@ class CharacteristicContainer
   end
 
   def empty?
-    characteristics.count < 1
+    characteristics.count.zero?
   end
 end

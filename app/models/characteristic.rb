@@ -15,6 +15,10 @@ class Characteristic
   field :lots_count,  :type => Integer, :default => 0
   #field :collapsible, :type => Boolean, :default => false
   
+  validates_presence_of     :name 
+  validates_numericality_of :lots_count
+  #validates_presence_of    :category
+  
   def required?; required end
   def primary?;  primary  end
   def numeric? 
@@ -25,10 +29,6 @@ class Characteristic
   referenced_in :operation
   referenced_in :characteristic_container
 
-  validates_presence_of     :name 
-  validates_numericality_of :lots_count
-  #validates_presence_of    :category
-  
   scope :without_container, where(:characteristic_container_id => nil)
 
   scope :boolean,   where(:_type => "BooleanCharacteristic")
@@ -37,10 +37,12 @@ class Characteristic
   scope :string,    where(:_type => "StringCharacteristic")
   scope :selection, where(:_type => "SelectionCharacteristic")
 
+  # FIXME
   scope :without_operation,  where(:operation_id => nil)
   scope :for_operation,      lambda {|operation| where(:operation_id.in => [operation ? operation.id : nil, nil])}
   scope :only_for_operation, lambda {|operation| where(:operation_id.in => [operation ? operation.id : nil])}
 
+  # FIXME: remove
   def inc_lots_count; inc(:lots_count, 1) end
   def dec_lots_count; inc(:lots_count,-1) end
 

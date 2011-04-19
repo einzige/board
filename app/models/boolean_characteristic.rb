@@ -2,6 +2,8 @@ class BooleanCharacteristic < Characteristic
   field :default, :type => Boolean 
 end
 
+# FIXME: remove below
+#
 class Fixnum
   public
   def to_bool; !zero? end

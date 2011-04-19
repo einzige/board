@@ -4,6 +4,7 @@ class LotsController < ApplicationController
   def show
     @lot = Lot.find_by_slug(params[:id])
     unless @lot
+      # FIXME
       if @category = Category.find_by_slug(params[:category_id])
         redirect_to category_path(@category)
       else
@@ -17,7 +18,7 @@ class LotsController < ApplicationController
     @lot = Lot.new(:category => @category)
   end
 
-  def create
+  def create # FIXME !!!
     @category = Category.find_by_slug(params[:category_id])
 
     @lot = @category.lots.new(params['lot'])

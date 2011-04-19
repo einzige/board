@@ -4,6 +4,7 @@ class Company
   include Mongoid::Timestamps
 
   field :name
+  validates_presence_of :name
 
   references_many :goods
 end

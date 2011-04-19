@@ -43,7 +43,7 @@ class Category
     Lot.any_in(:category_id => descendants.only(:id).map(&:id) << id)
   end                                                               
 
-  def characteristics_for operation
+  def characteristics_for operation # FIXME remove
     if operation
       ancestors_characteristics.any_in(:operation_id => [operation.id, nil])
     else
@@ -51,7 +51,7 @@ class Category
     end
   end
 
-  def characteristics_only_for operation
+  def characteristics_only_for operation # FIXME remove
     operation ? ancestors_characteristics.where(:operation_id => operation.id) : []
   end
 
@@ -59,6 +59,8 @@ class Category
   def ancestors_containers;      ancestors_for Object::CharacteristicContainer end
   def ancestors_characteristics; ancestors_for Object::Characteristic          end
 
+  # FIXME: move search logic into Lot model
+  # FIXME: use searchlogic instead :)
   def search_lots params={}, conditions=nil
     criteria = descendant_lots
     criteria = criteria.where(conditions) unless conditions.nil?
@@ -106,6 +108,7 @@ class Category
     Category.all.each {|c| c.recount_lots}
   end
 
+  # can can fix
   class << self
     alias find_by_slug! find_by_slug 
   end
