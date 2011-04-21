@@ -10,14 +10,17 @@
 #cut.filter.left
   .heap
     %h1.left= @category.name
-    .right= render :partial => 'categories/operations', :object => @category.ancestors_operations
+    .right= render :partial => 'categories/operation_tabs'
     .clear
 
   - form_tag '', :method => :get, :id => 'search_form', :class => 'filter_form' do 
-    .fields_container{:style => "height: #{(@operation || @category).filter_layout.height}px;"}
+    .fields_container{:style => "height: #{@operation.filter_layout.height}px;"}
       = hidden_field_tag 'operation', @operation.slug
       
-      = render :partial => 'filter_layouts/time_range'
-      = render :partial => 'categories/characteristic', :collection => @operation.all_characteristics_for(@category)
+      = render :partial    => 'filter_layouts/time_range'
+      = render :partial    => 'categories/characteristic', 
+               :collection => @category.ancestors_characteristics.for_operation(@operation).without_container
+      = render :partial    => 'filter_layouts/container',
+               :collection => CharacteristicContainer.for_category(@category).for_operation(@operation)
 
       = submit_tag ''

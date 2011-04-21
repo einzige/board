@@ -1,3 +1,12 @@
+- javascript "jquery-ui.min"
+- javascript "filter_layout_editor"
+-# content_for :js do
+  = javascript_include_tag "jquery-ui.min"
+  = javascript_include_tag "layout_editor"
+
+  :javascript
+    $(document).ready(function(){$('.admin.fields_container').initEditor({layout: 'filter_layout'})});
+
 .w680.left
   - if @category.valid?
     = render :partial => 'shared/breadcrumbs', :object => breads_for(@category, @operation)
@@ -8,9 +17,31 @@
     - if @operation
       %h3 Редактирование раскладки фильтра
       = render(:partial => 'shared/notice', :object => flash[:notice]) if flash[:notice]
-      = render :partial => 'layout',        :locals => {:category  => @category, 
-                                                        :operation => @operation }
 
+      #cut.filter.left
+        .heap
+          %h1.left= @category.name
+
+          .right= render :partial => 'categories/operation_tabs'
+          .clear.w15
+
+        - form_tag '', :id => 'search_form', :class => 'canvas', :onSubmit => 'return false;' do 
+          .admin.fields_container{:style => "height: #{(@operation || @category).filter_layout.height}px;",
+                                  :rel   => '#filter_layout_form'}
+            = render :partial => 'time_range' 
+            = render :partial => 'characteristic', 
+                     :collection => @category.ancestors_characteristics.for_operation(@operation).without_container
+            = render :partial     => 'filter_layouts/container',
+                     :collection  => CharacteristicContainer.for_category(@category).for_operation(@operation)
+            = submit_tag ''
+
+      .left
+        - form_tag category_filter_layout_path(@category), :method => :put, :id => 'filter_layout_form', do
+          = hidden_field_tag(:operation, @operation.slug) if @operation
+          .clear.w15 &nbsp;
+          = submit_tag '', :class => 'save'
+          %span.l.i (Сохраняем ТОЛЬКО РАСКЛАДКУ)
+              
     .clear.h25
 
     = link_to 'Редактировать список характеристик', [@category, Characteristic]

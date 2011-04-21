@@ -30,6 +30,10 @@ class CharacteristicContainer
   end)
   scope :without_operation, where(:operation_id => nil)
 
+  scope :for_category, (lambda do |category| 
+    where(:category_id.in => category.parent_ids << category.id)
+  end)
+
   class << self
     alias find_by_slug! find_by_slug 
   end

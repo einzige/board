@@ -21,18 +21,30 @@
         %h1.left= @category.name
 
         .right
-          .tab{:class => "#{'active' unless @operation}"}= link_to 'Общие свойства', [:edit, @category, :form_layout]
-          = render :partial => 'categories/operations', :object => @category.ancestors_operations
+          .tab{:class => "#{'active' unless @operation}"}
+            = link_to 'Общие свойства', [:edit, @category, :form_layout]
+          = render :partial => 'categories/operation_tabs'
         .clear.w15
 
-      - form_tag '', :id => 'form', :class => 'canvas lot_form', :onSubmit => 'return false;' do 
-        .admin.fields_container{:style => "height: #{(@operation || @category).form_layout.height}px;", :rel => '#layout_form'}
-          = render :partial => 'form_layouts/characteristic', :collection => @operation.all_characteristics_for(@category).without_container
-          = render :partial => 'form_layouts/container', :collection => (@operation || @category).characteristic_containers.only_for_operation(@operation)
+      - form_tag '', :id => 'form', :class => 'canvas lot_form orange-form', :onSubmit => 'return false;' do 
+        .admin.fields_container{:style => "height: #{(@operation || @category).form_layout.height}px;", 
+                                :rel   => '#layout_form'}
+
+          - if @operation
+            = render :partial    => 'form_layouts/characteristic', 
+                     :collection => @operation.ancestors_characteristics.without_container
+            = render :partial    => 'form_layouts/container',
+                     :collection => CharacteristicContainer.only_for_operation(@operation)
+          - else
+            = render :partial    => 'form_layouts/characteristic', 
+                     :collection => @category.ancestors_characteristics.without_container.without_operation
+            = render :partial    => 'form_layouts/container',
+                     :collection => CharacteristicContainer.for_category(@category)
 
     .left
       - form_tag category_form_layout_path(@category), :method => :put, :id => 'layout_form', do
         = hidden_field_tag(:operation, @operation.slug) if @operation
+        .clear.w15 &nbsp;
         = submit_tag '', :class => 'save'
         %span.l.i (Сохраняем ТОЛЬКО РАСКЛАДКУ)
       

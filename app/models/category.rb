@@ -43,18 +43,6 @@ class Category
     Lot.any_in(:category_id => descendants.only(:id).map(&:id) << id)
   end                                                               
 
-  def characteristics_for operation # FIXME remove
-    if operation
-      ancestors_characteristics.any_in(:operation_id => [operation.id, nil])
-    else
-      ancestors_characteristics.where(:operation_id => nil)
-    end
-  end
-
-  def characteristics_only_for operation # FIXME remove
-    operation ? ancestors_characteristics.where(:operation_id => operation.id) : []
-  end
-
   def ancestors_operations;      ancestors_for Object::Operation               end
   def ancestors_containers;      ancestors_for Object::CharacteristicContainer end
   def ancestors_characteristics; ancestors_for Object::Characteristic          end

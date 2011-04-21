@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Mon, 04 Apr 2011 06:02:35 GMT from
+/* DO NOT MODIFY. This file was compiled Thu, 21 Apr 2011 09:50:35 GMT from
  * /home/szinin/git/inform/app/coffeescripts/form.coffee
  */
 

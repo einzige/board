@@ -25,11 +25,9 @@
 
       $('form.lot-form').submit(function(){
         if($('.operations :checked').length > 0) {
-          alert('at true');
           $('.operation:hidden').empty();
           return true;
         } else {
-          alert('at false');
           return false;
         }
       });
@@ -50,15 +48,19 @@
       - @category.ancestors_operations.each do |o|
         .operation{:id => o.id}
           %h3= o.name
-          .fields_container{:style => "height: #{o.form_layout.height}px; width: 680px"}
-            = render :partial => 'form_layouts/characteristic', :collection => o.characteristics_for(@category)#o.ancestors_characteristics
-            = render :partial => 'form_layouts/container',      :collection => @category.ancestors_containers.only_for_operation(o)
+          .fields_container.w680{:style => "height: #{o.form_layout.height}px;"}
+            = render :partial    => 'form_layouts/characteristic', 
+                     :collection => o.ancestors_characteristics
+            = render :partial    => 'form_layouts/container',      
+                     :collection => @category.ancestors_containers.only_for_operation(o)
           %hr
-      .clear
+    .clear
 
     .fields_container{:style => "height: #{@category.form_layout.height}px;"}
-      = render :partial => 'form_layouts/characteristic', :collection => @category.ancestors_characteristics.without_container.without_operation
-      = render :partial => 'form_layouts/container',      :collection => @category.ancestors_containers.without_operation
+      = render :partial    => 'form_layouts/characteristic', 
+               :collection => @category.ancestors_characteristics.without_container.without_operation
+      = render :partial    => 'form_layouts/container',     
+               :collection => @category.ancestors_containers.without_operation
 
     .clear
     .col1= f.label :name, 'Заголовок', :class => 'required'

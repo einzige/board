@@ -18,17 +18,12 @@ class Operation
   validates_presence_of :name
   # validates_presence_of :category
   
-  def ancestors_characteristics
-    category.characteristics_for(self)
-  end
-  def all_characteristics
-    category.ancestors_characteristics.where(:operation_id.in => [nil, id])
-  end
-  def all_characteristics_for category
-    category.ancestors_characteristics.where(:operation_id.in => [nil, id])
-  end
-  def characteristics_for category
-    category.ancestors_characteristics.where(:operation_id => id)
+  def ancestors_characteristics include_shared = false
+    if include_shared
+      category.ancestors_characteristics.for_operation(self)
+    else
+      category.ancestors_characteristics.only_for_operation(self)
+    end
   end
 
   class << self
