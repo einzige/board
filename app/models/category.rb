@@ -53,36 +53,25 @@ class Category
     criteria = descendant_lots
     criteria = criteria.where(conditions) unless conditions.nil?
 
-    return criteria if params.nil? || params.empty?
+    return criteria if params.blank?
 
     matches = []
-
-    params.reject! { |k,v| v.empty? }
-    params.each do |cid, value|
-      if value.is_a? Array
-        if Characteristic.find_by_slug(cid).numeric?
-          matches << {:slug  => cid, :value => {'$in' => value.map(&:to_f)}}
-        else
-          matches << {:slug  => cid, :value => {'$in' => value.map(&:to_s)}}
-        end
-      else 
-        match = cid.match(/(.+)_less_than$/) 
-        unless match.nil?
+    params.reject{ |k,v| v.empty? }.each do |cid, value|
+      case Characteristic.find_by_slug(cid)
+      when BooleanCharacteristic then
+        matches << {:slug => cid, :value => value.to_bool}
+      when StringCharacteristic then
+        matches << {:slug => cid, :value => value.to_s}
+      when IntegerCharacteristic, FloatCharacteristic then
+        matches << {:slug => cid, :value => value.to_f}
+      when NilClass then
+        if match = cid.match(/(.+)_less_than$/) 
           matches << {:slug  => match[1], :value => {'$lte' => value.to_f}}
-        else
-          match = cid.match(/(.+)_greater_than$/)
-          unless match.nil?
-            matches << {:slug  => match[1], :value => {'$gte' => value.to_f}}
-          else
-            if Characteristic.find_by_slug(cid).numeric?
-              matches << {:slug => cid, :value => value.to_f}
-            else
-              matches << {:slug => cid, :value => value.to_s}
-            end
-          end # end greater_than
-        end # end less_than
-      end # endif
-    end # endeach
+        elsif match = cid.match(/(.+)_greater_than$/)
+          matches << {:slug  => match[1], :value => {'$gte' => value.to_f}}
+        end 
+      end
+    end
 
     criteria.where("properties" => {"$all" => matches.map {|r| {'$elemMatch' => r} }})
   end

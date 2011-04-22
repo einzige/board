@@ -347,6 +347,8 @@ label {
       margin: 0 0 0 30px; }
       #footer ul.links li a {
         color: blue; }
+      #footer ul.links li:first-child {
+        margin-left: 0; }
   #footer .text, #footer #counters, #footer #rules, #footer #copyrights {
     color: gray;
     font-size: 8pt;

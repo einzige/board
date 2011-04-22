@@ -20,7 +20,7 @@
       = render :partial    => 'filter_layouts/time_range'
       = render :partial    => 'categories/characteristic', 
                :collection => @category.ancestors_characteristics.for_operation(@operation).without_container
-      = render :partial    => 'filter_layouts/container',
+      = render :partial    => 'categories/container',
                :collection => CharacteristicContainer.for_category(@category).for_operation(@operation)
 
       = submit_tag ''

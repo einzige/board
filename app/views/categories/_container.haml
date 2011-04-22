@@ -1,4 +1,4 @@
 - unless container.empty?
   .container{:style => filter_style_for(container), :id => container.id, :rel => '#filter_layout_form'}
     %h2.l= container.name
-    = render :partial => 'filter_layouts/characteristic', :collection => container.characteristics.for_operation(@operation || nil)
+    = render :partial => 'categories/characteristic', :collection => container.characteristics.for_operation(@operation)

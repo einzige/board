@@ -1,7 +1,7 @@
 .lot
   .left
     = render :partial => 'shared/lot_breadcrumbs', :object => breads_for(lot.category, lot.operations.first)
-  .tac
+  .tac.right
     %small.l= "№#{lot.serial_number} размещено #{lot.created_at}"
     - if lot.has_company?
       .right.b= lot.company.name

@@ -9,7 +9,7 @@
       %span.i.l Нет рубрик
 
 .main.left.ml15
-  .w680max
+  .w680max{:style => 'width: 500px'}
     %small
       %b Доска бесплатных объявлений Красноярск
       %br/
@@ -21,19 +21,17 @@
       .b Ваши объявления работают круглосуточно!
   .clear.h25
 
-  .w240.left
+  -#.w240.left
     = render :partial => 'categories/popular'
 
   .w240.left.ml15
     = image_tag "temp/stroka.png"
-  .clear.h25
-
-  .w240.left
+    .clear.h25
     .banner.w240
       %span 240x208
-
   .w240.left.ml15
     = image_tag "temp/urgent.png"
+  .clear.h25
 
 .right.w240.center
   .banner.w240
@@ -44,6 +42,6 @@
 
   .w240= image_tag 'temp/direct.png'
 
-= render :partial => 'lots/recent'
+-#= render :partial => 'lots/recent'
 
-.clear
+.clear.h25

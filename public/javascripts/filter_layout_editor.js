@@ -6,7 +6,7 @@
       }
       options.resizable || (options.resizable = true);
       options.draggable || (options.draggable = true);
-      options.grid || (options.grid = [2, 2]);
+      options.grid || (options.grid = [4, 4]);
       options.collection || (options.collection = 'containers');
       return $(this).initCanvasItem(options);
     };
@@ -44,7 +44,7 @@
                       name  ="' + name + '[width]" \
                       value ="' + w + '" />').appendTo(form);
         $(this).resizable({
-          grid: options.grid,
+          grid:     options.grid,
           maxWidth: options.maxw,
           minWidth: options.minw,
           stop: function(event, ui) {
@@ -71,20 +71,6 @@
           }
         });
       }
-      if (options.paddable) {
-        aim = $(this).find('.value');
-        p = parseInt(aim.css('left'));
-        $('<input type  ="hidden" \
-                      name  ="' + name + '[padding]" \
-                      value ="' + p + '" />').appendTo(form);
-        return aim.draggable({
-          axis: "x",
-          containment: "parent",
-          stop: function(event, ui) {
-            return $('input[name="' + name + '[padding]"]').val(parseInt($(this).css('left')));
-          }
-        });
-      }
     };
   })(jQuery);
 }).call(this);
@@ -93,12 +79,6 @@ $(document).ready(function()
 {
   // whole category filter height
   //
-  $('.fields_container').find('.container').each(function() {
-    return $(this).initContainer({
-      collection: 'characteristic_containers',
-      layout:     'filter_layout'
-    });
-  });
 
   var h    = parseInt($('.fields_container').height());
   var trpx = parseInt($('.time-range').css('left'));
@@ -115,9 +95,16 @@ $(document).ready(function()
     }
   });
 
+  $('#search_form .fields_container .container').each(function() {
+    $(this).initContainer({
+      collection: 'characteristic_containers',
+      layout:     'filter_layout'
+    });
+  });
+
   $('.time-range').draggable({
     containment: "parent",
-    grid: [2,2],
+    grid: [4,4],
     stop: function(event, ui) {
       $('input[name="filter_layout[time_range_x]"]').val(parseInt($(this).css('left')));
       $('input[name="filter_layout[time_range_y]"]').val(parseInt($(this).css('top')));
@@ -151,7 +138,7 @@ $(document).ready(function()
   });
 
   $('.characteristic').draggable({
-    grid: [2,2], 
+    grid: [4,4], 
     containment: 'parent',
     stop: function(event, ui) {
       $('input[for="'+$(this).attr('id')+'_x"]').val(parseInt($(this).css('left')));
@@ -166,5 +153,12 @@ $(document).ready(function()
       $('input[for="'+$(this).attr('id')+'_h"]').val(parseInt($(this).height()));
     }
   });
+
+  /*$('.fields_container').find('.container').each(function() {
+    $(this).initContainer({
+      collection: 'characteristic_containers',
+      layout:     'filter_layout'
+    });
+  });*/
 });
 

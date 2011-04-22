@@ -17,69 +17,70 @@
   %body
     -#%p{:style => "color: green"}= notice
     -#%p{:style => "color: red"}= alert
-    #header
-      #weather
-        %span.city Красноярск.
-        %span.b 21 февраля, воскресенье, 22:48.
-        %span Погода: ночью
-        %span.b.temp -26
-        %span , днем
-        %span.b.temp -14
+    %div{:style => 'width: 980px; margin: 0 auto;'}
+      #header
+        #weather
+          %span.city Красноярск.
+          %span.b 21 февраля, воскресенье, 22:48.
+          %span Погода: ночью
+          %span.b.temp -26
+          %span , днем
+          %span.b.temp -14
+        .clear
+        #logo
+          = link_to image_tag('logo.png'), root_path
+          .w100p
+            .center
+              %span.home 
+                = link_to 'Главная', root_path, :class => 'dashed'
+              %span.letter 
+                = link_to 'Написать нам', '#',  :class => 'dashed'
+        #slogan
+          %span Бесплатные объявления Красноярск
+        .banner.right{:style => 'width: 450px'}
+          %span 450x100
+      .clear.h25
+
+      #subheader
+        %a{:href => link_to_new_lot, :class => 'orange-button left'}
+
+        %ul#main-menu.left
+          %li.active= link_to 'Объявления',          '#'
+          %li=        link_to 'Каталог товаров',     '#'
+          %li=        link_to 'Каталог предприятий', '#'
+
+        #login.right
+          = render :partial => 'devise/sessions/login_form'
       .clear
-      #logo
-        = link_to image_tag('logo.png'), root_path
-        .w100p
-          .center
-            %span.home 
-              = link_to 'Главная', root_path, :class => 'dashed'
-            %span.letter 
-              = link_to 'Написать нам', '#',  :class => 'dashed'
-      #slogan
-        %span Бесплатные объявления Красноярск
-      .banner.right{:style => 'width: 450px'}
-        %span 450x100
-    .clear.h25
 
-    #subheader
-      %a{:href => link_to_new_lot, :class => 'orange-button left'}
+      #content= yield
 
-      %ul#main-menu.left
-        %li.active= link_to 'Объявления',          '#'
-        %li=        link_to 'Каталог товаров',     '#'
-        %li=        link_to 'Каталог предприятий', '#'
+      #footer
+        %ul.links
+          %li= link_to 'Объявления о продаже', '#'
+          %li= link_to 'Объевления о покупке', '#'
+          %li= link_to 'Каталог товаров', '#'
+          %li= link_to 'Каталог предприятий', '#'
+          %li= link_to 'Карта разделов', '#'
+          %li= link_to 'Реклама на сайте', '#'
+          %li= link_to 'Обратная связь', '#'
+        .clear.h25
+        %small.g.l
+          В минувшую пятницу Дмитрий Медведев посетил Саяно-Шушенскую ГЭС, где провёл заседание президиума Госсовета о мерах по повышению устойчивости работы энергетического комплекса страны. Цены бьют рекорды - Для России, как и для любой крупной страны, надёжное обеспечение электроэнергией является основой для устойчивого развития экономики, а стало быть, основой для качества жизни наших людей, для поддержания нужной безопасности в государстве и в обществе, - сказал президент.
+        .clear.h25
+        #counters.left
+          = image_tag 'temp/counter1.png'
+          = image_tag 'temp/counter2.png'
+        #rules.left.w480{:style => 'width: 380px'}
+          Перепечатка материалов сайта осуществляется только с разрешения администрации, при этом ссылка на inform24.ru обязательна.
+        #copyrights.right
+          Copyright &copy; Компания &laquo;Енисей-информ&raquo;, 2007-2010
+          %br/
+          = link_to 'Inform24.ru', root_path
+          &mdash;
+          бесплатные объявления Красноярск.
+        .clear.h15
 
-      #login.right
-        = render :partial => 'devise/sessions/login_form'
-    .clear
-
-    #content= yield
-
-    #footer
-      %ul.links
-        %li= link_to 'Объявления о продаже', '#'
-        %li= link_to 'Объевления о покупке', '#'
-        %li= link_to 'Каталог товаров', '#'
-        %li= link_to 'Каталог предприятий', '#'
-        %li= link_to 'Карта разделов', '#'
-        %li= link_to 'Реклама на сайте', '#'
-        %li= link_to 'Обратная связь', '#'
-        %li= link_to 'Контакты', '#'
-      .clear.h25
-      %small.g.l
-        В минувшую пятницу Дмитрий Медведев посетил Саяно-Шушенскую ГЭС, где провёл заседание президиума Госсовета о мерах по повышению устойчивости работы энергетического комплекса страны. Цены бьют рекорды - Для России, как и для любой крупной страны, надёжное обеспечение электроэнергией является основой для устойчивого развития экономики, а стало быть, основой для качества жизни наших людей, для поддержания нужной безопасности в государстве и в обществе, - сказал президент.
-      .clear.h25
-      #counters.left
-        = image_tag 'temp/counter1.png'
-        = image_tag 'temp/counter2.png'
-      #rules.left.w480
-        Перепечатка материалов сайта осуществляется только с разрешения администрации, при этом ссылка на inform24.ru обязательна.
-      #copyrights.right
-        Copyright &copy; Компания &laquo;Енисей-информ&raquo;, 2007-2010
-        %br/
-        = link_to 'Inform24.ru', root_path
-        &mdash;
-        бесплатные объявления Красноярск.
-
-    - if current_user && current_user.admin?
-      = render :partial => 'shared/admin_menu'
+      - if current_user && current_user.admin?
+        = render :partial => 'shared/admin_menu'
 
