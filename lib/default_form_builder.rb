@@ -113,7 +113,7 @@ class DefaultFormBuilder < ActionView::Helpers::FormBuilder
     }.merge(attrs_for characteristic, value)
   end
   def integer_attrs_for characteristic, value = nil
-    attrs = float_attrs_for(characteristic, value.nil? ? value : value.to_i)
+    attrs = float_attrs_for(characteristic, value.blank? ? value : value.to_i)
     attrs.each { |k,v| attrs[k] = v.to_i if v.kind_of? Numeric }
   end
 end

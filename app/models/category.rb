@@ -73,7 +73,11 @@ class Category
       end
     end
 
-    criteria.where("properties" => {"$all" => matches.map {|r| {'$elemMatch' => r} }})
+    if matches.empty?
+      criteria
+    else
+      criteria.where("properties" => {"$all" => matches.map {|r| {'$elemMatch' => r} }})
+    end
   end
 
   # service methods

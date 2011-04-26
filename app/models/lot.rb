@@ -44,7 +44,7 @@ class Lot
       next if v.strip.empty? # FIXME : removeme
       
       c = Characteristic.find_by_slug(slug) or next
-      case c.class
+      case c # FIXME: .class
       when IntegerCharacteristic then
         properties.build({:value => v.to_i,    :characteristic_id => c.id}, IntegerProperty)
       when FloatCharacteristic   then
@@ -54,6 +54,32 @@ class Lot
       else
         properties.build({:value => v,         :characteristic_id => c.id}, StringProperty)
       end
+    end
+  end
+  
+  def self.search params
+    matches = []
+    params.reject{ |k,v| v.empty? }.each do |cid, value|
+      case Characteristic.find_by_slug(cid)
+      when BooleanCharacteristic then
+        matches << {:slug => cid, :value => value.to_bool}
+      when StringCharacteristic then
+        matches << {:slug => cid, :value => value.to_s}
+      when IntegerCharacteristic, FloatCharacteristic then
+        matches << {:slug => cid, :value => value.to_f}
+      when NilClass then
+        if match = cid.match(/(.+)_less_than$/) 
+          matches << {:slug  => match[1], :value => {'$lte' => value.to_f}}
+        elsif match = cid.match(/(.+)_greater_than$/)
+          matches << {:slug  => match[1], :value => {'$gte' => value.to_f}}
+        end 
+      end
+    end
+
+    if matches.empty?
+      self
+    else
+      where("properties" => {"$all" => matches.map {|r| {'$elemMatch' => r} }})
     end
   end
 

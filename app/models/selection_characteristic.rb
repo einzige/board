@@ -10,7 +10,6 @@ class SelectionCharacteristic < Characteristic
   end
 
   REPRESENTATIONS = {'выпадающий список' => "selectbox", 
-                     'чекбоксы'          => "checkboxes", 
                      'радиогруппа'       => "radiogroup"}
 
   validates_inclusion_of :representation, :in => REPRESENTATIONS.values, :allow_blank => false
