@@ -19,10 +19,12 @@ class Operation
   # validates_presence_of :category
   
   def ancestors_characteristics include_shared = false
+    criteria = Characteristic.where(:category_id.in => category.parent_ids << category.id) 
+
     if include_shared
-      category.ancestors_characteristics.for_operation(self)
+      criteria.for_operation(self)
     else
-      category.ancestors_characteristics.only_for_operation(self)
+      criteria.only_for_operation(self)
     end
   end
 

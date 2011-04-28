@@ -41,6 +41,7 @@ class Characteristic
   scope :without_operation,  where(:operation_id => nil)
   scope :for_operation,      lambda {|operation| where(:operation_id.in => [operation ? operation.id : nil, nil])}
   scope :only_for_operation, lambda {|operation| where(:operation_id.in => [operation ? operation.id : nil])}
+  scope :for_category,       lambda {|category|  where(:category_id.in => category.parent_ids << category.id)}
 
   # FIXME: remove
   def inc_lots_count; inc(:lots_count, 1) end

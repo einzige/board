@@ -28,9 +28,9 @@
         - form_tag '', :id => 'search_form', :class => 'canvas', :onSubmit => 'return false;' do 
           .admin.fields_container{:style => "height: #{(@operation || @category).filter_layout.height}px;",
                                   :rel   => '#filter_layout_form'}
-            = render :partial => 'time_range' 
-            = render :partial => 'characteristic', 
-                     :collection => @category.ancestors_characteristics.for_operation(@operation).without_container
+            = render :partial     => 'time_range' 
+            = render :partial     => 'filter_layouts/characteristic', 
+                     :collection  => Characteristic.for_category(@category).for_operation(@operation).without_container
             = render :partial     => 'filter_layouts/container',
                      :collection  => CharacteristicContainer.for_category(@category).for_operation(@operation)
             = submit_tag ''

@@ -1,0 +1,4 @@
+- unless container.empty?
+  .container{:style => view_style_for(container), :id => container.id, :rel => '#layout_form'}
+    %h2.l= container.name
+    = render :partial => 'view_layouts/characteristic', :collection => container.characteristics.for_operation(@operation || nil)

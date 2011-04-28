@@ -57,7 +57,7 @@ class Lot
     end
   end
   
-  def self.search params
+  def self.search_by_properties params={}
     matches = []
     params.reject{ |k,v| v.empty? }.each do |cid, value|
       case Characteristic.find_by_slug(cid)

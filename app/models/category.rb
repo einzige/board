@@ -47,39 +47,6 @@ class Category
   def ancestors_containers;      ancestors_for Object::CharacteristicContainer end
   def ancestors_characteristics; ancestors_for Object::Characteristic          end
 
-  # FIXME: move search logic into Lot model
-  # FIXME: use searchlogic instead :)
-  def search_lots params={}, conditions=nil
-    criteria = descendant_lots
-    criteria = criteria.where(conditions) unless conditions.nil?
-
-    return criteria if params.blank?
-
-    matches = []
-    params.reject{ |k,v| v.empty? }.each do |cid, value|
-      case Characteristic.find_by_slug(cid)
-      when BooleanCharacteristic then
-        matches << {:slug => cid, :value => value.to_bool}
-      when StringCharacteristic then
-        matches << {:slug => cid, :value => value.to_s}
-      when IntegerCharacteristic, FloatCharacteristic then
-        matches << {:slug => cid, :value => value.to_f}
-      when NilClass then
-        if match = cid.match(/(.+)_less_than$/) 
-          matches << {:slug  => match[1], :value => {'$lte' => value.to_f}}
-        elsif match = cid.match(/(.+)_greater_than$/)
-          matches << {:slug  => match[1], :value => {'$gte' => value.to_f}}
-        end 
-      end
-    end
-
-    if matches.empty?
-      criteria
-    else
-      criteria.where("properties" => {"$all" => matches.map {|r| {'$elemMatch' => r} }})
-    end
-  end
-
   # service methods
   #
   def recount_lots

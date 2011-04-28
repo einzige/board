@@ -1,0 +1,18 @@
+= fields_for 'properties', :builder => DefaultFormBuilder do |f|
+  %span.characteristic{:id => characteristic.id, :style => view_style_for(characteristic), :rel => "#layout_form" }
+    = f.label characteristic 
+    %span.value{:style => "left: #{characteristic.view_layout.padding}px;"}
+      - case characteristic.class
+        - when BooleanCharacteristic
+          = f.tristate characteristic
+
+        - when IntegerCharacteristic, FloatCharacteristic
+          = f.numeric characteristic
+          = characteristic.measure
+          - unless characteristic.description.nil? || characteristic.description.empty?
+            %span.description= "(#{characteristic.description})"
+
+        - when SelectionCharacteristic
+          = f.selection characteristic
+
+

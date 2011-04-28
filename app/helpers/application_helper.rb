@@ -45,6 +45,9 @@ module ApplicationHelper
   def filter_style_for something
     style_for something, "filter_layout"
   end
+  def view_style_for something
+    style_for something, "view_layout"
+  end
 
   def style_for something, layout = 'form_layout'
     if something.kind_of? Characteristic

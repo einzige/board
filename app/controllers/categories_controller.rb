@@ -24,7 +24,7 @@ class CategoriesController < ApplicationController
 
     before = (params[:time_range] || NumericCharacteristic::GROSS).to_i
 
-    @lots = @category.search_lots(@query, 
+    @lots = @category.descendant_lots.search_by_properties(@query).where(
                                   {
                                     :operation_ids => @operation.id, 
                                     :created_at.gt => (-before).days.from_now

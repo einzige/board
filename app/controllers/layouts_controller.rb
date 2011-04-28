@@ -39,7 +39,8 @@ class LayoutsController < ApplicationController
     
     if params[:characteristics]
       params[:characteristics].each do |cid, location|
-        Characteristic.first(:conditions => {:_id => cid}).update_attribute(layout_name, location[layout_name])
+        puts "characteristics #{cid}"
+        puts Characteristic.first(:conditions => {:_id => cid}).update_attribute(layout_name, location[layout_name])
       end
     end
     if params[:characteristic_containers]
